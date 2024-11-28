@@ -1,0 +1,144 @@
+.details-page {
+    position: relative; /* Ensure proper positioning of child elements */
+    padding: 60px 20px 20px;
+    overflow-y: auto;
+}
+
+.details-page::-webkit-scrollbar {
+    width: 10px;
+}
+
+.details-page::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 8px;
+}
+
+.details-page::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+.details-page::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+.details-container {
+    display: grid; /* Use grid layout */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Spacing between columns */
+    margin-top: 20px;
+    align-items: flex-start; /* Align items at the top */
+}
+
+.image-container {
+    display: flex; /* Use flexbox to center the image and button */
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9; /* Light background for the image */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.image-container img {
+    max-width: 100%; /* Scale image to fit container */
+    max-height: 400px; /* Restrict maximum height */
+    height: auto; /* Maintain aspect ratio */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.download-image-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.download-image-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.properties {
+    background-color: #f9f9f9; /* Light gray background */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-family: 'Arial', sans-serif;
+}
+
+.properties h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #333; /* Dark gray text */
+}
+
+.properties ul {
+    list-style: none;
+    padding: 0;
+}
+
+.properties li {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.6; /* Better spacing between lines */
+}
+
+.properties li strong {
+    color: #007bff; /* Highlighted color for labels */
+}
+
+@media (max-width: 768px) {
+    .details-container {
+        grid-template-columns: 1fr; /* Stack columns vertically on smaller screens */
+    }
+
+    .image-container img {
+        max-height: 300px; /* Adjust image size for smaller screens */
+    }
+}
+
+.back-icon {
+    display: inline-flex; /* Flexbox for proper alignment of icon and text */
+    align-items: center; /* Vertically align icon and text */
+    gap: 8px; /* Add spacing between the icon and text */
+    position: absolute; /* Position at the top left */
+    top: 20px;
+    left: 20px;
+    padding: 10px 12px; /* Add padding for a button-like appearance */
+    background-color: #f9f9f9; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #007bff; /* Blue text color */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transitions for hover effect */
+}
+
+.back-icon:hover {
+    background-color: #007bff; /* Blue background on hover */
+    color: #fff; /* White text on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.back-icon svg {
+    font-size: 20px; /* Adjust icon size */
+    transition: transform 0.3s ease; /* Animate icon on hover */
+}
+
+.back-icon:hover svg {
+    transform: translateX(-3px); /* Slight slide effect for the icon */
+}
+
+
+

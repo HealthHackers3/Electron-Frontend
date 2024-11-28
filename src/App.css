@@ -3,10 +3,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
     background-color: #f5f6fa;
     color: #333;
 }
@@ -53,21 +53,33 @@ body {
 
 /* Upload Button */
 .upload-button {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Spacing between icon and text */
+    padding: 10px 54px;
     background-color: #007bff;
-    color: white;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
     border: none;
-    padding: 12px;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .upload-button:hover {
     background-color: #0056b3;
-    transform: translateY(-2px);
+}
+
+.upload-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease; /* Smooth animation for scaling */
+}
+
+.upload-button:hover .upload-icon {
+    transform: scale(1.15); /* Grow the icon on hover */
 }
 
 /* Sidebar Section Styling */
@@ -252,6 +264,11 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #fff;
+    transition: transform 0.3s ease;
+}
+
+.result-card:hover {
+    transform: scale(1.05);
 }
 
 .image-placeholder {

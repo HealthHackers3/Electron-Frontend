@@ -1,28 +1,78 @@
 import React, { useState } from "react";
+import {BrowserRouter as Router, Route, Routes, useNavigate, useParams} from "react-router-dom";
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css"; // Import the slider's default styles
+import DetailsPage from "./DetailsPage";
+import "rc-slider/assets/index.css";
 import "./App.css";
 
+// Main App Component
 const App = () => {
     const [filters, setFilters] = useState({
         keywords: ["Human", "brain", "blue"],
         imageModality: true,
         cellMembrane: true,
         fileType: ".jpeg",
-        cellSize: [0, 1000], // Min and max values for range
+        cellSize: [0, 1000],
         cellColor: ["blue", "pink", "green"],
     });
 
-    // Handle range slider value changes
     const handleCellSizeChange = (value) => {
         setFilters({ ...filters, cellSize: value });
     };
 
     return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Home filters={filters} onCellSizeChange={handleCellSizeChange} />} />
+                <Route path="/details/:id" element={<DetailsPage />} />
+            </Routes>
+        </Router>
+    );
+};
+
+// Home Component
+const Home = ({ filters, onCellSizeChange }) => {
+    const navigate = useNavigate();
+
+    const handleCardClick = (id) => {
+        const properties = {
+            category: "Sample Category",
+            cellType: "Neuron",
+            cellDensity: "Medium",
+            cellWidth: 50,
+            cellHeight: 70,
+            cellArea: 3500,
+            cellCount: 100,
+            imageModality: "Brightfield",
+            author: "Dr. John Doe",
+        };
+
+        const imageUrl = `https://th.bing.com/th/id/R.479f9d7475e53ead9717a83c03f9da2f?rik=TX%2fqy%2fF%2fu5WdXg&pid=ImgRaw&r=0`; // Replace with your actual image URL
+
+        navigate(`/details/${id}`, {
+            state: { imageUrl, properties }, // Pass the image URL and properties
+        });
+    };
+
+    return (
         <div className="app-container">
             <div className="sidebar">
-                <button className="upload-button">+ Upload image with those tags</button>
+                {/* Sidebar content */}
+                <button className="upload-button">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="upload-icon"
+                    >
+                        <path
+                            d="M12 2a1 1 0 0 1 1 1v8h8a1 1 0 1 1 0 2h-8v8a1 1 0 1 1-2 0v-8H3a1 1 0 1 1 0-2h8V3a1 1 0 0 1 1-1z"
+                            fill="currentColor"
+                        />
+                    </svg>
+                    Upload images
+                </button>
                 <div className="filters">
+                    {/* Keywords */}
                     <div>
                         <h3>Keywords</h3>
                         <div className="keywords">
@@ -77,19 +127,19 @@ const App = () => {
                         </label>
                     </div>
 
+                    {/* Cell size */}
                     <div className="cell-size">
                         <h3>Cell size</h3>
                         <div className="range-display">
                             <span>{filters.cellSize[0]} µm</span>
                             <span>{filters.cellSize[1]} µm</span>
                         </div>
-                        {/* Single slider with two handles */}
                         <Slider
                             range
                             min={0}
                             max={1000}
                             value={filters.cellSize}
-                            onChange={handleCellSizeChange}
+                            onChange={onCellSizeChange}
                             trackStyle={[{ backgroundColor: "#007bff" }]}
                             handleStyle={[
                                 { borderColor: "#007bff", backgroundColor: "#007bff" },
@@ -123,7 +173,7 @@ const App = () => {
                         <h3>Cell density</h3>
                         {["Label 1", "Label 2", "Label 3"].map((label, idx) => (
                             <label key={idx}>
-                                <input type="checkbox" defaultChecked={idx === 0} /> {label}
+                                <input type="checkbox" defaultChecked={idx === 0}/> {label}
                             </label>
                         ))}
                     </div>
@@ -132,23 +182,23 @@ const App = () => {
 
             <div className="main-content">
                 <div className="search-bar">
-                    <input type="text" placeholder="Search" />
+                    <input type="text" placeholder="Search"/>
                 </div>
                 <div className="results-header">
                     <p>56 results for: blue, brain</p>
-                    <div className="view-options">
-                        <button>Grid</button>
-                        <button>Table</button>
-                        <button>List</button>
-                    </div>
                 </div>
                 <div className="results-grid">
                     {Array(56)
                         .fill()
                         .map((_, idx) => (
-                            <div className="result-card" key={idx}>
+                            <div
+                                className="result-card"
+                                key={idx}
+                                onClick={() => handleCardClick(idx)} // Pass the unique id to the click handler
+                                style={{cursor: "pointer"}}
+                            >
                                 <div className="image-placeholder"></div>
-                                <p>Name</p>
+                                <p>Name {idx + 1}</p>
                                 <p>Category</p>
                             </div>
                         ))}
