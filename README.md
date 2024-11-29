@@ -2,7 +2,7 @@
 
 ### Install dependency
 ```
-npm install electron react react-dom
+npm install electron react react-dom react-router-dom
 ```
 
 ### Run the APP
