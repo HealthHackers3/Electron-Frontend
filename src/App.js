@@ -8,12 +8,12 @@ import "./App.css";
 // Main App Component
 const App = () => {
     const [filters, setFilters] = useState({
-        keywords: ["Human", "brain", "blue"],
+        keywords: ["Human", "brain", "gray"],
         imageModality: true,
         cellMembrane: true,
         fileType: ".jpeg",
         cellSize: [0, 1000],
-        cellColor: ["blue", "pink", "green"],
+        cellColor: ["gray", "pink", "green"],
     });
 
     const handleCellSizeChange = (value) => {
@@ -140,10 +140,10 @@ const Home = ({ filters, onCellSizeChange }) => {
                             max={1000}
                             value={filters.cellSize}
                             onChange={onCellSizeChange}
-                            trackStyle={[{ backgroundColor: "#007bff" }]}
+                            trackStyle={[{ backgroundColor: "#e48b3d" }]}
                             handleStyle={[
-                                { borderColor: "#007bff", backgroundColor: "#007bff" },
-                                { borderColor: "#007bff", backgroundColor: "#007bff" },
+                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d", boxShadow: "None" },
+                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d", boxShadow: "None" },
                             ]}
                         />
                     </div>
@@ -173,7 +173,7 @@ const Home = ({ filters, onCellSizeChange }) => {
                         <h3>Cell density</h3>
                         {["Label 1", "Label 2", "Label 3"].map((label, idx) => (
                             <label key={idx}>
-                                <input type="checkbox" defaultChecked={idx === 0}/> {label}
+                                <input type="checkbox" defaultChecked={idx === 4}/> {label}
                             </label>
                         ))}
                     </div>

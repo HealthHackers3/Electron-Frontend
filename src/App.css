@@ -57,7 +57,7 @@ body {
     align-items: center;
     gap: 8px; /* Spacing between icon and text */
     padding: 10px 54px;
-    background-color: #007bff;
+    background-color: #e48b3d;
     color: #fff;
     font-size: 16px;
     font-weight: bold;
@@ -69,7 +69,7 @@ body {
 }
 
 .upload-button:hover {
-    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .upload-icon {
@@ -107,8 +107,8 @@ body {
 }
 
 .keyword {
-    background-color: #eaf4ff;
-    color: #007bff;
+    background-color: #ffe4c4;
+    color: #e48b3d;
     padding: 6px 10px;
     border-radius: 12px;
     font-size: 14px;
@@ -118,7 +118,7 @@ body {
 }
 
 .keyword span {
-    color: red;
+    color: #e48b3d;
     font-weight: bold;
     cursor: pointer;
 }
@@ -140,7 +140,7 @@ body {
 }
 
 .checkbox-group input[type="checkbox"] {
-    accent-color: #007bff;
+    accent-color: #e48b3d;
 }
 
 .cell-size {

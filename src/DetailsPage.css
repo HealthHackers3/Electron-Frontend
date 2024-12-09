@@ -49,7 +49,7 @@
 }
 
 .download-image-button {
-    background-color: #007bff;
+    background-color: #e48b3d;
     color: white;
     border: none;
     padding: 12px;
@@ -62,8 +62,7 @@
 }
 
 .download-image-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+    transform: translateY(2px);
 }
 
 .properties {
@@ -93,7 +92,7 @@
 }
 
 .properties li strong {
-    color: #007bff; /* Highlighted color for labels */
+    color: #e48b3d; /* Highlighted color for labels */
 }
 
 @media (max-width: 768px) {
@@ -120,13 +119,13 @@
     font-size: 16px;
     font-weight: 500;
     text-decoration: none;
-    color: #007bff; /* Blue text color */
+    color: #e48b3d; /* Blue text color */
     cursor: pointer;
     transition: all 0.3s ease; /* Smooth transitions for hover effect */
 }
 
 .back-icon:hover {
-    background-color: #007bff; /* Blue background on hover */
+    background-color: #e48b3d; /* Blue background on hover */
     color: #fff; /* White text on hover */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
 }
