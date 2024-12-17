@@ -1,0 +1,90 @@
+.help-page {
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 28px;
+    color: #e48b3d;
+    margin-bottom: 20px;
+}
+
+.help-container {
+    display: flex;
+    gap: 40px;
+}
+
+.accordion {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.accordion-item {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.accordion-item h3 {
+    font-size: 20px;
+    margin: 0;
+    color: #333;
+}
+
+.accordion-content {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.contact-info {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.contact-info h2 {
+    font-size: 24px;
+    color: #e48b3d;
+}
+
+.contact-info p {
+    font-size: 16px;
+    color: #555;
+}
+
+.contact-info a {
+    color: #e48b3d;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.faq {
+    margin-top: 40px;
+}
+
+.faq h3 {
+    font-size: 20px;
+    color: #333;
+}
+
+.faq ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.faq ul li {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+}

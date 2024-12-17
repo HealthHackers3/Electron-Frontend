@@ -1,0 +1,84 @@
+/* Header Container */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fdf2e9;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Top */
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e48b3d;
+    cursor: pointer;
+    margin-right: auto;
+    transition: color 0.3s ease;
+}
+
+.logo:hover {
+    color: #d9792c;
+}
+
+/* Navigation Links */
+nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #555;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+nav a:hover {
+    color: #e48b3d;
+}
+
+/* Buttons on the Right */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.search-button,
+.upload-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-button {
+    background-color: #ddd;
+    color: #333;
+}
+
+.search-button:hover {
+    background-color: #e48b3d;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.upload-button {
+    background-color: #e48b3d;
+    color: #fff;
+}
+
+.upload-button:hover {
+    background-color: #d9792c;
+    transform: translateY(-2px);
+}
