@@ -1,27 +1,45 @@
 import "./DetailsPage.css";
 import React from "react";
-import {useParams, useLocation, useNavigate} from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 const DetailsPage = () => {
     const { id } = useParams();
     const location = useLocation();
     const { imageUrl, properties } = location.state || {};
 
-    const handleDownload = () => {
-        const link = document.createElement("a");
-        link.href = imageUrl;
-        link.download = `image_${properties?.category || "default"}_${id}.jpg`; // Dynamic file name
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const handleDownload = async () => {
+        try {
+            // Fetch the image as a blob
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+
+            // Create an object URL for the blob
+            const blobUrl = URL.createObjectURL(blob);
+
+            // Create a link and trigger the download
+            const link = document.createElement("a");
+            link.href = blobUrl;
+
+            // Generate a dynamic file name
+            const fileName = `image_${properties?.category || "default"}_${id}.jpg`;
+            link.download = fileName;
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Revoke the object URL after download
+            URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.error("Error downloading image:", error);
+        }
     };
 
-    const navigate = useNavigate(); // React Router hook for navigation
+    const navigate = useNavigate();
 
     const handleBackToHome = () => {
         navigate("/"); // Navigate to the home page
     };
-
 
     return (
         <div className="details-page">
@@ -29,7 +47,7 @@ const DetailsPage = () => {
                 <div className="image-container">
                     {imageUrl ? (
                         <>
-                            <img src={imageUrl} alt={`High-Resolution View of Item ${id}`}/>
+                            <img src={imageUrl} alt={`High-Resolution View of Item ${id}`} />
 
                             {/* Download Image Button */}
                             <button onClick={handleDownload} className="download-image-button">
@@ -57,7 +75,7 @@ const DetailsPage = () => {
                 </div>
             </div>
 
-            <div className="back-icon" onClick={() => navigate("/")}>
+            <div className="back-icon" onClick={handleBackToHome}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -69,7 +87,6 @@ const DetailsPage = () => {
                 </svg>
                 <span>Back to Search</span>
             </div>
-
         </div>
     );
 };
