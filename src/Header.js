@@ -13,7 +13,6 @@ const Header = () => {
             <nav>
                 <a onClick={() => navigate("/")}>Home</a>
                 <a onClick={() => navigate("/help")}>Help</a>
-                <a onClick={() => navigate("/language")}>Language</a> {/* Placeholder for now */}
                 <a onClick={() => navigate("/user")}>My Profile</a>
             </nav>
             <div className="header-buttons">

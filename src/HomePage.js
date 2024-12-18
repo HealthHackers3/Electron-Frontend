@@ -10,7 +10,7 @@ const HomePage = () => {
 
     const navigate = useNavigate();
 
-    // Simulate fetching data
+    // Display a random cell of the week
     useEffect(() => {
         const fetchData = () => {
             const mockData = Array(56)
@@ -23,15 +23,37 @@ const HomePage = () => {
                     likes: Math.floor(Math.random() * 100),
                     imageUrl: `https://via.placeholder.com/150?text=Cell+${idx + 1}`,
                 }));
+
             setData(mockData);
 
-            // Randomly select one cell for "Cell of the Week"
-            const randomIndex = Math.floor(Math.random() * mockData.length);
-            setRandomCell(mockData[randomIndex]);
+            // Check if 'randomCellOfWeek' is already stored and valid
+            const storedCell = localStorage.getItem("randomCellOfWeek");
+            const storedWeek = localStorage.getItem("randomCellWeek");
+
+            // Get current week's start date (Monday midnight)
+            const currentWeek = new Date();
+            currentWeek.setHours(0, 0, 0, 0); // Reset time to midnight
+            currentWeek.setDate(currentWeek.getDate() - currentWeek.getDay() + 1); // Move to Monday
+
+            const currentWeekString = currentWeek.toISOString();
+
+            if (storedCell && storedWeek === currentWeekString) {
+                setRandomCell(JSON.parse(storedCell)); // Use stored cell if valid
+            } else {
+                // Select a random cell and save it for the week
+                const randomIndex = Math.floor(Math.random() * mockData.length);
+                const chosenCell = mockData[randomIndex];
+
+                localStorage.setItem("randomCellOfWeek", JSON.stringify(chosenCell));
+                localStorage.setItem("randomCellWeek", currentWeekString);
+
+                setRandomCell(chosenCell);
+            }
         };
 
         fetchData();
     }, []);
+
 
     const handleCardClick = (id) => {
         const properties = {
