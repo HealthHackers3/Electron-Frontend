@@ -163,3 +163,8 @@ textarea {
 .submit-button:hover {
     background-color: #d9792c;
 }
+.add-new-option {
+    font-style: italic;
+    color: #007bff;
+    background-color: #f9f9f9;
+}

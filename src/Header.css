@@ -17,6 +17,7 @@
 .logo-container {
     display: flex;
     align-items: center;
+    gap: 1px;
     cursor: pointer;
     height: 100%;
 }
@@ -32,6 +33,8 @@
     width: auto;
     object-fit: contain;
     margin-top: 40px;
+    margin-left: -50px;
+    padding: 0;
 }
 
 /* Navigation Links */
