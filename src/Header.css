@@ -76,12 +76,12 @@
 }
 
 .search-button {
-    background-color: #ddd;
-    color: #333;
+    background-color: #e48b3d;
+    color: #fff;
 }
 
 .search-button:hover {
-    background-color: #e48b3d;
+    background-color: #d9792c;
     color: #fff;
     transform: translateY(-2px);
 }
