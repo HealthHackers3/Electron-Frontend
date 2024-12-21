@@ -1,64 +1,152 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./DatabasePage.css";
 
 const DatabasePage = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const [filters, setFilters] = useState({
-        keywords: ["Human", "brain", "blue"],
-        imageModality: true,
-        cellMembrane: true,
-        fileType: ".jpeg",
+        keywords: "",
+        selectedCategories: [],
+        selectedTypes: [],
+        selectedImageModality: [],
+        selectedShapes: [],
+        selectedFileTypes: [],
         cellSize: [0, 1000],
-        cellColor: { blue: true, pink: false, green: false },
-        cellDensity: { "Label 1": true, "Label 2": false, "Label 3": false },
+        cellCount: [0, 1000],
+
     });
+
+    const resetFilters = () => {
+        setFilters({
+            keywords: "",
+            selectedCategories: [],
+            selectedTypes: [],
+            selectedImageModality: [],
+            selectedShapes: [],
+            selectedFileTypes: [],
+            cellSize: [0, 1000],
+            cellCount: [0, 1000],
+        });
+    };
+
 
     const [viewMode, setViewMode] = useState("grid"); // Default view mode
     const [sortOrder, setSortOrder] = useState("newest"); // Default sorting order
+    const [data, setData] = useState([]); // Mock database
+    const [uniqueCategories, setUniqueCategories] = useState([]);
+    const [uniqueTypes, setUniqueTypes] = useState([]);
+    const [uniqueImageModalities, setUniqueImageModalities] = useState([]);
+    const [uniqueShapes, setUniqueShapes] = useState([]);
+    const [uniqueFileTypes, setUniqueFileTypes] = useState([]);
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        fetchResults(); // Replace with actual API call
+    }, []);
+
+    const fetchResults = async () => {
+        try {
+            // Replace with API call
+            const response = await fetch('/api/results');
+            const data = await response.json();
+            setResults(data || []);
+        } catch (error) {
+            console.error('Error fetching results:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (location.state?.newEntry) {
+            const newEntry = { ...location.state.newEntry, id: data.length }; // Add a unique ID
+
+            // Update data
+            setData((prevData) => {
+                const updatedData = [...prevData, newEntry];
+
+                // Update unique categories, types, and other properties
+                setUniqueCategories((prevCategories) => [
+                    ...new Set([...prevCategories, newEntry.category]),
+                ]);
+                setUniqueTypes((prevTypes) => [
+                    ...new Set([...prevTypes, newEntry.type]),
+                ]);
+                setUniqueImageModalities((prevModalities) => [
+                    ...new Set([...prevModalities, newEntry.imageModality]),
+                ]);
+                setUniqueShapes((prevShapes) => [
+                    ...new Set([...prevShapes, newEntry.shape]),
+                ]);
+                setUniqueFileTypes((prevFileTypes) => [
+                    ...new Set([...prevFileTypes, newEntry.fileType]),
+                ]);
+
+                return updatedData;
+            });
+        }
+    }, [location.state, data]);
+
 
     // Handle navigation to "New Entry Page" for uploading images
     const handleUploadClick = () => {
         navigate("/new-entry");
     };
 
-    // Navigate to the details page when a card is clicked
+    // Navigate to the details page
     const handleCardClick = (id) => {
-        const properties = {
-            category: "Sample Category",
-            cellType: "Neuron",
-            cellDensity: "Medium",
-            cellWidth: 50,
-            cellHeight: 70,
-            cellArea: 3500,
-            cellCount: 100,
-            imageModality: "Brightfield",
-            author: "Dr. Paul Wong",
+        navigate(`/details/${id}`);
         };
 
-        const imageUrl = `https://example.com/image/${id}`; // Example image URL
-
-        navigate(`/details/${id}`, {
-            state: { imageUrl, properties },
-        });
-    };
-
-    const handleColorChange = (color) => {
+    const handleCategoryChange = (category) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
-            cellColor: { ...prevFilters.cellColor, [color]: !prevFilters.cellColor[color] },
+            selectedCategories: prevFilters.selectedCategories.includes(category)
+                ? prevFilters.selectedCategories.filter((item) => item !== category)
+                : [...prevFilters.selectedCategories, category],
         }));
-    };
+    }
 
-    const handleDensityChange = (label) => {
+    const handleTypeChange = (type) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
-            cellDensity: { ...prevFilters.cellDensity, [label]: !prevFilters.cellDensity[label] },
+            selectedTypes: prevFilters.selectedTypes.includes(type)
+                ? prevFilters.selectedTypes.filter((item) => item !== type)
+                : [...prevFilters.selectedTypes, type],
         }));
-    };
+    }
+
+    const handleImageModalityChange = (imageModality) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            selectedImageModality: prevFilters.selectedImageModality.includes(imageModality)
+                ? prevFilters.selectedImageModality.filter((item) => item !== imageModality)
+                : [...prevFilters.selectedImageModality, imageModality],
+        }));
+    }
+
+    const handleShapeChange = (shape) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            selectedShapes: prevFilters.selectedShapes.includes(shape)
+                ? prevFilters.selectedShapes.filter((item) => item !== shape)
+                : [...prevFilters.selectedShapes, shape],
+        }));
+    }
+
+    const handleFileTypeChange = (fileType) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            selectedFileTypes: prevFilters.selectedFileTypes.includes(fileType)
+                ? prevFilters.selectedFileTypes.filter((item) => item !== fileType)
+                : [...prevFilters.selectedFileTypes, fileType],
+        }));
+    }
 
     const handleViewChange = (mode) => {
         setViewMode(mode);
@@ -68,15 +156,55 @@ const DatabasePage = () => {
         setSortOrder(order);
     };
 
+    const filteredResults = () => {
+        let results = Array.isArray(data) ? [...data] : []; // Ensure `data` is always an array
+
+        // Apply filters
+        if (filters.keywords) {
+            results = results.filter((item) =>
+                item.name.toLowerCase().includes(filters.keywords.toLowerCase())
+            );
+        }
+        if (filters.selectedCategories.length > 0) {
+            results = results.filter((item) => filters.selectedCategories.includes(item.category));
+        }
+        if (filters.selectedTypes.length > 0) {
+            results = results.filter((item) => filters.selectedTypes.includes(item.type));
+        }
+        if (filters.selectedImageModality.length > 0) {
+            results = results.filter((item) => filters.selectedImageModality.includes(item.imageModality));
+        }
+        if (filters.selectedShapes.length > 0) {
+            results = results.filter((item) => filters.selectedShapes.includes(item.shape));
+        }
+        if (filters.selectedFileTypes.length > 0) {
+            results = results.filter((item) => filters.selectedFileTypes.includes(item.fileType));
+        }
+        if (filters.cellCount[0] > 0 || filters.cellCount[1] < 1000) {
+            results = results.filter(
+                (item) => item.count >= filters.cellCount[0] && item.count <= filters.cellCount[1]
+            );
+        }
+        if (filters.cellSize[0] > 0 || filters.cellSize[1] < 1000) {
+            results = results.filter(
+                (item) => item.size >= filters.cellSize[0] && item.size <= filters.cellSize[1]
+            );
+        }
+        results = results.filter(
+            (item) => item.size >= filters.cellSize[0] && item.size <= filters.cellSize[1]
+        );
+        return results;
+    };
+
     const sortedResults = () => {
-        const results = Array(56)
-            .fill()
-            .map((_, idx) => ({ id: idx, name: `Name ${idx + 1}`, category: "Category" }));
+        let results = filteredResults();
 
         if (sortOrder === "newest") return results; // Default order
         if (sortOrder === "oldest") return results.reverse();
         if (sortOrder === "a-z") return results.sort((a, b) => a.name.localeCompare(b.name));
         if (sortOrder === "z-a") return results.sort((a, b) => b.name.localeCompare(a.name));
+
+        return results;
     };
 
     return (
@@ -86,63 +214,107 @@ const DatabasePage = () => {
                     Upload Images
                 </button>
                 <div className="filters">
-                    {/* Filters */}
-                    <div>
-                        <h3>Keywords</h3>
-                        <div className="keywords">
-                            {filters.keywords.map((keyword, idx) => (
-                                <span className="keyword" key={idx}>
-                                    {keyword} <span>x</span>
-                                </span>
-                            ))}
-                        </div>
+                    {/* Search Bar */}
+                    <div className="search-bar">
+                        <label className="search-label" htmlFor="search-input">Search</label>
+                        <input
+                            id="search-input"
+                            type="text"
+                            placeholder="Search by name or tags..."
+                            value={filters.keywords}
+                            onChange={(e) =>
+                                setFilters({...filters, keywords: e.target.value})
+                            }
+                        />
                     </div>
-
-                    <div className="checkbox-group">
-                        <h3>Options</h3>
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={filters.imageModality}
-                                onChange={() =>
-                                    setFilters({
-                                        ...filters,
-                                        imageModality: !filters.imageModality,
-                                    })
-                                }
-                            />
-                            Image modality
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={filters.cellMembrane}
-                                onChange={() =>
-                                    setFilters({
-                                        ...filters,
-                                        cellMembrane: !filters.cellMembrane,
-                                    })
-                                }
-                            />
-                            Cell membrane
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={filters.fileType === ".jpeg"}
-                                onChange={() =>
-                                    setFilters({
-                                        ...filters,
-                                        fileType: filters.fileType === ".jpeg" ? "" : ".jpeg",
-                                    })
-                                }
-                            />
-                            .jpeg
-                        </label>
+                    {/* Categories */}
+                    <div className="filter-section">
+                        <h3>Categories</h3>
+                        {uniqueCategories.map((category) => (
+                            <label key={category}
+                                   className="vertical-checkbox"
+                                   style={{display: "block", marginBottom: "10px"}}
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={filters.selectedCategories.includes(category)}
+                                    onChange={() => handleCategoryChange(category)}
+                                />
+                                {category}
+                            </label>
+                        ))}
                     </div>
-
+                    {/* Types */}
+                    <div className="filter-section">
+                        <h3>Types</h3>
+                        {uniqueTypes.map((type) => (
+                            <label key={type}
+                                   className="vertical-checkbox"
+                                   style={{display: "block", marginBottom: "10px"}}
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={filters.selectedTypes.includes(type)}
+                                    onChange={() => handleTypeChange(type)}
+                                />
+                                {type}
+                            </label>
+                        ))}
+                    </div>
+                    {/* Image Modality */}
+                    <div className="filter-section">
+                        <h3>Image Modality</h3>
+                        {uniqueImageModalities.map((imageModality) => (
+                            <label key={imageModality}
+                                   className="vertical-checkbox"
+                                   style={{display: "block", marginBottom: "10px"}}
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={filters.selectedImageModality.includes(imageModality)}
+                                    onChange={() => handleImageModalityChange(imageModality)}
+                                />
+                                {imageModality}
+                            </label>
+                        ))}
+                    </div>
+                    {/* Shapes */}
+                    <div className="filter-section">
+                        <h3>Shapes</h3>
+                        {uniqueShapes.map((shape) => (
+                            <label key={shape}
+                                   className="vertical-checkbox"
+                                   style={{display: "block", marginBottom: "10px"}}
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={filters.selectedShapes.includes(shape)}
+                                    onChange={() => handleShapeChange(shape)}
+                                />
+                                {shape}
+                            </label>
+                        ))}
+                    </div>
+                    {/* File Types */}
+                    <div className="filter-section">
+                        <h3>File Types</h3>
+                        {uniqueFileTypes.map((fileType) => (
+                            <label key={fileType}
+                                      className="vertical-checkbox"
+                                        style={{display: "block", marginBottom: "10px"}}
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={filters.selectedFileTypes.includes(fileType)}
+                                    onChange={() => handleFileTypeChange(fileType)}
+                                />
+                                {fileType}
+                            </label>
+                        ))}
+                    </div>
+                    {/* Cell Size */}
                     <div className="cell-size">
-                        <h3>Cell size</h3>
+                        <h3>Cell Size</h3>
                         <div className="range-display">
                             <span>{filters.cellSize[0]} µm</span>
                             <span>{filters.cellSize[1]} µm</span>
@@ -152,49 +324,45 @@ const DatabasePage = () => {
                             min={0}
                             max={1000}
                             value={filters.cellSize}
-                            onChange={(value) => setFilters({ ...filters, cellSize: value })}
-                            trackStyle={[{ backgroundColor: "#e48b3d" }]}
+                            onChange={(value) => setFilters({...filters, cellSize: value})}
+                            trackStyle={[{backgroundColor: "#e48b3d"}]}
                             handleStyle={[
-                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d" },
-                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d" },
+                                {borderColor: "#e48b3d", backgroundColor: "#e48b3d"},
+                                {borderColor: "#e48b3d", backgroundColor: "#e48b3d"},
                             ]}
                         />
                     </div>
-
-                    <div className="cell-color">
-                        <h3>Cell color</h3>
-                        {Object.keys(filters.cellColor).map((color) => (
-                            <label key={color} className="vertical-checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={filters.cellColor[color]}
-                                    onChange={() => handleColorChange(color)}
-                                />
-                                {color}
-                            </label>
-                        ))}
+                    {/* Cell Count */}
+                    <div className="cell-count">
+                        <h3>Cell Count</h3>
+                        <div className="range-display">
+                            <span>{filters.cellCount[0]}</span>
+                            <span>{filters.cellCount[1]}</span>
+                        </div>
+                        <Slider
+                            range
+                            min={0}
+                            max={1000}
+                            value={filters.cellCount}
+                            onChange={(value) => setFilters({ ...filters, cellCount: value })}
+                            trackStyle={[{ backgroundColor: "#e48b3d" }]}
+                            handleStyle={[
+                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d" },
+                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d" }
+                            ]}
+                        />
                     </div>
+                    {/* Reset Filters Button */}
+                    <button className="reset-button" onClick={resetFilters}>
+                        Reset Filters
+                    </button>
 
-                    <div className="cell-density">
-                        <h3>Cell density</h3>
-                        {Object.keys(filters.cellDensity).map((label) => (
-                            <label key={label} className="vertical-checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={filters.cellDensity[label]}
-                                    onChange={() => handleDensityChange(label)}
-                                />
-                                {label}
-                            </label>
-                        ))}
-                    </div>
                 </div>
             </div>
 
             <div className="main-content">
-                {/* Sorting and View Modes */}
                 <div className="results-header">
-                    <p>56 results for: {filters.keywords.join(", ")}</p>
+                    <p>{filteredResults().length} results found</p>
                     <div className="view-options">
                         <button
                             onClick={() => handleViewChange("grid")}
@@ -208,26 +376,8 @@ const DatabasePage = () => {
                         >
                             Table
                         </button>
-                        <button
-                            onClick={() => handleViewChange("list")}
-                            className={viewMode === "list" ? "active" : ""}
-                        >
-                            List
-                        </button>
                     </div>
                     <div className="sort-options">
-                        <button
-                            onClick={() => handleSortChange("newest")}
-                            className={sortOrder === "newest" ? "active" : ""}
-                        >
-                            Newest
-                        </button>
-                        <button
-                            onClick={() => handleSortChange("oldest")}
-                            className={sortOrder === "oldest" ? "active" : ""}
-                        >
-                            Oldest
-                        </button>
                         <button
                             onClick={() => handleSortChange("a-z")}
                             className={sortOrder === "a-z" ? "active" : ""}
@@ -244,65 +394,23 @@ const DatabasePage = () => {
                 </div>
 
                 {/* Results */}
-                {viewMode === "grid" && (
-                    <div className="results-grid">
-                        {sortedResults().map((result) => (
+                <div className={`results-${viewMode}`}>
+                    {sortedResults().length === 0 ? (
+                        <p>No results found. Try adjusting your filters.</p>
+                    ) : (
+                        sortedResults().map((result) => (
                             <div
                                 className="result-card"
                                 key={result.id}
                                 onClick={() => handleCardClick(result.id)}
                             >
-                                <div className="image-placeholder"></div>
+                                <img src={result.imageUrl} alt={result.name} />
                                 <p>{result.name}</p>
                                 <p>{result.category}</p>
                             </div>
-                        ))}
-                    </div>
-                )}
-
-                {viewMode === "table" && (
-                    <div className="results-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedResults().map((result) => (
-                                    <tr key={result.id}>
-                                        <td>{result.name}</td>
-                                        <td>{result.category}</td>
-                                        <td>
-                                            <button onClick={() => handleCardClick(result.id)}>
-                                                View Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-
-                {viewMode === "list" && (
-                    <div className="results-list">
-                        {sortedResults().map((result) => (
-                            <div
-                                className="list-item"
-                                key={result.id}
-                                onClick={() => handleCardClick(result.id)}
-                            >
-                                <div className="list-content">
-                                    <h4>{result.name}</h4>
-                                    <p>{result.category}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                        ))
+                    )}
+                </div>
             </div>
         </div>
     );

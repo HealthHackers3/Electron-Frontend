@@ -3,12 +3,17 @@
     font-family: "Roboto", sans-serif;
 }
 
-.featured-cell {
+.home-page__content {
+    /* You can add styles for content if needed */
+}
+
+/* Featured Cell Section */
+.home-page__featured-cell {
     margin-bottom: 20px;
     cursor: pointer;
 }
 
-.featured-image {
+.featured-cell__image {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -19,79 +24,197 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.featured-image img {
+.featured-cell__image img {
     width: 150px;
     height: 150px;
     border-radius: 8px;
 }
 
-.image-info h2 {
+.featured-cell__info h2 {
     margin: 0;
     font-size: 20px;
     color: #e48b3d;
 }
 
-.image-info p {
+.featured-cell__info p {
     margin: 5px 0;
     font-size: 16px;
     color: #333;
 }
 
-.image-info span {
+.featured-cell__info span {
     font-size: 14px;
     color: #666;
 }
 
-.controls {
+/* Controls Section */
+.home-page__controls {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.view-options button,
-.sort-options button {
+.controls__view-options,
+.controls__sort-options {
+    display: flex;
+    gap: 10px;
+}
+
+.controls__button {
     padding: 5px 10px;
     background-color: #ddd;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.view-options button.active,
-.sort-options button.active {
+.controls__button:hover {
+    background-color: #ccc;
+}
+
+.controls__button--active {
     background-color: #e48b3d;
     color: #fff;
 }
 
-.results-grid {
+/* Results Grid Section */
+.home-page__results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+    align-items: start; /* Align cards from the top */
+}
+
+.results-grid__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.2s;
+}
+
+.results-grid__card:hover {
+    transform: translateY(-5px);
+}
+
+/* Results Grid Image Section */
+.results-grid__image {
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    background-color: #ccc; /* Gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative; /* To position any overlay if needed */
+}
+
+.results-grid__image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.results-grid__name,
+.results-grid__category {
+    margin: 5px 0;
+    text-align: center;
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add '...' for overflow text */
+    width: 90%; /* Keep text width consistent */
+    font-size: 16px;
+    color: #333;
+}
+
+/* Results Table Section */
+.home-page__results-table {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
 }
 
 .results-table {
     width: 100%;
-    margin-top: 20px;
     border-collapse: collapse;
 }
 
-.results-table th,
-.results-table td {
+.results-table__header {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
+    background-color: #f9f9f9;
+    font-weight: bold;
 }
 
-.results-list .list-item {
+.results-table__row:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.results-table__cell {
+    border: 1px solid #ddd;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.results-table__button {
+    padding: 5px 10px;
+    background-color: #e48b3d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.results-table__button:hover {
+    background-color: #cf7a2e;
+}
+
+/* Results List Section */
+.home-page__results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.results-list__item {
     display: flex;
     align-items: center;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 10px;
     background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.list-content {
+.results-list__item:hover {
+    background-color: #f0f0f0;
+}
+
+.results-list__content {
     margin-left: 10px;
+}
+
+.results-list__name {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.results-list__category {
+    margin: 5px 0 0 0;
+    font-size: 16px;
+    color: #666;
 }

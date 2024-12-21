@@ -1,39 +1,51 @@
 /* Header Container */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; /* Horizontal layout */
+    justify-content: space-between; /* Space between nav and buttons */
+    align-items: center; /* Align items vertically */
     padding: 10px 20px;
+    height: 70px; /* Set a fixed height for the header */
     background-color: #fdf2e9;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky; /* Top */
+    position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-/* Logo */
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #e48b3d;
+/* Logo and text*/
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1px;
     cursor: pointer;
-    margin-right: auto;
-    transition: color 0.3s ease;
+    height: 100%;
 }
 
-.logo:hover {
-    color: #d9792c;
+.header-logo {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.header-text {
+    max-height: 250%;
+    width: auto;
+    object-fit: contain;
+    margin-top: 40px;
+    margin-left: -50px;
+    padding: 0;
 }
 
 /* Navigation Links */
-nav {
+.nav-links {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     align-items: center;
+    margin-right: auto;
 }
 
-nav a {
+.nav-links a {
     text-decoration: none;
     font-size: 16px;
     color: #555;
@@ -41,7 +53,7 @@ nav a {
     cursor: pointer;
 }
 
-nav a:hover {
+.nav-links a:hover {
     color: #e48b3d;
 }
 
@@ -55,6 +67,7 @@ nav a:hover {
 .upload-button {
     padding: 8px 16px;
     border: none;
+    gap: 8px;
     border-radius: 6px;
     font-size: 14px;
     font-weight: bold;
@@ -63,12 +76,12 @@ nav a:hover {
 }
 
 .search-button {
-    background-color: #ddd;
-    color: #333;
+    background-color: #e48b3d;
+    color: #fff;
 }
 
 .search-button:hover {
-    background-color: #e48b3d;
+    background-color: #d9792c;
     color: #fff;
     transform: translateY(-2px);
 }
