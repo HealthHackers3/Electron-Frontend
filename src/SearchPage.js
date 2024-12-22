@@ -361,10 +361,10 @@ const SearchPage = () => {
                             Grid
                         </button>
                         <button
-                            onClick={() => handleViewChange("table")}
-                            className={viewMode === "table" ? "active" : ""}
+                            onClick={() => handleViewChange("list")}
+                            className={viewMode === "list" ? "active" : ""}
                         >
-                            Table
+                            List
                         </button>
                     </div>
                     <div className="sort-options">
@@ -389,18 +389,37 @@ const SearchPage = () => {
                         <p>No results found. Try adjusting your filters.</p>
                     ) : (
                         sortedResults().map((result) => (
-                            <div
-                                className="result-card"
-                                key={result.id}
-                                onClick={() => handleCardClick(result.id)}
-                            >
-                                <img src={result.imageUrl} alt={result.name} />
-                                <p>{result.name}</p>
-                                <p>{result.category}</p>
-                            </div>
+                            viewMode === "grid" ? (
+                                <div
+                                    className="result-card"
+                                    key={result.id}
+                                    onClick={() => handleCardClick(result.id)}
+                                >
+                                    <img src={result.imageUrl} alt={result.name} />
+                                    <p>{result.name}</p>
+                                    <p>{result.category}</p>
+                                </div>
+                            ) : (
+                                <div
+                                    className="result-list-item"
+                                    key={result.id}
+                                    onClick={() => handleCardClick(result.id)}
+                                >
+                                    <img
+                                        className="results-list__image"
+                                        src={result.imageUrl}
+                                        alt={result.name}
+                                    />
+                                    <div className="result-details">
+                                        <h4>{result.name}</h4>
+                                        <p>{result.category}</p>
+                                    </div>
+                                </div>
+                            )
                         ))
                     )}
                 </div>
+
             </div>
         </div>
     );
