@@ -33,6 +33,7 @@ function createWindow() {
 
     loadReactApp();
     mainWindow.webContents.openDevTools();
+    mainWindow.setMenuBarVisibility(false);
 }
 
 app.whenReady().then(createWindow);
