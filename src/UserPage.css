@@ -1,6 +1,24 @@
 .user-page {
     padding: 20px;
     font-family: 'Roboto', sans-serif;
+    overflow-y: auto;
+}
+
+.user-page::-webkit-scrollbar {
+    width: 10px;
+}
+
+.user-page::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 8px;
+}
+
+.user-page::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+.user-page::-webkit-scrollbar-track {
+    background-color: #fff;
 }
 
 h1 {

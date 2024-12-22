@@ -72,7 +72,7 @@ const HomePage = () => {
         const imageUrl = `https://th.bing.com/th/id/R.479f9d7475e53ead9717a83c03f9da2f?rik=TX%2fqy%2fF%2fu5WdXg&pid=ImgRaw&r=0`;
 
         navigate(`/details/${id}`, {
-            state: { imageUrl, properties },
+            state: { imageUrl, properties, parent: location.pathname },
         });
     };
 

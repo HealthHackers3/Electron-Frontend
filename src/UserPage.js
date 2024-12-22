@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import "./UserPage.css";
+import CellCard from "./CellCard";
 
 const UserPage = () => {
     const [profile, setProfile] = useState({
@@ -8,11 +10,22 @@ const UserPage = () => {
         email: "username@imperial.ac.uk",
         institute: "Imperial College London",
         department: "Bioengineering",
-        uploadedImages: Array(6).fill(""), // Placeholder for uploaded images
+        uploadedImages: Array(56)
+            .fill()
+            .map((_, idx) => ({
+                id: idx,
+                name: `Cell ${idx + 1}`,
+                category: `Category ${idx % 5 + 1}`,
+                author: `Author ${idx % 10 + 1}`,
+                likes: Math.floor(Math.random() * 100),
+                imageUrl: `https://www.visiblebody.com/hubfs/learn/bio/assets/cells/cell-overview`
+            }))
     });
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState({ ...profile });
+
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -31,6 +44,26 @@ const UserPage = () => {
     const handleCancel = () => {
         setEditedProfile(profile);
         setIsEditing(false);
+    };
+
+    const handleCardClick = (id) => {
+        const properties = {
+            category: "Sample Category",
+            cellType: "Neuron",
+            cellDensity: "Medium",
+            cellWidth: 50,
+            cellHeight: 70,
+            cellArea: 3500,
+            cellCount: 100,
+            imageModality: "Brightfield",
+            author: "Dr. Paul Wong",
+        };
+
+        const imageUrl = `https://th.bing.com/th/id/R.479f9d7475e53ead9717a83c03f9da2f?rik=TX%2fqy%2fF%2fu5WdXg&pid=ImgRaw&r=0`;
+
+        navigate(`/details/${id}`, {
+            state: { imageUrl, properties, parent: location.pathname },
+        });
     };
 
     return (
@@ -137,13 +170,8 @@ const UserPage = () => {
                 <div className="favourites">
                     <h2>Favourites</h2>
                     <div className="favourites-grid">
-                        {profile.uploadedImages.map((image, idx) => (
-                            <div className="favourite-card" key={idx}>
-                                <div className="image-placeholder">
-                                    {image || `Cell ${idx + 1}`}
-                                </div>
-                                <p>Cell {idx + 1}</p>
-                            </div>
+                        {profile.uploadedImages.map((cell) => (
+                            <CellCard key={cell.id} cell={cell} onCardClick={handleCardClick} />
                         ))}
                     </div>
                 </div>
