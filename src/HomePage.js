@@ -127,12 +127,6 @@ const HomePage = () => {
                             Grid
                         </button>
                         <button
-                            onClick={() => handleViewChange("table")}
-                            className={`controls__button ${viewMode === "table" ? "controls__button--active" : ""}`}
-                        >
-                            Table
-                        </button>
-                        <button
                             onClick={() => handleViewChange("list")}
                             className={`controls__button ${viewMode === "list" ? "controls__button--active" : ""}`}
                         >
@@ -176,36 +170,6 @@ const HomePage = () => {
                     </div>
                 )}
 
-                {viewMode === "table" && (
-                    <div className="home-page__results-table">
-                        <table className="results-table">
-                            <thead>
-                            <tr>
-                                <th className="results-table__header">Name</th>
-                                <th className="results-table__header">Category</th>
-                                <th className="results-table__header">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {getSortedCells().map((cell) => (
-                                <tr key={cell.id} className="results-table__row">
-                                    <td className="results-table__cell">{cell.name}</td>
-                                    <td className="results-table__cell">{cell.category}</td>
-                                    <td className="results-table__cell">
-                                        <button
-                                            className="results-table__button"
-                                            onClick={() => handleCardClick(cell.id)}
-                                        >
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-
                 {viewMode === "list" && (
                     <div className="home-page__results-list">
                         {getSortedCells().map((cell) => (
@@ -214,6 +178,9 @@ const HomePage = () => {
                                 key={cell.id}
                                 onClick={() => handleCardClick(cell.id)}
                             >
+                                <div className="results-list__image">
+                                    <img src={cell.imageUrl} alt={cell.name} />
+                                </div>
                                 <div className="results-list__content">
                                     <h4 className="results-list__name">{cell.name}</h4>
                                     <p className="results-list__category">{cell.category}</p>
