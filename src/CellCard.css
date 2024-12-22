@@ -43,6 +43,7 @@
     border-radius: 8px;
     z-index: 1;
     text-align: center;
+    -webkit-user-select: none;
 }
 
 /* Shimmer Effect */
@@ -85,6 +86,7 @@
     border-radius: 8px;
     z-index: 1;
     text-align: center;
+    -webkit-user-select: none;
 }
 
 /* Ensuring No Layout Shifts */

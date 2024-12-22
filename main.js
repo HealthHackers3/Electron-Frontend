@@ -15,7 +15,7 @@ function createWindow() {
     });
 
     // Retry mechanism to wait for React dev server
-    const reactDevUrl = 'http://localhost:7000';
+    const reactDevUrl = 'http://localhost:3000';
     let retries = 0;
     const maxRetries = 5;
 

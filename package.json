@@ -5,7 +5,7 @@
   "scripts": {
     "start-react": "react-scripts start",
     "start-electron": "electron .",
-    "start": "PORT=7000 concurrently \"npm run start-react\" \"npm run start-electron\""
+    "start": "concurrently \"npm run start-react\" \"npm run start-electron\""
   },
   "devDependencies": {
     "concurrently": "^9.1.0",
