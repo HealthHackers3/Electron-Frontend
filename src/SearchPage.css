@@ -299,24 +299,6 @@ body {
     margin-top: 20px;
 }
 
-/* Table View */
-.results-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-}
-
-.results-table th, .results-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-.results-table th {
-    background-color: #f9f9f9;
-    font-weight: bold;
-}
-
 /* List View */
 .results-list .list-item {
     display: flex;
@@ -326,6 +308,15 @@ body {
     border-radius: 4px;
     margin-bottom: 10px;
     background-color: #fff;
+    gap: 15px;
+}
+
+.results-list .list-item .image {
+    width: 120px;
+    height: 120px;
+    border-radius: 4px;
+    object-fit: cover;
+    background-color: #e0e0e0;
 }
 
 .results-list .list-content {
