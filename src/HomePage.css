@@ -121,6 +121,7 @@
     overflow: hidden;
     background-color: #fff;
     transition: transform 0.2s;
+    cursor: pointer;
 }
 
 .results-grid__card:hover {

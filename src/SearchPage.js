@@ -325,11 +325,6 @@ const SearchPage = () => {
                             max={1000}
                             value={filters.cellSize}
                             onChange={(value) => setFilters({...filters, cellSize: value})}
-                            trackStyle={[{backgroundColor: "#e48b3d"}]}
-                            handleStyle={[
-                                {borderColor: "#e48b3d", backgroundColor: "#e48b3d"},
-                                {borderColor: "#e48b3d", backgroundColor: "#e48b3d"},
-                            ]}
                         />
                     </div>
                     {/* Cell Count */}
@@ -345,11 +340,6 @@ const SearchPage = () => {
                             max={1000}
                             value={filters.cellCount}
                             onChange={(value) => setFilters({ ...filters, cellCount: value })}
-                            trackStyle={[{ backgroundColor: "#e48b3d" }]}
-                            handleStyle={[
-                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d" },
-                                { borderColor: "#e48b3d", backgroundColor: "#e48b3d" }
-                            ]}
                         />
                     </div>
                     {/* Reset Filters Button */}
