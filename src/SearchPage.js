@@ -210,23 +210,7 @@ const SearchPage = () => {
     return (
         <div className="search-page">
             <div className="sidebar">
-                <button className="upload-button" onClick={handleUploadClick}>
-                    Upload Images
-                </button>
                 <div className="filters">
-                    {/* Search Bar */}
-                    <div className="search-bar">
-                        <label className="search-label" htmlFor="search-input">Search</label>
-                        <input
-                            id="search-input"
-                            type="text"
-                            placeholder="Search by name or tags..."
-                            value={filters.keywords}
-                            onChange={(e) =>
-                                setFilters({...filters, keywords: e.target.value})
-                            }
-                        />
-                    </div>
                     {/* Categories */}
                     <div className="filter-section">
                         <h3>Categories</h3>
@@ -300,8 +284,8 @@ const SearchPage = () => {
                         <h3>File Types</h3>
                         {uniqueFileTypes.map((fileType) => (
                             <label key={fileType}
-                                      className="vertical-checkbox"
-                                        style={{display: "block", marginBottom: "10px"}}
+                                   className="vertical-checkbox"
+                                   style={{display: "block", marginBottom: "10px"}}
                             >
                                 <input
                                     type="checkbox"
@@ -339,7 +323,7 @@ const SearchPage = () => {
                             min={0}
                             max={1000}
                             value={filters.cellCount}
-                            onChange={(value) => setFilters({ ...filters, cellCount: value })}
+                            onChange={(value) => setFilters({...filters, cellCount: value})}
                         />
                     </div>
                     {/* Reset Filters Button */}
@@ -350,74 +334,80 @@ const SearchPage = () => {
                 </div>
             </div>
 
-            <div className="main-content">
+            {/* Main content wrapper with results header at the top */}
+            <div className="main-container">
                 <div className="results-header">
-                    <p>{filteredResults().length} results found</p>
-                    <div className="view-options">
-                        <button
-                            onClick={() => handleViewChange("grid")}
-                            className={viewMode === "grid" ? "active" : ""}
-                        >
-                            Grid
-                        </button>
-                        <button
-                            onClick={() => handleViewChange("list")}
-                            className={viewMode === "list" ? "active" : ""}
-                        >
-                            List
-                        </button>
-                    </div>
-                    <div className="sort-options">
-                        <button
-                            onClick={() => handleSortChange("a-z")}
-                            className={sortOrder === "a-z" ? "active" : ""}
-                        >
-                            A-Z
-                        </button>
-                        <button
-                            onClick={() => handleSortChange("z-a")}
-                            className={sortOrder === "z-a" ? "active" : ""}
-                        >
-                            Z-A
-                        </button>
+                    <input
+                        className="search-input"
+                        type="text"
+                        placeholder="🔍 Search by name or tags..."
+                        value={filters.keywords}
+                        onChange={(e) =>
+                            setFilters({...filters, keywords: e.target.value})
+                        }
+                    />
+                    <div className="header-actions">
+                        <div className="view-options">
+                            <button onClick={() => handleViewChange("grid")}
+                                    className={viewMode === "grid" ? "active" : ""}>
+                                Grid
+                            </button>
+                            <button onClick={() => handleViewChange("list")}
+                                    className={viewMode === "list" ? "active" : ""}>
+                                List
+                            </button>
+                        </div>
+                        <div className="sort-options">
+                            <button onClick={() => handleSortChange("a-z")}
+                                    className={sortOrder === "a-z" ? "active" : ""}>
+                                A-Z
+                            </button>
+                            <button onClick={() => handleSortChange("z-a")}
+                                    className={sortOrder === "z-a" ? "active" : ""}>
+                                Z-A
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                {/* Results */}
-                <div className={`results-${viewMode}`}>
-                    {sortedResults().length === 0 ? (
-                        <p>No results found. Try adjusting your filters.</p>
-                    ) : (
-                        sortedResults().map((result) => (
-                            viewMode === "grid" ? (
-                                <div
-                                    className="result-card"
-                                    key={result.id}
-                                    onClick={() => handleCardClick(result.id)}
-                                >
-                                    <img src={result.imageUrl} alt={result.name} />
-                                    <p>{result.name}</p>
-                                    <p>{result.category}</p>
-                                </div>
-                            ) : (
-                                <div
-                                    className="result-list-item"
-                                    key={result.id}
-                                    onClick={() => handleCardClick(result.id)}
-                                >
-                                    <img
-                                        className="results-list__image"
-                                        src={result.imageUrl}
-                                        alt={result.name}
-                                    />
-                                    <div className="result-details">
-                                        <h4>{result.name}</h4>
+                <div className="main-content">
+                    {/* Results */}
+                    <div className={`results-${viewMode}`}>
+                        {sortedResults().length === 0 ? (
+                            <p>No results found. Try adjusting your filters.</p>
+                        ) : (
+                            sortedResults().map((result) => (
+                                viewMode === "grid" ? (
+                                    <div
+                                        className="result-card"
+                                        key={result.id}
+                                        onClick={() => handleCardClick(result.id)}
+                                    >
+                                    <img src={result.imageUrl} alt={result.name}/>
+                                        <p>{result.name}</p>
                                         <p>{result.category}</p>
                                     </div>
-                                </div>
-                            )
-                        ))
-                    )}
+                                ) : (
+                                    <div
+                                        className="result-list-item"
+                                        key={result.id}
+                                        onClick={() => handleCardClick(result.id)}
+                                    >
+                                        <img
+                                            className="results-list__image"
+                                            src={result.imageUrl}
+                                            alt={result.name}
+                                        />
+                                        <div className="result-details">
+                                            <h4>{result.name}</h4>
+                                            <p>{result.category}</p>
+                                        </div>
+                                    </div>
+                                )
+                            ))
+                        )}
+                    </div>
+
                 </div>
 
             </div>
