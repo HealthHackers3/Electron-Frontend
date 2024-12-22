@@ -10,7 +10,7 @@ const HelpPage = () => {
 
     return (
         <div className="help-page">
-            <h1>Help</h1>
+            <h1>FAQ</h1>
             <div className="help-container">
                 <div className="accordion">
                     {[

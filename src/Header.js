@@ -25,7 +25,7 @@ const Header = () => {
                     <a onClick={() => navigate("/user")}>My Profile</a>
                 </nav>
                 <div className="header-buttons">
-                    <button onClick={() => navigate("/database")} className="search-button">
+                    <button onClick={() => navigate("/search")} className="search-button">
                         Search
                     </button>
                     <button onClick={() => navigate("/new-entry")} className="upload-button">

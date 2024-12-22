@@ -69,7 +69,7 @@ const UserPage = () => {
     return (
         <div className="user-page">
             {/* 顶部显示用户名 */}
-            <h1>{profile.username}</h1>
+            <h1>Hi, {profile.username} !</h1>
             <div className="profile-container">
                 {/* Profile Section */}
                 <div className="profile-info">

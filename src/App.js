@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./HomePage";
-import DatabasePage from "./DatabasePage";
+import SearchPage from "./SearchPage";
 import DetailsPage from "./DetailsPage";
 import HelpPage from "./HelpPage"; // future implementation req
 import UserPage from "./UserPage"; // future implementation req
@@ -14,7 +14,7 @@ const App = () => {
             <Header /> {/* Navigation bar included in all pages */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/database" element={<DatabasePage />} />
+                <Route path="/search" element={<SearchPage />} />
                 <Route path="/details/:id" element={<DetailsPage />} />
                 <Route path="/help" element={<HelpPage />} /> {/* future implementation req */}
                 <Route path="/user" element={<UserPage />} /> {/* future implementation req */}

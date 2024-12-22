@@ -103,8 +103,8 @@ const NewEntryPage = () => {
         console.log("All Keywords:", allKeywords);
         // Add submission logic here (e.g., API call)
 
-        // Navigate to DatabasePage with new entry data
-        navigate("/database", { state: { newEntry: formData } });
+        // Navigate to SearchPage with new entry data
+        navigate("/search", { state: { newEntry: formData } });
     };
 
     const handleAddCustomOption = (type, newOption) => {
