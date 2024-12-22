@@ -7,23 +7,31 @@ const Header = () => {
 
     return (
         <header className="header">
-            <h1 className="logo" onClick={() => navigate("/")}>
-                CellVerse
-            </h1>
-            <nav>
-                <a onClick={() => navigate("/")}>Home</a>
-                <a onClick={() => navigate("/help")}>Help</a>
-                <a onClick={() => navigate("/language")}>Language</a> {/* Placeholder for now */}
-                <a onClick={() => navigate("/user")}>My Profile</a>
-            </nav>
-            <div className="header-buttons">
-                <button onClick={() => navigate("/database")} className="search-button">
-                    Search
-                </button>
-                <button onClick={() => navigate("/new-entry")} className="upload-button">
-                    Upload
-                </button>
+            <div className="logo-container" onClick={() => navigate("/")}>
+                <img
+                    src="/CellVerse_Logo.png"
+                    alt="CellVerse Logo"
+                    className="header-logo"
+                />
+                <img
+                    src="/CellVerse_Text.png"
+                    alt="CellVerse Text"
+                    className="header-text"
+                />
             </div>
+                <nav className="nav-links">
+                    <a onClick={() => navigate("/")}>Home</a>
+                    <a onClick={() => navigate("/help")}>Help</a>
+                    <a onClick={() => navigate("/user")}>My Profile</a>
+                </nav>
+                <div className="header-buttons">
+                    <button onClick={() => navigate("/search")} className="search-button">
+                        Search
+                    </button>
+                    <button onClick={() => navigate("/new-entry")} className="upload-button">
+                        Upload
+                    </button>
+                </div>
         </header>
     );
 };

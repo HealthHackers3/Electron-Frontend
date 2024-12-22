@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./NewEntryPage.css";
+import { useNavigate } from "react-router-dom";
 
 const NewEntryPage = () => {
     const [formData, setFormData] = useState({
@@ -15,11 +16,66 @@ const NewEntryPage = () => {
         comments: "",
     });
 
+    const navigate = useNavigate();
+
     const [uploadedImages, setUploadedImages] = useState([]);
+
+    const [customOptions, setCustomOptions] = useState({
+        categories: ["Procariote", "Eucariote"],
+        cellTypes: ["Blood cell", "Stem cell", "Neuron", "Epithelial", "Endothelial", "Fibroblast", "Muscle cell", "Fat cell"],
+        shapes: ["round", "oval", "columnar", "fusiform spindle", "cuboidal", "polygonal", "star-shaped", "pear-shaped"],
+        imageModalities: ["LM light microscopy", "EM electron microscopy", "fluorescent microscopy", "electron tomography", "cryo-electron microscopy", "cryo-electron tomography"],
+    });
+
+    const [allKeywords, setAllKeywords] = useState([]);
+    const [keywordSuggestions, setKeywordSuggestions] = useState([]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        if (name === "keywords") {
+            const trimmedValue = value.trim().toLowerCase();
+            if (trimmedValue) {
+                const matchingSuggestions = allKeywords.filter((keyword) =>
+                    keyword.toLowerCase().includes(trimmedValue)
+                );
+                setKeywordSuggestions(matchingSuggestions);
+            } else {
+                setKeywordSuggestions([]);
+            }
+        }
+    };
+
+    const handleAddNewOption = (type) => {
+        const newOption = prompt(`Add a new ${type}:`);
+        if (newOption && !customOptions[type].includes(newOption.trim())) {
+            setCustomOptions((prevOptions) => ({
+                ...prevOptions,
+                [type]: [...prevOptions[type], newOption.trim()],
+            }));
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [type]: newOption.trim(),
+            }));
+        }
+    };
+
+    const handleAddKeyword = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            const keyword = formData.keywords.trim();
+            if (keyword && !allKeywords.includes(keyword)) {
+                setAllKeywords((prevKeywords) => [...prevKeywords, keyword]);
+            }
+            setFormData({ ...formData, keywords: "" });
+            setKeywordSuggestions([]);
+        }
+    };
+
+    const handleKeywordClick = (keyword) => {
+        setFormData({ ...formData, keywords: keyword });
+        setKeywordSuggestions([]);
     };
 
     const handleImageUpload = (e) => {
@@ -44,8 +100,22 @@ const NewEntryPage = () => {
         e.preventDefault();
         console.log("New Entry Submitted:", formData);
         console.log("Uploaded Images:", uploadedImages);
+        console.log("All Keywords:", allKeywords);
         // Add submission logic here (e.g., API call)
+
+        // Navigate to SearchPage with new entry data
+        navigate("/search", { state: { newEntry: formData } });
     };
+
+    const handleAddCustomOption = (type, newOption) => {
+        if (!newOption.trim()) return;
+
+        setCustomOptions((prevOptions) => ({
+            ...prevOptions,
+            [type]: [...prevOptions[type], newOption.trim()],
+        }));
+    };
+
 
     return (
         <div className="new-entry-page">
@@ -57,13 +127,13 @@ const NewEntryPage = () => {
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={(e) => {
                             e.preventDefault();
-                            handleImageUpload({ target: { files: e.dataTransfer.files } });
+                            handleImageUpload({target: {files: e.dataTransfer.files}});
                         }}
                     >
                         <div className="uploaded-images">
                             {uploadedImages.map((image, index) => (
                                 <div className="uploaded-image" key={index}>
-                                    <img src={image} alt={`Uploaded ${index + 1}`} />
+                                    <img src={image} alt={`Uploaded ${index + 1}`}/>
                                     <button
                                         type="button"
                                         className="remove-button"
@@ -101,12 +171,27 @@ const NewEntryPage = () => {
                             <select
                                 name="category"
                                 value={formData.category}
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    if (e.target.value === "add-new") {
+                                        const newCategory = prompt("Add a new category:");
+                                        if (newCategory && !customOptions.categories.includes(newCategory.trim())) {
+                                            handleAddCustomOption("categories", newCategory);
+                                            setFormData((prev) => ({...prev, category: newCategory.trim()}));
+                                        }
+                                    } else {
+                                        handleChange(e);
+                                    }
+                                }}
                             >
                                 <option value="">Select category</option>
-                                <option value="Neuron">Neuron</option>
-                                <option value="Blood Cell">Blood Cell</option>
-                                <option value="Muscle Cell">Muscle Cell</option>
+                                {customOptions.categories.map((category, index) => (
+                                    <option key={index} value={category}>
+                                        {category}
+                                    </option>
+                                ))}
+                                <option value="add-new" className="add-new-option">
+                                    + Add New
+                                </option>
                             </select>
                         </div>
                         <div className="field-group">
@@ -114,90 +199,135 @@ const NewEntryPage = () => {
                             <select
                                 name="cellType"
                                 value={formData.cellType}
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    if (e.target.value === "add-new") {
+                                        handleAddNewOption("cellTypes");
+                                    } else {
+                                        handleChange(e);
+                                    }
+                                }}
                             >
                                 <option value="">Select cell type</option>
-                                <option value="Type A">Type A</option>
-                                <option value="Type B">Type B</option>
-                                <option value="Type C">Type C</option>
+                                {customOptions.cellTypes.map((cellType, index) => (
+                                    <option key={index} value={cellType}>
+                                        {cellType}
+                                    </option>
+                                ))}
+                                <option value="add-new">+ Add New</option>
                             </select>
+                        </div>
+                        <div className="additional-fields">
+                            <div className="field-group">
+                                <label>Keywords</label>
+                                <input
+                                    type="text"
+                                    name="keywords"
+                                    value={formData.keywords}
+                                    onChange={handleChange}
+                                    placeholder="Add keywords (press ENTER to add)"
+                                />
+                                {keywordSuggestions.length > 0 && (
+                                    <ul className="suggestions-list">
+                                        {keywordSuggestions.map((keyword, index) => (
+                                            <li
+                                                key={index}
+                                                className="suggestion-item"
+                                                onClick={() => handleKeywordClick(keyword)}
+                                            >
+                                                {keyword}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                                <small>Press "Enter" to add a keyword</small>
+                            </div>
+                            <div className="field-group">
+                                <label>Image Modality</label>
+                                <select
+                                    name="imageModality"
+                                    value={formData.imageModality}
+                                    onChange={(e) => {
+                                        if (e.target.value === "add-new") {
+                                            handleAddNewOption("imageModalities");
+                                        } else {
+                                            handleChange(e);
+                                        }
+                                    }}
+                                >
+                                    <option value="">Select image modality</option>
+                                    {customOptions.imageModalities.map((modality, index) => (
+                                        <option key={index} value={modality}>
+                                            {modality}
+                                        </option>
+                                    ))}
+                                    <option value="add-new">+ Add New</option>
+                                </select>
+                            </div>
+                            <div className="field-group">
+                                <label>Shape</label>
+                                <select
+                                    name="shape"
+                                    value={formData.shape}
+                                    onChange={(e) => {
+                                        if (e.target.value === "add-new") {
+                                            handleAddNewOption("shapes");
+                                        } else {
+                                            handleChange(e);
+                                        }
+                                    }}
+                                >
+                                    <option value="">Select shape</option>
+                                    {customOptions.shapes.map((shape, index) => (
+                                        <option key={index} value={shape}>
+                                            {shape}
+                                        </option>
+                                    ))}
+                                    <option value="add-new">+ Add New</option>
+                                </select>
+                            </div>
+                            <div className="field-group">
+                                <label>Cell Count</label>
+                                <input
+                                    type="number"
+                                    name="cellCount"
+                                    value={formData.cellCount}
+                                    onChange={handleChange}
+                                    placeholder="auto"
+                                />
+                            </div>
+                            <div className="field-group">
+                                <label>Cell Dimensions</label>
+                                <input
+                                    type="text"
+                                    name="cellDimensions"
+                                    value={formData.cellDimensions}
+                                    onChange={handleChange}
+                                    placeholder="auto"
+                                />
+                            </div>
+                            <div className="field-group">
+                                <label>Cell Density</label>
+                                <input
+                                    type="text"
+                                    name="cellDensity"
+                                    value={formData.cellDensity}
+                                    onChange={handleChange}
+                                    placeholder="auto"
+                                />
+                            </div>
+                            <div className="field-group">
+                                <label>Comments</label>
+                                <textarea
+                                    name="comments"
+                                    value={formData.comments}
+                                    onChange={handleChange}
+                                    placeholder="Add comments"
+                                ></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="additional-fields">
-                    <div className="field-group">
-                        <label>Keywords</label>
-                        <input
-                            type="text"
-                            name="keywords"
-                            value={formData.keywords}
-                            onChange={handleChange}
-                            placeholder="Add keywords (comma-separated)"
-                        />
-                    </div>
-                    <div className="field-group">
-                        <label>Image Modality</label>
-                        <input
-                            type="text"
-                            name="imageModality"
-                            value={formData.imageModality}
-                            onChange={handleChange}
-                            placeholder="Enter image modality"
-                        />
-                    </div>
-                    <div className="field-group">
-                        <label>Shape</label>
-                        <input
-                            type="text"
-                            name="shape"
-                            value={formData.shape}
-                            onChange={handleChange}
-                            placeholder="Enter shape"
-                        />
-                    </div>
-                    <div className="field-group">
-                        <label>Cell Count</label>
-                        <input
-                            type="number"
-                            name="cellCount"
-                            value={formData.cellCount}
-                            onChange={handleChange}
-                            placeholder="Enter cell count"
-                        />
-                    </div>
-                    <div className="field-group">
-                        <label>Cell Dimensions</label>
-                        <input
-                            type="text"
-                            name="cellDimensions"
-                            value={formData.cellDimensions}
-                            onChange={handleChange}
-                            placeholder="Enter dimensions (e.g., 50x50)"
-                        />
-                    </div>
-                    <div className="field-group">
-                        <label>Cell Density</label>
-                        <input
-                            type="text"
-                            name="cellDensity"
-                            value={formData.cellDensity}
-                            onChange={handleChange}
-                            placeholder="Enter cell density"
-                        />
-                    </div>
-                    <div className="field-group">
-                        <label>Comments</label>
-                        <textarea
-                            name="comments"
-                            value={formData.comments}
-                            onChange={handleChange}
-                            placeholder="Add comments"
-                        ></textarea>
-                    </div>
-                </div>
-                <button type="submit" className="submit-button">
-                    Save Entry
-                </button>
+                <button type="submit" className="submit-button">Submit</button>
             </form>
         </div>
     );

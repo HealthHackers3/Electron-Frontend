@@ -1,0 +1,111 @@
+/* Container for Image and Placeholder */
+.results-grid__image-container {
+    position: relative;
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    background-color: #ccc; /* Gray background as fallback */
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+/* Image Styling */
+.results-grid__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Image Visibility */
+.results-grid__image.visible {
+    opacity: 1;
+}
+
+.results-grid__image.hidden {
+    opacity: 0;
+}
+
+/* Placeholder Styling */
+.image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #e0e0e0;
+    display: flex;              /* Flex layout */
+    justify-content: center;    /* Horizontal centering */
+    align-items: center;        /* Vertical centering */
+    border-radius: 8px;
+    z-index: 1;
+    text-align: center;
+    -webkit-user-select: none;
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.shimmer {
+    background: linear-gradient(
+            to right,
+            #e0e0e0 0%,
+            #f0f0f0 50%,
+            #e0e0e0 100%
+    );
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* Error State */
+.image-placeholder.error {
+    position: absolute;  /* ensure it’s absolute like the normal placeholder */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+    color: #666;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    z-index: 1;
+    text-align: center;
+    -webkit-user-select: none;
+}
+
+/* Ensuring No Layout Shifts */
+.results-grid__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Other styles... */
+}
+
+/* Optional: Adjust text styles for better visibility */
+.results-grid__name {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.results-grid__category {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}

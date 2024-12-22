@@ -5,7 +5,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 const DetailsPage = () => {
     const { id } = useParams();
     const location = useLocation();
-    const { imageUrl, properties } = location.state || {};
+    const { imageUrl, properties, parent } = location.state || {};
 
     const handleDownload = async () => {
         try {
@@ -38,7 +38,7 @@ const DetailsPage = () => {
     const navigate = useNavigate();
 
     const handleBackToHome = () => {
-        navigate("/"); // Navigate to the home page
+        navigate(parent || "/"); // Navigate to the home page
     };
 
     return (
@@ -85,7 +85,7 @@ const DetailsPage = () => {
                 >
                     <path d="M10 19l-7-7 7-7v4h8v6h-8v4z" />
                 </svg>
-                <span>Back to Search</span>
+                <span>Back</span>
             </div>
         </div>
     );
