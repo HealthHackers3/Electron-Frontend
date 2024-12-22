@@ -83,7 +83,6 @@
 .search-button:hover {
     background-color: #d9792c;
     color: #fff;
-    transform: translateY(-2px);
 }
 
 .upload-button {
@@ -93,5 +92,5 @@
 
 .upload-button:hover {
     background-color: #d9792c;
-    transform: translateY(-2px);
+    color: #fff;
 }
