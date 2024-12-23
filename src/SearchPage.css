@@ -18,12 +18,14 @@ body {
     flex-direction: row;
     height: 100vh;
     overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Sidebar Container */
 .sidebar {
     width: 300px;
-    padding: 20px 20px 70px;
+    padding-top: 70px;
     background-color: #ffffff;
     border-right: 1px solid #e0e0e0;
     display: flex;
@@ -31,25 +33,90 @@ body {
     gap: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     height: 100%;
-    overflow-y: auto;
     flex-shrink: 0;
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+    position: relative;
 }
 
-.sidebar::-webkit-scrollbar {
-    width: 10px;
+.sidebar::before {
+    content: "";
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #e0e0e0;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 8px;
+
+/* Collapsed Sidebar */
+.sidebar.sidebar-collapsed {
+    width: 60px;
 }
 
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background-color: #bbb;
+/* Adjust filter content visibility based on sidebar state */
+.sidebar.sidebar-collapsed .filter-section h3,
+.sidebar.sidebar-collapsed .filter-section label,
+.sidebar.sidebar-collapsed .cell-size,
+.sidebar.sidebar-collapsed .cell-count,
+.sidebar.sidebar-collapsed .reset-button {
+    display: none; /* Hide filter labels and controls when collapsed */
 }
 
-.sidebar::-webkit-scrollbar-track {
-    background-color: #fff;
+/* Toggle Button */
+.toggle-button {
+    position: absolute;
+    top: 20px;
+    left: 14px; /* Move to the left */
+    background-color: #e48b3d;
+    color: #fff;
+    border: none;
+    border-radius: 20%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.toggle-button:hover {
+    background-color: #d9792c;
+}
+
+/* Adjust toggle button position for small screens */
+@media (max-width: 768px) {
+    .toggle-button {
+        left: 14px; /* Ensure it's on the left */
+        /* Adjust top position if necessary */
+    }
+}
+
+/* Overlay (if used) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.search-page:not(.sidebar-collapsed) .overlay {
+    /* Adjusted to cover the entire screen when sidebar is not collapsed */
+    display: block;
+}
+
+/* Hide overlay on larger screens */
+@media (min-width: 769px) {
+    .overlay {
+        display: none;
+    }
 }
 
 /* Filters Section */
@@ -59,6 +126,26 @@ body {
     gap: 20px;
     max-height: calc(100vh - 80px);
     flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+/* Scrollbar Styles */
+.filters::-webkit-scrollbar {
+    width: 10px;
+}
+
+.filters::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 8px;
+}
+
+.filters::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
+}
+
+.filters::-webkit-scrollbar-track {
+    background-color: #fff;
 }
 
 .filters h3 {
@@ -187,38 +274,41 @@ body {
 }
 
 /* Main Content */
-.main-content {
+.main-container {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 0;
     overflow-y: auto;
+    transition: all 0.3s ease-in-out;
 }
 
-.main-content::-webkit-scrollbar {
+.main-container::-webkit-scrollbar {
     width: 10px;
 }
 
-.main-content::-webkit-scrollbar-thumb {
+.main-container::-webkit-scrollbar-thumb {
     background-color: #bbb;
     border-radius: 8px;
 }
 
-.main-content::-webkit-scrollbar-thumb:hover {
+.main-container::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
 }
 
-.main-content::-webkit-scrollbar-track {
+.main-container::-webkit-scrollbar-track {
     background-color: #fff;
 }
 
 /* View Options & Sorting Buttons */
-.view-options, .sort-options {
+.view-options,
+.sort-options {
     display: flex;
     gap: 10px;
 }
 
-.view-options button, .sort-options button {
+.view-options button,
+.sort-options button {
     padding: 5px 10px;
     background-color: #ddd;
     border: none;
@@ -227,24 +317,19 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.view-options button.active, .sort-options button.active {
+.view-options button.active,
+.sort-options button.active {
     background-color: #e48b3d;
     color: white;
 }
 
-.view-options button:hover, .sort-options button:hover {
+.view-options button:hover,
+.sort-options button:hover {
     background-color: #e48b3d;
     color: white;
 }
 
 /* Main Content Section */
-.main-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;                        /* Takes remaining space */
-    overflow: hidden;
-}
-
 .results-header {
     display: flex;
     flex-direction: column;
@@ -259,10 +344,10 @@ body {
 
 .results-header .search-input {
     width: 100%;
-    padding: 12px; /* Increase padding for height */
-    font-size: 16px; /* Larger font size */
+    padding: 12px;
+    font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 6px; /* Slightly larger border radius */
+    border-radius: 6px;
 }
 
 /* Flex container for view and sort options */
@@ -283,22 +368,6 @@ body {
     justify-content: flex-end;
 }
 
-/* View & Sort Buttons */
-.view-options button,
-.sort-options button {
-    background-color: #ddd;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.view-options button.active,
-.sort-options button.active {
-    background-color: #e48b3d;
-    color: #fff;
-}
-
 /* Results Area (Fills Remaining Height) */
 .results-grid,
 .results-list {
@@ -316,29 +385,34 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .search-page {
-        flex-direction: column;  /* Stacks the sidebar and main content */
+        flex-direction: row; /* Keep it as row to prevent stacking */
     }
 
     .sidebar {
-        width: 100%;  /* Sidebar takes full width on small screens */
-        border-right: none;  /* Removes border on smaller screens */
+        width: 60px; /* Start collapsed on small screens if desired */
+        border-right: 1px solid #e0e0e0;
     }
 
-    .results-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));  /* Adjusts grid layout for smaller screens */
+    .toggle-button {
+        top: 10px;
+        left: 14px;
+    }
+
+    .main-container {
+        padding: 20px;
     }
 }
 
+/* Slider Styles (Assuming you are using rc-slider) */
 .rc-slider-track {
     background-color: #e48b3d;
 }
 
 .rc-slider-handle,
 .rc-slider-handle:hover,
-.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging{
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
     background-color: #e48b3d;
     border-color: #e48b3d;
     box-shadow: none;
     outline: none;
 }
-
