@@ -68,8 +68,8 @@ body {
     position: absolute;
     top: 20px;
     left: 14px; /* Move to the left */
-    background-color: #e48b3d;
-    color: #fff;
+    background-color: transparent;
+    color: #333;
     border: none;
     border-radius: 20%;
     width: 30px;
@@ -79,12 +79,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease-in-out;
 }
 
+.toggle-button svg {
+    width: 40px;
+    height: 40px;
+}
+
 .toggle-button:hover {
-    background-color: #d9792c;
+    background-color: #eee;
 }
 
 /* Adjust toggle button position for small screens */
