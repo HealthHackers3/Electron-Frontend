@@ -19,7 +19,6 @@ const SearchPage = () => {
         selectedFileTypes: [],
         cellSize: [0, 1000],
         cellCount: [0, 1000],
-
     });
 
     const resetFilters = () => {
@@ -35,7 +34,6 @@ const SearchPage = () => {
         });
     };
 
-
     const [viewMode, setViewMode] = useState("grid"); // Default view mode
     const [sortOrder, setSortOrder] = useState("newest"); // Default sorting order
     const [data, setData] = useState([]); // Mock database
@@ -44,6 +42,13 @@ const SearchPage = () => {
     const [uniqueImageModalities, setUniqueImageModalities] = useState([]);
     const [uniqueShapes, setUniqueShapes] = useState([]);
     const [uniqueFileTypes, setUniqueFileTypes] = useState([]);
+
+    // New State for Sidebar Visibility
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsSidebarCollapsed((prev) => !prev);
+    };
 
     useEffect(() => {
         fetchResults(); // Replace with actual API call
@@ -92,7 +97,6 @@ const SearchPage = () => {
         }
     }, [location.state, data]);
 
-
     // Handle navigation to "New Entry Page" for uploading images
     const handleUploadClick = () => {
         navigate("/new-entry");
@@ -101,7 +105,7 @@ const SearchPage = () => {
     // Navigate to the details page
     const handleCardClick = (id) => {
         navigate(`/details/${id}`);
-        };
+    };
 
     const handleCategoryChange = (category) => {
         setFilters((prevFilters) => ({
@@ -207,18 +211,57 @@ const SearchPage = () => {
         return results;
     };
 
+    // Inline SVGs for toggle button
+    const ExpandIcon = (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-chevron-right"
+        >
+            <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+    );
+
+    const CollapseIcon = (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-chevron-left"
+        >
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    );
+
     return (
         <div className="search-page">
-            <div className="sidebar">
+            {/* Sidebar */}
+            <div className={`sidebar ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+                {/* Toggle Button */}
+                <button className="toggle-button" onClick={toggleSidebar}>
+                    {isSidebarCollapsed ? ExpandIcon : CollapseIcon}
+                </button>
+
+                {/* Existing Sidebar Content */}
                 <div className="filters">
                     {/* Categories */}
                     <div className="filter-section">
                         <h3>Categories</h3>
                         {uniqueCategories.map((category) => (
-                            <label key={category}
-                                   className="vertical-checkbox"
-                                   style={{display: "block", marginBottom: "10px"}}
-                            >
+                            <label key={category} className="vertical-checkbox">
                                 <input
                                     type="checkbox"
                                     checked={filters.selectedCategories.includes(category)}
@@ -232,10 +275,7 @@ const SearchPage = () => {
                     <div className="filter-section">
                         <h3>Types</h3>
                         {uniqueTypes.map((type) => (
-                            <label key={type}
-                                   className="vertical-checkbox"
-                                   style={{display: "block", marginBottom: "10px"}}
-                            >
+                            <label key={type} className="vertical-checkbox">
                                 <input
                                     type="checkbox"
                                     checked={filters.selectedTypes.includes(type)}
@@ -249,10 +289,7 @@ const SearchPage = () => {
                     <div className="filter-section">
                         <h3>Image Modality</h3>
                         {uniqueImageModalities.map((imageModality) => (
-                            <label key={imageModality}
-                                   className="vertical-checkbox"
-                                   style={{display: "block", marginBottom: "10px"}}
-                            >
+                            <label key={imageModality} className="vertical-checkbox">
                                 <input
                                     type="checkbox"
                                     checked={filters.selectedImageModality.includes(imageModality)}
@@ -266,10 +303,7 @@ const SearchPage = () => {
                     <div className="filter-section">
                         <h3>Shapes</h3>
                         {uniqueShapes.map((shape) => (
-                            <label key={shape}
-                                   className="vertical-checkbox"
-                                   style={{display: "block", marginBottom: "10px"}}
-                            >
+                            <label key={shape} className="vertical-checkbox">
                                 <input
                                     type="checkbox"
                                     checked={filters.selectedShapes.includes(shape)}
@@ -283,10 +317,7 @@ const SearchPage = () => {
                     <div className="filter-section">
                         <h3>File Types</h3>
                         {uniqueFileTypes.map((fileType) => (
-                            <label key={fileType}
-                                   className="vertical-checkbox"
-                                   style={{display: "block", marginBottom: "10px"}}
-                            >
+                            <label key={fileType} className="vertical-checkbox">
                                 <input
                                     type="checkbox"
                                     checked={filters.selectedFileTypes.includes(fileType)}
@@ -308,7 +339,7 @@ const SearchPage = () => {
                             min={0}
                             max={1000}
                             value={filters.cellSize}
-                            onChange={(value) => setFilters({...filters, cellSize: value})}
+                            onChange={(value) => setFilters({ ...filters, cellSize: value })}
                         />
                     </div>
                     {/* Cell Count */}
@@ -323,18 +354,17 @@ const SearchPage = () => {
                             min={0}
                             max={1000}
                             value={filters.cellCount}
-                            onChange={(value) => setFilters({...filters, cellCount: value})}
+                            onChange={(value) => setFilters({ ...filters, cellCount: value })}
                         />
                     </div>
                     {/* Reset Filters Button */}
                     <button className="reset-button" onClick={resetFilters}>
                         Reset Filters
                     </button>
-
                 </div>
             </div>
 
-            {/* Main content wrapper with results header at the top */}
+            {/* Main Content */}
             <div className="main-container">
                 <div className="results-header">
                     <input
@@ -343,27 +373,35 @@ const SearchPage = () => {
                         placeholder="🔍 Search by name or tags..."
                         value={filters.keywords}
                         onChange={(e) =>
-                            setFilters({...filters, keywords: e.target.value})
+                            setFilters({ ...filters, keywords: e.target.value })
                         }
                     />
                     <div className="header-actions">
                         <div className="view-options">
-                            <button onClick={() => handleViewChange("grid")}
-                                    className={viewMode === "grid" ? "active" : ""}>
+                            <button
+                                onClick={() => handleViewChange('grid')}
+                                className={viewMode === 'grid' ? 'active' : ''}
+                            >
                                 Grid
                             </button>
-                            <button onClick={() => handleViewChange("list")}
-                                    className={viewMode === "list" ? "active" : ""}>
+                            <button
+                                onClick={() => handleViewChange('list')}
+                                className={viewMode === 'list' ? 'active' : ''}
+                            >
                                 List
                             </button>
                         </div>
                         <div className="sort-options">
-                            <button onClick={() => handleSortChange("a-z")}
-                                    className={sortOrder === "a-z" ? "active" : ""}>
+                            <button
+                                onClick={() => handleSortChange('a-z')}
+                                className={sortOrder === 'a-z' ? 'active' : ''}
+                            >
                                 A-Z
                             </button>
-                            <button onClick={() => handleSortChange("z-a")}
-                                    className={sortOrder === "z-a" ? "active" : ""}>
+                            <button
+                                onClick={() => handleSortChange('z-a')}
+                                className={sortOrder === 'z-a' ? 'active' : ''}
+                            >
                                 Z-A
                             </button>
                         </div>
@@ -376,14 +414,14 @@ const SearchPage = () => {
                         {sortedResults().length === 0 ? (
                             <p>No results found. Try adjusting your filters.</p>
                         ) : (
-                            sortedResults().map((result) => (
-                                viewMode === "grid" ? (
+                            sortedResults().map((result) =>
+                                viewMode === 'grid' ? (
                                     <div
                                         className="result-card"
                                         key={result.id}
                                         onClick={() => handleCardClick(result.id)}
                                     >
-                                    <img src={result.imageUrl} alt={result.name}/>
+                                        <img src={result.imageUrl} alt={result.name} />
                                         <p>{result.name}</p>
                                         <p>{result.category}</p>
                                     </div>
@@ -404,12 +442,10 @@ const SearchPage = () => {
                                         </div>
                                     </div>
                                 )
-                            ))
+                            )
                         )}
                     </div>
-
                 </div>
-
             </div>
         </div>
     );
