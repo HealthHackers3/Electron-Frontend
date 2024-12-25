@@ -10,6 +10,7 @@ import Header from "./app/Header";
 import { AuthProvider } from './auth/AuthContext';
 import ProtectedRoute from './auth/ProtectedRoute';
 import LoginPage from "./auth/LoginPage.js";
+import SignupPage from "./auth/SignupPage.js";
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                 <Header /> {/* Navigation bar included in all pages */}
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/search" element={<ProtectedRoute>
                                                         <SearchPage />
