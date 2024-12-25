@@ -5,7 +5,7 @@ import SearchPage from "./SearchPage";
 import DetailsPage from "./DetailsPage";
 import HelpPage from "./HelpPage"; // future implementation req
 import UserPage from "./UserPage"; // future implementation req
-import NewEntryPage from "./NewEntryPage"; // future implementation req
+import UploadPage from "./UploadPage"; // future implementation req
 import Header from "./Header";
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
                 <Route path="/details/:id" element={<DetailsPage />} />
                 <Route path="/help" element={<HelpPage />} /> {/* future implementation req */}
                 <Route path="/user" element={<UserPage />} /> {/* future implementation req */}
-                <Route path="/new-entry" element={<NewEntryPage />} /> {/* future implementation req */}
+                <Route path="/upload" element={<UploadPage />} /> {/* future implementation req */}
             </Routes>
         </Router>
     );

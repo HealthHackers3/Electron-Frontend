@@ -28,7 +28,7 @@ const Header = () => {
                     <button onClick={() => navigate("/search")} className="search-button">
                         Search
                     </button>
-                    <button onClick={() => navigate("/new-entry")} className="upload-button">
+                    <button onClick={() => navigate("/upload")} className="upload-button">
                         Upload
                     </button>
                 </div>
