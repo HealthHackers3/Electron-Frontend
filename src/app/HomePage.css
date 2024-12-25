@@ -1,0 +1,221 @@
+.home-page {
+    padding: 20px;
+    font-family: "Roboto", sans-serif;
+    overflow-y: auto;
+}
+
+.home-page::-webkit-scrollbar {
+    width: 10px;
+}
+
+.home-page::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 8px;
+}
+
+.home-page::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+.home-page::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+.home-page__content {
+    /* You can add styles for content if needed */
+}
+
+/* Featured Cell Section */
+.home-page__featured-cell {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.featured-cell__image {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.featured-cell__image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+}
+
+.featured-cell__info h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #e48b3d;
+}
+
+.featured-cell__info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.featured-cell__info span {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Controls Section */
+.home-page__controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.controls__view-options,
+.controls__sort-options {
+    display: flex;
+    gap: 10px;
+}
+
+.controls__button {
+    padding: 5px 10px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls__button:hover {
+    background-color: #ccc;
+}
+
+.controls__button--active {
+    background-color: #e48b3d;
+    color: #fff;
+}
+
+.controls__button--active:hover {
+    background-color: #d9792c;
+    color: #fff;
+}
+
+/* Results Grid Section */
+.home-page__results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: start; /* Align cards from the top */
+}
+
+.results-grid__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.results-grid__card:hover {
+    transform: translateY(-5px);
+}
+
+/* Results Grid Image Section */
+.results-grid__image {
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    background-color: #ccc; /* Gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative; /* To position any overlay if needed */
+}
+
+.results-grid__image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.results-grid__name,
+.results-grid__category {
+    margin: 5px 0;
+    text-align: center;
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add '...' for overflow text */
+    width: 90%; /* Keep text width consistent */
+    font-size: 16px;
+    color: #333;
+}
+
+/* Results List Section */
+.home-page__results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.results-list__item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.results-list__item:hover {
+    background-color: #f0f0f0;
+}
+
+.results-list__image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+.results-list__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.results-list__content {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.results-list__name {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.results-list__category {
+    margin: 5px 0 0 0;
+    font-size: 16px;
+    color: #666;
+}
