@@ -1,0 +1,422 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f5f6fa;
+    color: #333;
+    height: 100vh;
+}
+
+/* Database Page Layout */
+.search-page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Sidebar Container */
+.sidebar {
+    width: 300px;
+    padding-top: 70px;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    flex-shrink: 0;
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+    position: relative;
+}
+
+.sidebar::before {
+    content: "";
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+
+/* Collapsed Sidebar */
+.sidebar.sidebar-collapsed {
+    width: 60px;
+}
+
+/* Adjust filter content visibility based on sidebar state */
+.sidebar.sidebar-collapsed .filter-section h3,
+.sidebar.sidebar-collapsed .filter-section label,
+.sidebar.sidebar-collapsed .cell-size,
+.sidebar.sidebar-collapsed .cell-count,
+.sidebar.sidebar-collapsed .reset-button {
+    display: none; /* Hide filter labels and controls when collapsed */
+}
+
+/* Toggle Button */
+.toggle-button {
+    position: absolute;
+    top: 20px;
+    left: 14px; /* Move to the left */
+    background-color: transparent;
+    color: #333;
+    border: none;
+    border-radius: 20%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.toggle-button svg {
+    width: 40px;
+    height: 40px;
+}
+
+.toggle-button:hover {
+    background-color: #eee;
+}
+
+/* Adjust toggle button position for small screens */
+@media (max-width: 768px) {
+    .toggle-button {
+        left: 14px; /* Ensure it's on the left */
+        /* Adjust top position if necessary */
+    }
+}
+
+/* Overlay (if used) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.search-page:not(.sidebar-collapsed) .overlay {
+    /* Adjusted to cover the entire screen when sidebar is not collapsed */
+    display: block;
+}
+
+/* Hide overlay on larger screens */
+@media (min-width: 769px) {
+    .overlay {
+        display: none;
+    }
+}
+
+/* Filters Section */
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: calc(100vh - 80px);
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+/* Scrollbar Styles */
+.filters::-webkit-scrollbar {
+    width: 10px;
+}
+
+.filters::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 8px;
+}
+
+.filters::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
+}
+
+.filters::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+.filters h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.keyword {
+    background-color: #ffe4c4;
+    color: #e48b3d;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.keyword span {
+    color: #e48b3d;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Checkbox Styles */
+.vertical-checkbox {
+    display: block;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.checkbox-group {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.checkbox-group input[type="checkbox"] {
+    accent-color: #e48b3d;
+}
+
+/* Cell Size Slider */
+.cell-size {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cell-size h3 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.range-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Cell Count Slider */
+.cell-count {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cell-count h3 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.range-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+}
+
+.reset-button {
+    padding: 5px 10px;
+    background-color: #e48b3d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: #d9792c;
+}
+
+/* Main Content */
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.main-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.main-container::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 8px;
+}
+
+.main-container::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+.main-container::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+/* View Options & Sorting Buttons */
+.view-options,
+.sort-options {
+    display: flex;
+    gap: 10px;
+}
+
+.view-options button,
+.sort-options button {
+    padding: 5px 10px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-options button.active,
+.sort-options button.active {
+    background-color: #e48b3d;
+    color: white;
+}
+
+.view-options button:hover,
+.sort-options button:hover {
+    background-color: #e48b3d;
+    color: white;
+}
+
+/* Main Content Section */
+.results-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.results-header .search-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Flex container for view and sort options */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.view-options {
+    display: flex;
+    gap: 10px;
+}
+
+.sort-options {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Results Area (Fills Remaining Height) */
+.results-grid,
+.results-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Make Sidebar and Main Content the Same Height */
+.search-page > .sidebar,
+.search-page > .main-container {
+    height: 100%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .search-page {
+        flex-direction: row; /* Keep it as row to prevent stacking */
+    }
+
+    .sidebar {
+        width: 60px; /* Start collapsed on small screens if desired */
+        border-right: 1px solid #e0e0e0;
+    }
+
+    .toggle-button {
+        top: 10px;
+        left: 14px;
+    }
+
+    .main-container {
+        padding: 20px;
+    }
+}
+
+/* Slider Styles (Assuming you are using rc-slider) */
+.rc-slider-track {
+    background-color: #e48b3d;
+}
+
+.rc-slider-handle,
+.rc-slider-handle:hover,
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+    background-color: #e48b3d;
+    border-color: #e48b3d;
+    box-shadow: none;
+    outline: none;
+}
