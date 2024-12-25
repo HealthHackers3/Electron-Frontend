@@ -13,7 +13,7 @@ const LoginPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         login({ email });
-        navigate(location.state.parent.pathname || '/', { replace: true });
+        navigate(location.state?.parent?.pathname || '/', { replace: true });
     };
 
     return (
