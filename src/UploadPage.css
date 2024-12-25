@@ -1,0 +1,245 @@
+.upload-page {
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    overflow-y: auto;
+}
+
+/* Scrollbar Styles */
+.upload-page::-webkit-scrollbar {
+    width: 10px;
+}
+.upload-page::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 8px;
+}
+.upload-page::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
+}
+.upload-page::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+h1 {
+    font-size: 28px;
+    color: #e48b3d;
+    margin-bottom: 20px;
+}
+
+.form-fields-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-section {
+    display: flex;
+    gap: 20px;
+}
+
+.form-fields {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.field-group label {
+    font-size: 14px;
+    color: #333;
+}
+
+.field-group input,
+.field-group select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.field-group textarea {
+    height: 100px;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    overflow-y: auto;
+    resize: none;
+}
+
+/* Scrollbar Styles */
+.field-group textarea::-webkit-scrollbar {
+    width: 10px;
+}
+.field-group textarea::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 8px;
+}
+.field-group textarea::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
+}
+.field-group textarea::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+/* Fieldset grouping for category/cell type/imaging */
+.fieldset-group {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.fieldset-group legend {
+    padding: 0 8px;
+    font-weight: bold;
+    color: #666;
+}
+
+.field-subgroup {
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    width: 50%;
+    background-color: #e48b3d;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    align-self: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #d9792c;
+}
+
+.add-new-option {
+    font-style: italic;
+    color: #007bff;
+    background-color: #f9f9f9;
+}
+
+/* Suggestions for keywords */
+.suggestions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    position: absolute;
+    z-index: 10;
+    width: calc(100% - 22px);
+}
+
+.suggestion-item {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #eee;
+}
+
+/* Semi-transparent overlay that covers the whole screen */
+.add-new-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* The white modal box */
+.add-new-modal {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+/* Modal header */
+.add-new-modal h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* The text input in the modal */
+.add-new-modal input {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Container that holds the buttons at the bottom of the modal */
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+/* Buttons inside modal */
+.modal-buttons button {
+    flex: 1;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Save button - orange */
+.save-button {
+    background-color: #e48b3d; /* or #38c172, etc. */
+    color: #fff;
+}
+
+.save-button:hover {
+    background-color: #d9792c;
+}
+
+/* Cancel button - gray */
+.cancel-button {
+    background-color: #adb5bd; /* or #6c757d, etc. */
+    color: #fff;
+}
+
+.cancel-button:hover {
+    background-color: #999;
+}
+
+/* Optional: Style for small text */
+.field-group small {
+    color: #666;
+}

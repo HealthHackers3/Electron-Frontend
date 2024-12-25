@@ -289,35 +289,6 @@ const SearchPage = () => {
                             </label>
                         ))}
                     </div>
-                    {/* File Types */}
-                    <div className="filter-section">
-                        <h3>File Types</h3>
-                        {uniqueFileTypes.map((fileType) => (
-                            <label key={fileType} className="vertical-checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={filters.selectedFileTypes.includes(fileType)}
-                                    onChange={() => handleFileTypeChange(fileType)}
-                                />
-                                {fileType}
-                            </label>
-                        ))}
-                    </div>
-                    {/* Cell Size */}
-                    <div className="cell-size">
-                        <h3>Cell Size</h3>
-                        <div className="range-display">
-                            <span>{filters.cellSize[0]} µm</span>
-                            <span>{filters.cellSize[1]} µm</span>
-                        </div>
-                        <Slider
-                            range
-                            min={0}
-                            max={1000}
-                            value={filters.cellSize}
-                            onChange={(value) => setFilters({ ...filters, cellSize: value })}
-                        />
-                    </div>
                     {/* Cell Count */}
                     <div className="cell-count">
                         <h3>Cell Count</h3>
