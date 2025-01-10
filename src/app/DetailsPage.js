@@ -62,6 +62,7 @@ const DetailsPage = () => {
                 <div className="properties">
                     <h2>Properties</h2>
                     <ul>
+                        <li><strong>Name:</strong> {properties?.name || "N/A"}</li>
                         <li><strong>Category:</strong> {properties?.category || "N/A"}</li>
                         <li><strong>Cell Type:</strong> {properties?.cellType || "N/A"}</li>
                         <li><strong>Cell Density:</strong> {properties?.cellDensity || "N/A"}</li>
@@ -70,7 +71,12 @@ const DetailsPage = () => {
                         <li><strong>Cell Area:</strong> {properties?.cellArea || "N/A"} µm²</li>
                         <li><strong>Cell Count:</strong> {properties?.cellCount || "N/A"}</li>
                         <li><strong>Image Modality:</strong> {properties?.imageModality || "N/A"}</li>
+                        <li><strong>Shape:</strong> {properties?.shape || "N/A"}</li>
                         <li><strong>Author:</strong> {properties?.author || "Unknown"}</li>
+                        <li><strong>Date:</strong> {properties?.date || "N/A"}</li>
+                        <li><strong>Comments:</strong> {properties?.comments || "N/A"}</li>
+                        <li><strong>Tags:</strong> {properties?.tags || "N/A"}</li>
+                        <li><strong>Likes:</strong> {properties?.likes || "N/A"}</li>
                     </ul>
                 </div>
             </div>
