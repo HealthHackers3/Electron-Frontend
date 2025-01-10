@@ -2,6 +2,7 @@ import React, { useState }  from 'react';
 import { useAuth } from './AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "./LoginPage.css";
+import {loginUser} from "../api/authAPI";
 
 const LoginPage = () => {
     const { login } = useAuth();
@@ -10,10 +11,20 @@ const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        login({ email });
-        navigate(location.state?.parent?.pathname || '/', { replace: true });
+        try {
+            const response = await loginUser(email, password);
+            if (response) {
+                login({ email }); // Set user state or context
+                navigate("/"); // Navigate to the next page
+            } else {
+                alert("Login failed. Please check your credentials.");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("An unexpected error occurred. Please try again.");
+        }
     };
 
     return (
