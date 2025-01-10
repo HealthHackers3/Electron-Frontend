@@ -397,14 +397,14 @@ body {
         border-right: 1px solid #e0e0e0;
     }
 
-    .toggle-button {
-        top: 10px;
-        left: 14px;
+    .sidebar .filter-section h3,
+    .sidebar .filter-section label,
+    .sidebar .cell-size,
+    .sidebar .cell-count,
+    .sidebar .reset-button {
+        display: none; /* Hide filter labels and controls when collapsed */
     }
 
-    .main-container {
-        padding: 20px;
-    }
 }
 
 /* Slider Styles (Assuming you are using rc-slider) */

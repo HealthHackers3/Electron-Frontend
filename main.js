@@ -6,7 +6,9 @@ let mainWindow;
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1024,
-        height: 720,
+        height: 730,
+        minWidth: 640, // Set minimum width
+        minHeight: 576, // Set minimum height
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,

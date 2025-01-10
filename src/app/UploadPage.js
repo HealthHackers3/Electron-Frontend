@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const UploadPage = () => {
     const [formData, setFormData] = useState({
         name: "",
-        category: "",
+        domain: "",
         cellType: "",
         keywords: "",
         imageModality: "",
@@ -27,7 +27,7 @@ const UploadPage = () => {
 
     // We store the custom dropdown lists here.
     const [customOptions, setCustomOptions] = useState({
-        categories: ["Procariote", "Eucariote"],
+        domains: ["Procariote", "Eucariote"],
         cellTypes: [
             "Blood cell",
             "Stem cell",
@@ -155,7 +155,7 @@ const UploadPage = () => {
 
     // Map internal object keys to user-friendly labels:
     const labelMap = {
-        categories: "Category",
+        domains: "Domain",
         cellTypes: "Cell Type",
         shapes: "Shape",
         imageModalities: "Image Modality",
@@ -219,25 +219,25 @@ const UploadPage = () => {
                                 />
                             </div>
 
-                            {/* Grouping Category, Cell Type, etc. together */}
+                            {/* Grouping Domains, Cell Type, etc. together */}
                             <fieldset className="field-group fieldset-group">
                                 <legend>Classification</legend>
 
                                 <div className="field-subgroup">
-                                    <label>Category</label>
+                                    <label>Domain</label>
                                     <select
-                                        name="category"
-                                        value={formData.category}
+                                        name="domain"
+                                        value={formData.domain}
                                         onChange={(e) => {
                                             if (e.target.value === "add-new") {
-                                                handleSelectAddNew("categories");
+                                                handleSelectAddNew("Domain");
                                             } else {
                                                 handleChange(e);
                                             }
                                         }}
                                     >
-                                        <option value="">Select Category</option>
-                                        {customOptions.categories.map((cat, index) => (
+                                        <option value="">Select Domain</option>
+                                        {customOptions.domains.map((cat, index) => (
                                             <option key={index} value={cat}>
                                                 {cat}
                                             </option>
@@ -288,29 +288,6 @@ const UploadPage = () => {
                                         {customOptions.imageModalities.map((modality, index) => (
                                             <option key={index} value={modality}>
                                                 {modality}
-                                            </option>
-                                        ))}
-                                        <option value="add-new">+ Add New</option>
-                                    </select>
-                                </div>
-
-                                <div className="field-subgroup">
-                                    <label>Shape</label>
-                                    <select
-                                        name="shape"
-                                        value={formData.shape}
-                                        onChange={(e) => {
-                                            if (e.target.value === "add-new") {
-                                                handleSelectAddNew("shapes");
-                                            } else {
-                                                handleChange(e);
-                                            }
-                                        }}
-                                    >
-                                        <option value="">Select Shape</option>
-                                        {customOptions.shapes.map((shape, index) => (
-                                            <option key={index} value={shape}>
-                                                {shape}
                                             </option>
                                         ))}
                                         <option value="add-new">+ Add New</option>
