@@ -26,10 +26,13 @@ const Header = () => {
             <div className="header-buttons">
             <button onClick={() => navigate("/search")} className="search-button">
                         Search
-                    </button>
+            </button>
                     <button onClick={() => navigate("/upload")} className="upload-button">
                         Upload
                     </button>
+                <button onClick={() => navigate("/login")} className="sign-out-button">
+                    Sign Out
+                </button>
                 </div>
         </header>
     );

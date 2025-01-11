@@ -65,7 +65,8 @@
 }
 
 .search-button,
-.upload-button {
+.upload-button,
+.sign-out-button {
     padding: 8px 16px;
     border: none;
     gap: 8px;
@@ -92,6 +93,16 @@
 }
 
 .upload-button:hover {
+    background-color: #d9792c;
+    color: #fff;
+}
+
+.sign-out-button {
+    background-color: #fff;
+    color: #e48b3d;
+}
+
+.sign-out-button:hover {
     background-color: #d9792c;
     color: #fff;
 }
