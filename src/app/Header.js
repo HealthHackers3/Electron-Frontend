@@ -20,7 +20,6 @@ const Header = () => {
                 />
             </div>
             <nav className="nav-links">
-                <a onClick={() => navigate("/")}>Home</a>
                 <a onClick={() => navigate("/user")}>My Profile</a>
                 <a onClick={() => navigate("/help")}>Help</a>
             </nav>
