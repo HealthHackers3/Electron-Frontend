@@ -19,21 +19,21 @@ const App = () => {
                 <Header /> {/* Navigation bar included in all pages */}
                 <Routes>
                     <Route path="/" element={<ProtectedRoute>
-                                                <HomePage />
-                                            </ProtectedRoute>} />
+                        <HomePage />
+                    </ProtectedRoute>} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/search" element={<ProtectedRoute>
-                                                        <SearchPage />
-                                                    </ProtectedRoute>} />
+                        <SearchPage />
+                    </ProtectedRoute>} />
                     <Route path="/details/:id" element={<DetailsPage />} />
                     <Route path="/help" element={<HelpPage />} />
                     <Route path="/user" element={<ProtectedRoute>
-                                                    <UserPage />
-                                                </ProtectedRoute>} />
+                        <UserPage />
+                    </ProtectedRoute>} />
                     <Route path="/upload" element={<ProtectedRoute>
-                                                        <UploadPage />
-                                                    </ProtectedRoute>} />
+                        <UploadPage />
+                    </ProtectedRoute>} />
                 </Routes>
             </Router>
         </AuthProvider>

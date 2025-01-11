@@ -66,10 +66,12 @@ const HomePage = () => {
             cellArea: 3500,
             cellCount: 100,
             imageModality: "Brightfield",
-            author: "Dr. Paul Wong",
+            author: "Dr. Paul Wrong test2",
         };
 
-        const imageUrl = `https://th.bing.com/th/id/R.479f9d7475e53ead9717a83c03f9da2f?rik=TX%2fqy%2fF%2fu5WdXg&pid=ImgRaw&r=0`;
+        const imageUrl = `http://localhost:8080/HHDatabase/api/img/fullres/32`;
+
+        //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMjqWdhO8X78fCEIa7-NHqYPz2E7s-8QXwQg&s
 
         navigate(`/details/${id}`, {
             state: { imageUrl, properties, parent: location.pathname },
