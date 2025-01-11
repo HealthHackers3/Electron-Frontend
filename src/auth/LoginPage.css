@@ -70,3 +70,15 @@
 .login-box a:hover {
     text-decoration: underline;
 }
+
+.form-group.error input {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
