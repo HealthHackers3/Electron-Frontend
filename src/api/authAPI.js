@@ -22,7 +22,7 @@ export const loginUser = async (email, password) => {
             return error.error;
         }
 
-        return (await response.json()).message; // Return user info or token
+        return (await response.json()); // Return user info or token
     } catch (error) {
         console.error("Failed to connect to the server:", error);
         return error.error;

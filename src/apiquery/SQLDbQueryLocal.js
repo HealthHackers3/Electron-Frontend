@@ -8,7 +8,8 @@ const axios = require('axios');
 
 class RequestManager {
     constructor() {
-        this.url = "https://bioeng-hhack-app.impaas.uk/api";
+        this.url = "http://localhost:8080/HHDatabase/api";
+        // this.url = "https://bioeng-hhack-app.impaas.uk/patients";
         console.log("rm");
     }
 
@@ -108,8 +109,7 @@ class RequestTools {
 }
 class imgQuery{
     constructor(){
-        this.url = "https://bioeng-hhack-app.impaas.uk/api";
-        //this.url = "http://localhost:8080/HHDatabase/api";
+        this.url = "http://localhost:8080/HHDatabase/api";
     }
     async uploadImages(imageDataArray, postID) {
         try {
@@ -141,7 +141,7 @@ class imgQuery{
             });
 
             // Send the multipart request
-            const response = await axios.post(`${this.url}/img/upload/` + postID, formData, {
+            const response = await axios.post('http://localhost:8080/HHDatabase/api/img/upload/' + postID, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -158,7 +158,7 @@ class imgQuery{
 }
 class postQuery{
     constructor(){
-        this.url = "https://bioeng-hhack-app.impaas.uk/api";
+        this.url = "http://localhost:8080/HHDatabase/api";
     }
     async newPost(postData) {
         const formData = new FormData();
@@ -189,8 +189,7 @@ class postQuery{
 }
 const addUser = async (userData) => {
     try {
-        this.url = "https://bioeng-hhack-app.impaas.uk/api";
-        const response = await fetch(`${this.url}/auth/register`, {
+        const response = await fetch("http://localhost:8080/HHDatabase/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json" // Use JSON for structured data
@@ -217,9 +216,9 @@ const loginUser = async (username, password) => {
             console.error("Username and password are required.");
             return;
         }
-        this.url = "https://bioeng-hhack-app.impaas.uk/api";
+
         // Make the POST request
-        const response = await fetch(`${this.url}/auth/login`, {
+        const response = await fetch("http://localhost:8080/HHDatabase/api/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded" // Sending URL-encoded form data
@@ -244,8 +243,7 @@ const loginUser = async (username, password) => {
 };
 const updateUserField = async (uuid, field, new_data) => {
     try {
-        this.url = "https://bioeng-hhack-app.impaas.uk/api";
-        const response = await fetch(`${this.url}/auth/login/`+uuid+"/"+field, {
+        const response = await fetch("http://localhost:8080/HHDatabase/api/users/"+uuid+"/"+field, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -269,28 +267,34 @@ const updateUserField = async (uuid, field, new_data) => {
 
 
 // const userData = {
-//     username: "sctc",
-//     password: "sampass",
-//     email: "sct@m.com"
-//     // username: "bobq",
-//     // password: "test321",
-//     // email: "b@m.com"
+//     // username: "sctc",
+//     // password: "test123",
+//     // email: "sct@m.com"
+//     username: "bobq",
+//     password: "test321",
+//     email: "b@m.com"
 // };
+// // Call the function to add a user
 // addUser(userData).then(r => console.log(r));
+//
 
-
-// const postQueryInstance = new postQuery();
 // const postData = {
 //     poster_id: '1',
-//      post_name: 'More cells',
-//      category_id: '3',
+//     post_name: 'More cells yes',
+//     category_id: '3',
 //     cell_type_id: '4',
-//     image_modality_id: '1',
-//      image_modality_user_picked: 'microscope',
-//      description: 'Microscope images'
-//  };
-//
+//     image_modality_id: '3',
+//     description: 'Micrscope images'
+// };
+// //
+// const postQueryInstance = new postQuery();
 // postQueryInstance.newPost(postData).then((response) => {console.log(response)});
+//
+//
+// // Call the function to add a user
+// addUser(userData).then(r => console.log(r));
+// //
+// //
 //
 // module.exports = { RequestManager };
 //
@@ -314,4 +318,4 @@ const imageDataArray = [
 ];
 
 iq= new imgQuery();
-iq.uploadImages(imageDataArray, 1);
+iq.uploadImages(imageDataArray,3);

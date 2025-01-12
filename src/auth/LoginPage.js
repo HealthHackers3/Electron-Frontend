@@ -17,15 +17,17 @@ const LoginPage = () => {
         const newErrors = {};
         try {
             const response = await loginUser(email, password);
+
             console.log(response);
 
-            if (response) {
-                if (response.includes('Invalid username or password')) {
+            if (response.message) {
+                if (response.message.includes('Invalid username or password')) {
                     newErrors.general = 'Invalid username or password';
                     newErrors.email = true;
                     newErrors.password = true;
-                } else if (response.includes('successful')) {
+                } else if (response.message.includes('successful')) {
                     login();
+                    window.electron.setUserId(response.userId);
                     navigate('/'); // Navigate to the next page if successful
                     return;
                 } else {

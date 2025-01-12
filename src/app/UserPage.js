@@ -2,14 +2,13 @@ import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserPage.css";
 import CellCard from "./CellCard";
+import { fetchUserUsername, fetchUserDate, fetchUserEmail } from '../api/userAPI';
 
 const UserPage = () => {
     const [profile, setProfile] = useState({
-        username: "Username", // 默认用户名
-        memberSince: "2023-01-01", // 默认日期
-        email: "username@imperial.ac.uk",
-        institute: "Imperial College London",
-        department: "Bioengineering",
+        username: "", // 默认用户名
+        memberSince: "", // 默认日期
+        email: "",
         uploadedImages: Array(56)
             .fill()
             .map((_, idx) => ({
@@ -26,6 +25,35 @@ const UserPage = () => {
     const [editedProfile, setEditedProfile] = useState({ ...profile });
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            try {
+                const username = await fetchUserUsername();
+                const memberSince = await fetchUserDate();
+                const email = await fetchUserEmail();
+
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
+                    username,
+                    memberSince,
+                    email,
+                }));
+
+                setEditedProfile((prevProfile) => ({
+                    ...prevProfile,
+                    username,
+                    memberSince,
+                    email,
+                }));
+            } catch (error) {
+                console.error("Error fetching profile data:", error);
+            }
+        };
+
+        fetchProfileData();
+    }, []);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -119,32 +147,6 @@ const UserPage = () => {
                                 />
                             ) : (
                                 <span>{profile.email}</span>
-                            )}
-                        </div>
-                        <div>
-                            <label>Institute:</label>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    name="institute"
-                                    value={editedProfile.institute}
-                                    onChange={handleInputChange}
-                                />
-                            ) : (
-                                <span>{profile.institute}</span>
-                            )}
-                        </div>
-                        <div>
-                            <label>Department:</label>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    name="department"
-                                    value={editedProfile.department}
-                                    onChange={handleInputChange}
-                                />
-                            ) : (
-                                <span>{profile.department}</span>
                             )}
                         </div>
                         <div>
