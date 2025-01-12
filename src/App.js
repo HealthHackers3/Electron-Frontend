@@ -13,6 +13,11 @@ import LoginPage from "./auth/LoginPage.js";
 import SignupPage from "./auth/SignupPage.js";
 
 const App = () => {
+    window.electron.onMessage('port', (port) => {
+        console.log(`Port received from main process: ${port}`);
+        window.electron.setPort(port); // Store the port in the preload script
+    });
+    
     return (
         <AuthProvider>
             <Router>

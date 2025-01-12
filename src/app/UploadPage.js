@@ -6,7 +6,8 @@ import {
     fetchCategories,
     fetchCellTypes,
     fetchImageModalities,
-} from "../api/postfieldsAPI";
+} from "../api/remote/postfieldsAPI";
+import {fetchCellCount} from "../api/local/cellcountAPI";
 
 const UploadPage = () => {
     const [formData, setFormData] = useState({
@@ -133,7 +134,9 @@ const UploadPage = () => {
         e.preventDefault();
         console.log("Form submitted:", formData);
         console.log("Uploaded Images:", uploadedImages);
-        navigate("/search", { state: { newEntry: formData } });
+        // navigate("/search", { state: { newEntry: formData } });
+        const response = fetchCellCount( "C:\\Users\\qianp\\PycharmProjects\\client-backend\\cell_00001.bmp")
+        console.log(response)
     };
 
     return (

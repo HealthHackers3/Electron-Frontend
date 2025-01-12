@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserPage.css";
 import CellCard from "./CellCard";
-import { fetchUserUsername, fetchUserDate, fetchUserEmail } from '../api/userAPI';
+import { fetchUserUsername, fetchUserDate, fetchUserEmail } from '../api/remote/userAPI';
 
 const UserPage = () => {
     const [profile, setProfile] = useState({

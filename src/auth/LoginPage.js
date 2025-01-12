@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
-import { loginUser } from '../api/authAPI';
+import { loginUser } from '../api/remote/authAPI';
 
 const LoginPage = () => {
     const { login } = useAuth();
