@@ -29,10 +29,14 @@ const UserPage = () => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const username = await fetchUserUsername();
-                const memberSince = await fetchUserDate();
-                const email = await fetchUserEmail();
+                // Fetch all data in parallel
+                const [username, memberSince, email] = await Promise.all([
+                    fetchUserUsername(),
+                    fetchUserDate(),
+                    fetchUserEmail(),
+                ]);
 
+                // Update profile states
                 setProfile((prevProfile) => ({
                     ...prevProfile,
                     username,
