@@ -1,5 +1,5 @@
-export async function fetchCategories(userId) {
-    const url = `https://bioeng-hhack-app.impaas.uk/api/posts/getcategories`;
+export async function fetchCategories() {
+    const url = `https://bioeng-hhack-app.impaas.uk/api/post/getcategories`;
 
     try {
         const response = await fetch(url);
@@ -20,8 +20,8 @@ export async function fetchCategories(userId) {
         return null; // Return null in case of an error
     }
 }
-export async function fetchCellTypes(userId) {
-    const url = `https://bioeng-hhack-app.impaas.uk/api/posts/getcelltypes`;
+export async function fetchCellTypes() {
+    const url = `https://bioeng-hhack-app.impaas.uk/api/post/getcelltypes`;
 
     try {
         const response = await fetch(url);
@@ -42,8 +42,8 @@ export async function fetchCellTypes(userId) {
         return null; // Return null in case of an error
     }
 }
-export async function fetchImageModalities(userId) {
-    const url = `https://bioeng-hhack-app.impaas.uk/api/posts/getimagemodalities`;
+export async function fetchImageModalities() {
+    const url = `https://bioeng-hhack-app.impaas.uk/api/post/getimagemodalities`;
 
     try {
         const response = await fetch(url);
@@ -64,3 +64,4 @@ export async function fetchImageModalities(userId) {
         return null; // Return null in case of an error
     }
 }
+//fetchImageModalities().then(response => console.log(response.toString()));
