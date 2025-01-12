@@ -242,10 +242,11 @@ const UploadPage = () => {
                                     placeholder="Add comments"
                                 ></textarea>
                             </div>
+
+                            <button type="submit" className="submit-button">
+                                Submit
+                            </button>
                         </div>
-                        <button type="submit" className="submit-button">
-                            Submit
-                        </button>
                     </div>
                 </div>
             </form>
