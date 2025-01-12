@@ -3,7 +3,10 @@ import "./UploadPage.css";
 import FileDrop from "./FileDrop";
 import { useNavigate } from "react-router-dom";
 
+// UploadPage component definition
 const UploadPage = () => {
+
+    // Define data state to store form inputs
     const [formData, setFormData] = useState({
         name: "",
         domain: "",
@@ -17,15 +20,16 @@ const UploadPage = () => {
         comments: "",
     });
 
+    // State to store uploaded image URLs
     const [uploadedImages, setUploadedImages] = useState([]);
     const navigate = useNavigate();
 
-    // Instead of using prompt, we'll handle "Add New" with a custom mini-form.
+    // State to control the "Add New" mini-form visibility and selection
     const [showAddNew, setShowAddNew] = useState(false);
     const [addNewType, setAddNewType] = useState("");
     const [newOptionValue, setNewOptionValue] = useState("");
 
-    // We store the custom dropdown lists here.
+    // Custom options for the dropdown lists
     const [customOptions, setCustomOptions] = useState({
         domains: ["Procariote", "Eucariote"],
         cellTypes: [
@@ -58,6 +62,7 @@ const UploadPage = () => {
         ],
     });
 
+    // State for storing keywords suggestions
     const [allKeywords, setAllKeywords] = useState([]);
     const [keywordSuggestions, setKeywordSuggestions] = useState([]);
 
@@ -66,7 +71,7 @@ const UploadPage = () => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
 
-        // For keyword suggestions
+        // Update the suggestions if the 'keywords' field changed
         if (name === "keywords") {
             const trimmedValue = value.trim().toLowerCase();
             if (trimmedValue) {
@@ -101,7 +106,7 @@ const UploadPage = () => {
 
     // Handle files added from FileDrop
     const handleFilesAdded = (newFiles) => {
-        const validImages = newFiles.filter(file =>
+        const validImages = newFiles.filter(file => // only accept image files
             file.type.startsWith("image/")
         );
         const newImageURLs = validImages.map(file => URL.createObjectURL(file));
@@ -116,7 +121,7 @@ const UploadPage = () => {
         setUploadedImages(updatedImages);
     };
 
-    // Submit form
+    // Submit form and redirect to search page
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("New Entry Submitted:", formData);
@@ -141,31 +146,31 @@ const UploadPage = () => {
                 ...prevOptions,
                 [addNewType]: [...prevOptions[addNewType], newOptionValue.trim()],
             }));
-            // Also set that new option in formData
+            // Update the formData with the new option
             setFormData((prev) => ({
                 ...prev,
                 [addNewType]: newOptionValue.trim(),
             }));
         }
-        // Hide the mini form again
+        // Hide the mini form
         setShowAddNew(false);
         setNewOptionValue("");
         setAddNewType("");
     };
 
-    // Map internal object keys to user-friendly labels:
+    // Map internal object keys to user-friendly labels from dropdown:
     const labelMap = {
         domains: "Domain",
         cellTypes: "Cell Type",
         shapes: "Shape",
         imageModalities: "Image Modality",
-        // etc.
     };
 
     return (
         <div className="upload-page">
             <h1>Upload Images</h1>
 
+            {/* Display mini-form for adding new options */}
             {showAddNew && (
                 <div className="add-new-overlay">
                     <div className="add-new-modal">
@@ -196,6 +201,7 @@ const UploadPage = () => {
             )}
 
 
+            {/* Upload form */}
             <form className="upload-form" onSubmit={handleSubmit}>
                 <div className="form-section">
                     {/* Updated Image Upload Section */}
@@ -205,7 +211,7 @@ const UploadPage = () => {
                         handleImageRemove={handleImageRemove}
                     />
 
-                    {/* Form fields */}
+                    {/* Form fields for user input*/}
                     <div className="form-fields-wrapper">
                         <div className="form-fields">
                             <div className="field-group">
@@ -223,6 +229,7 @@ const UploadPage = () => {
                             <fieldset className="field-group fieldset-group">
                                 <legend>Classification</legend>
 
+                                {/* Domain selection*/}
                                 <div className="field-subgroup">
                                     <label>Domain</label>
                                     <select
@@ -248,6 +255,7 @@ const UploadPage = () => {
                                     </select>
                                 </div>
 
+                                {/* Cell Type selection */}
                                 <div className="field-subgroup">
                                     <label>Cell Type</label>
                                     <select
@@ -271,6 +279,7 @@ const UploadPage = () => {
                                     </select>
                                 </div>
 
+                                {/* Image Modality selection */}
                                 <div className="field-subgroup">
                                     <label>Image Modality</label>
                                     <select
@@ -295,8 +304,8 @@ const UploadPage = () => {
                                 </div>
                             </fieldset>
 
+                            {/* Comments text area */}
                             <div className="field-subgroup">
-
                                 <div className="field-group">
                                     <label>Comments</label>
                                     <textarea
@@ -308,6 +317,7 @@ const UploadPage = () => {
                                 </div>
                             </div>
                         </div>
+                        {/* Submit button */}
                         <button type="submit" className="submit-button">
                             Submit
                         </button>

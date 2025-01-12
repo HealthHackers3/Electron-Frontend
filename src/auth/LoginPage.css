@@ -1,3 +1,4 @@
+/* Login page container */
 .login-container {
     display: flex;
     justify-content: center;
@@ -6,6 +7,7 @@
     background-color: #f0f2f5;
 }
 
+/* Login box styling */
 .login-box {
     width: 360px;
     padding: 40px;
@@ -15,18 +17,21 @@
     text-align: center;
 }
 
+/* Login box heading */
 .login-box h2 {
     margin-bottom: 24px;
     font-size: 24px;
     color: #333;
 }
 
+/* Login form styling */
 .login-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
+/* Login form label */
 .login-form label {
     font-weight: 600;
     margin-bottom: 8px;
@@ -34,6 +39,7 @@
     text-align: left;
 }
 
+/* Login form input */
 .login-form input {
     width: 100%;
     padding: 12px;
@@ -42,6 +48,7 @@
     font-size: 16px;
 }
 
+/* Login button */
 .login-form button {
     padding: 14px;
     background-color: #e48b3d;
@@ -53,15 +60,18 @@
     transition: background-color 0.3s ease;
 }
 
+/* Hover effect for login button */
 .login-form button:hover {
     background-color: #d9792c;
 }
 
+/* Login box paragraph text */
 .login-box p {
     margin-top: 16px;
     font-size: 14px;
 }
 
+/* Login box link */
 .login-box a {
     color: #e48b3d;
     text-decoration: none;
@@ -71,6 +81,7 @@
     text-decoration: underline;
 }
 
+/* Error message styling */
 .form-group.error input {
     border: 2px solid red;
     background-color: #ffe6e6;

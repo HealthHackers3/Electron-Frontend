@@ -1,4 +1,4 @@
-/* Global Styles */
+/* Search Page main container*/
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ body {
     height: 100vh;
 }
 
-/* Database Page Layout */
+/* Database (Search) Page Layout */
 .search-page {
     display: flex;
     flex-direction: row;
@@ -63,7 +63,7 @@ body {
     display: none; /* Hide filter labels and controls when collapsed */
 }
 
-/* Toggle Button */
+/* Toggle Button for Sidebar*/
 .toggle-button {
     position: absolute;
     top: 20px;
@@ -108,7 +108,7 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
-    display: none;
+    display: none; /* Hidden by default */
 }
 
 .search-page:not(.sidebar-collapsed) .overlay {
@@ -119,7 +119,7 @@ body {
 /* Hide overlay on larger screens */
 @media (min-width: 769px) {
     .overlay {
-        display: none;
+        display: none; /* Don't display overlay on larger screens */
     }
 }
 
@@ -134,7 +134,7 @@ body {
     overflow-y: auto;
 }
 
-/* Scrollbar Styles */
+/* Scrollbar Styles for filters*/
 .filters::-webkit-scrollbar {
     width: 10px;
 }
@@ -152,6 +152,7 @@ body {
     background-color: #fff;
 }
 
+/* Filter Section Title */
 .filters h3 {
     font-size: 16px;
     font-weight: 600;
@@ -159,6 +160,7 @@ body {
     margin-bottom: 10px;
 }
 
+/* Keywords Section */
 .keywords {
     display: flex;
     flex-wrap: wrap;
@@ -169,6 +171,7 @@ body {
     border: 1px solid #ddd;
 }
 
+/* Individual Keyword */
 .keyword {
     background-color: #ffe4c4;
     color: #e48b3d;
@@ -263,6 +266,7 @@ body {
     color: #555;
 }
 
+/* Reset Button */
 .reset-button {
     padding: 5px 10px;
     background-color: #e48b3d;
@@ -277,7 +281,7 @@ body {
     background-color: #d9792c;
 }
 
-/* Main Content */
+/* Main Content Section*/
 .main-container {
     flex: 1;
     display: flex;
@@ -287,6 +291,7 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+/* Scrollbar Styles for main content */
 .main-container::-webkit-scrollbar {
     width: 10px;
 }
@@ -304,7 +309,7 @@ body {
     background-color: #fff;
 }
 
-/* View Options & Sorting Buttons */
+/* View and Sort Buttons */
 .view-options,
 .sort-options {
     display: flex;
@@ -333,7 +338,7 @@ body {
     color: white;
 }
 
-/* Main Content Section */
+/* Results Section */
 .results-header {
     display: flex;
     flex-direction: column;
@@ -407,7 +412,7 @@ body {
 
 }
 
-/* Slider Styles (Assuming you are using rc-slider) */
+/* Slider Styles */
 .rc-slider-track {
     background-color: #e48b3d;
 }

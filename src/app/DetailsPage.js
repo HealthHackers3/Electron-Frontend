@@ -3,10 +3,11 @@ import React from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 const DetailsPage = () => {
-    const { id } = useParams();
-    const location = useLocation();
-    const { imageUrl, properties, parent } = location.state || {};
+    const { id } = useParams(); // Retrieve the 'id' parameter from the URL using useParams
+    const location = useLocation();  // Get the current location object to access the passed state
+    const { imageUrl, properties, parent } = location.state || {}; // Destructure relevant properties from the state (image URL, properties, parent route)
 
+    // Function for image downloading
     const handleDownload = async () => {
         try {
             // Fetch the image as a blob
@@ -16,7 +17,7 @@ const DetailsPage = () => {
             // Create an object URL for the blob
             const blobUrl = URL.createObjectURL(blob);
 
-            // Create a link and trigger the download
+            // Create a link and trigger the file download
             const link = document.createElement("a");
             link.href = blobUrl;
 
@@ -24,6 +25,7 @@ const DetailsPage = () => {
             const fileName = `image_${properties?.category || "default"}_${id}.jpg`;
             link.download = fileName;
 
+            // Trigger download
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -35,18 +37,23 @@ const DetailsPage = () => {
         }
     };
 
+    // Initialize the navigation hook for programmatic navigation
     const navigate = useNavigate();
 
+    // Function to navigate back to the home page
     const handleBackToHome = () => {
-        navigate(parent || "/"); // Navigate to the home page
+        navigate(parent || "/");
     };
 
     return (
         <div className="details-page">
+            {/* Main container for the details content */}
             <div className="details-container">
+                {/* Image container with download button */}
                 <div className="image-container">
                     {imageUrl ? (
                         <>
+                            {/* Display the image */}
                             <img src={imageUrl} alt={`High-Resolution View of Item ${id}`} />
 
                             {/* Download Image Button */}
@@ -55,10 +62,12 @@ const DetailsPage = () => {
                             </button>
                         </>
                     ) : (
+                        // Display message if no image URL is available
                         <p>No image available</p>
                     )}
                 </div>
 
+                {/* Properties section displaying details about the item */}
                 <div className="properties">
                     <h2>Properties</h2>
                     <ul>
@@ -81,6 +90,7 @@ const DetailsPage = () => {
                 </div>
             </div>
 
+            {/* Back button to navigate to the previous page or home */}
             <div className="back-icon" onClick={handleBackToHome}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -89,6 +99,7 @@ const DetailsPage = () => {
                     height="24"
                     fill="currentColor"
                 >
+                    {/* left arrow icon SVG path */}
                     <path d="M10 19l-7-7 7-7v4h8v6h-8v4z" />
                 </svg>
                 <span>Back</span>

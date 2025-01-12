@@ -1,9 +1,11 @@
+/* Home Page main container */
 .home-page {
     padding: 20px;
     font-family: "Roboto", sans-serif;
     overflow-y: auto;
 }
 
+/* Custom scrollbar styling */
 .home-page::-webkit-scrollbar {
     width: 10px;
 }
@@ -21,8 +23,9 @@
     background-color: #fff;
 }
 
+/* Main Content Section */
 .home-page__content {
-    /* You can add styles for content if needed */
+    /* Placeholder for content styles*/
 }
 
 /* Featured Cell Section */
@@ -31,6 +34,7 @@
     cursor: pointer;
 }
 
+/* Featured Cell Image Section */
 .featured-cell__image {
     display: flex;
     align-items: center;
@@ -42,12 +46,14 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Featured Cell Image Styling */
 .featured-cell__image img {
     width: 150px;
     height: 150px;
     border-radius: 8px;
 }
 
+/* Featured Cell Info Section styling */
 .featured-cell__info h2 {
     margin: 0;
     font-size: 20px;
@@ -65,19 +71,21 @@
     color: #666;
 }
 
-/* Controls Section */
+/* Controls Section (buttons, filters) */
 .home-page__controls {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
+/* View and sort options for controls */
 .controls__view-options,
 .controls__sort-options {
     display: flex;
     gap: 10px;
 }
 
+/* Styling for individual control buttons */
 .controls__button {
     padding: 5px 10px;
     background-color: #ddd;
@@ -87,15 +95,18 @@
     transition: background-color 0.3s;
 }
 
+/* Button hover effect */
 .controls__button:hover {
     background-color: #ccc;
 }
 
+/* Active button styling */
 .controls__button--active {
     background-color: #e48b3d;
     color: #fff;
 }
 
+/* Active button hover effect */
 .controls__button--active:hover {
     background-color: #d9792c;
     color: #fff;
@@ -106,9 +117,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-    align-items: start; /* Align cards from the top */
+    align-items: start;
 }
 
+/* Results Grid Card */
 .results-grid__card {
     display: flex;
     flex-direction: column;
@@ -124,6 +136,7 @@
     cursor: pointer;
 }
 
+/* Hover effect for grid cards */
 .results-grid__card:hover {
     transform: translateY(-5px);
 }
@@ -131,16 +144,17 @@
 /* Results Grid Image Section */
 .results-grid__image {
     width: 100%;
-    height: 150px; /* Fixed height for consistency */
-    background-color: #ccc; /* Gray background */
+    height: 150px;
+    background-color: #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
     overflow: hidden;
-    position: relative; /* To position any overlay if needed */
+    position: relative;
 }
 
+/* Results Grid Image Styling */
 .results-grid__image img {
     max-width: 100%;
     max-height: 100%;
@@ -148,14 +162,15 @@
     display: block;
 }
 
+/* Results Grid Name and Category */
 .results-grid__name,
 .results-grid__category {
     margin: 5px 0;
     text-align: center;
-    white-space: nowrap; /* Prevent line breaks */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; /* Add '...' for overflow text */
-    width: 90%; /* Keep text width consistent */
+    width: 90%;
     font-size: 16px;
     color: #333;
 }
@@ -168,6 +183,7 @@
     margin-top: 20px;
 }
 
+/* Results List Item */
 .results-list__item {
     display: flex;
     align-items: center;
@@ -179,10 +195,12 @@
     transition: background-color 0.3s;
 }
 
+/* Hover effect for list items */
 .results-list__item:hover {
     background-color: #f0f0f0;
 }
 
+/* Results List Image Section */
 .results-list__image {
     width: 120px;
     height: 120px;
@@ -195,12 +213,14 @@
     background-color: #f9f9f9;
 }
 
+/* Results List Image Styling */
 .results-list__image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
+/* Results List Content Section */
 .results-list__content {
     margin-left: 10px;
     display: flex;
@@ -208,12 +228,14 @@
     justify-content: center;
 }
 
+/* Results List Name */
 .results-list__name {
     margin: 0;
     font-size: 18px;
     color: #333;
 }
 
+/* Results List Category */
 .results-list__category {
     margin: 5px 0 0 0;
     font-size: 16px;

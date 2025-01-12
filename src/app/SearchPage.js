@@ -4,12 +4,14 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./SearchPage.css";
 
+// SearchPage component
 const SearchPage = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const location = useLocation(); // Get the current location to check for navigation state
+    const navigate = useNavigate(); // Initialize the navigate function
+    const [results, setResults] = useState([]); // State variable to store the search results
+    const [loading, setLoading] = useState(true); // State variable to track loading state
 
+    // Initial filters setup
     const [filters, setFilters] = useState({
         keywords: "",
         selectedDomains: [],
@@ -20,6 +22,7 @@ const SearchPage = () => {
         cellCount: [0, 1000],
     });
 
+    // Function to reset filters
     const resetFilters = () => {
         setFilters({
             keywords: "",
@@ -35,15 +38,16 @@ const SearchPage = () => {
     const [viewMode, setViewMode] = useState("grid"); // Default view mode
     const [sortOrder, setSortOrder] = useState("newest"); // Default sorting order
     const [data, setData] = useState([]); // Mock database
-    const [uniqueDomains, setUniqueDomains] = useState([]);
-    const [uniqueTypes, setUniqueTypes] = useState([]);
-    const [uniqueImageModalities, setUniqueImageModalities] = useState([]);
-    const [uniqueShapes, setUniqueShapes] = useState([]);
-    const [uniqueFileTypes, setUniqueFileTypes] = useState([]);
+    const [uniqueDomains, setUniqueDomains] = useState([]); // Unique domains for filters
+    const [uniqueTypes, setUniqueTypes] = useState([]); // Unique types for filters
+    const [uniqueImageModalities, setUniqueImageModalities] = useState([]); // Unique image modalities for filters
+    const [uniqueShapes, setUniqueShapes] = useState([]); // Unique shapes for filters
+    const [uniqueFileTypes, setUniqueFileTypes] = useState([]); // Unique file types for filters
 
     // New State for Sidebar Visibility
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
+    // Toggle Sidebar visibility Function
     const toggleSidebar = () => {
         setIsSidebarCollapsed((prev) => !prev);
     };
@@ -52,6 +56,7 @@ const SearchPage = () => {
         fetchResults(); // Replace with actual API call
     }, []);
 
+    // Function to fetch results from the API
     const fetchResults = async () => {
         try {
             // Replace with API call
@@ -65,6 +70,7 @@ const SearchPage = () => {
         }
     };
 
+    // Update data when a new entry is added
     useEffect(() => {
         if (location.state?.newEntry) {
             const newEntry = { ...location.state.newEntry, id: data.length }; // Add a unique ID
@@ -102,6 +108,7 @@ const SearchPage = () => {
         navigate(`/details/${id}`);
     };
 
+    // Filter handler for domain selection
     const handleDomainChange = (domain) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
@@ -111,6 +118,7 @@ const SearchPage = () => {
         }));
     }
 
+    // Filter handler for type selection
     const handleTypeChange = (type) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
@@ -120,6 +128,7 @@ const SearchPage = () => {
         }));
     }
 
+    // Filter handler for image modality selection
     const handleImageModalityChange = (imageModality) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
@@ -129,6 +138,7 @@ const SearchPage = () => {
         }));
     }
 
+    // Filter handler for file type selection
     const handleFileTypeChange = (fileType) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
@@ -138,23 +148,27 @@ const SearchPage = () => {
         }));
     }
 
+    // Handle view mode change
     const handleViewChange = (mode) => {
         setViewMode(mode);
     };
 
+    // Handle sort order change
     const handleSortChange = (order) => {
         setSortOrder(order);
     };
 
+    // Filter results based on the current filters
     const filteredResults = () => {
         let results = Array.isArray(data) ? [...data] : []; // Ensure `data` is always an array
 
-        // Apply filters
+        // Apply keyword filters
         if (filters.keywords) {
             results = results.filter((item) =>
                 item.name.toLowerCase().includes(filters.keywords.toLowerCase())
             );
         }
+        // Apply other filters
         if (filters.selectedDomains.length > 0) {
             results = results.filter((item) => filters.selectedDomains.includes(item.domain));
         }
@@ -183,6 +197,7 @@ const SearchPage = () => {
         return results;
     };
 
+    // Sort results based on the current sort order
     const sortedResults = () => {
         let results = filteredResults();
 
@@ -207,14 +222,14 @@ const SearchPage = () => {
 
     return (
         <div className="search-page">
-            {/* Sidebar */}
+            {/* Sidebar section with filters*/}
             <div className={`sidebar ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
                 {/* Toggle Button */}
                 <button className="toggle-button" onClick={toggleSidebar}>
                     {isSidebarCollapsed ? ExpandIcon : CollapseIcon}
                 </button>
 
-                {/* Existing Sidebar Content */}
+                {/* Filters Section */}
                 <div className="filters">
                     {/* Domains */}
                     <div className="filter-section">

@@ -1,10 +1,10 @@
 /* Header Container */
 .header {
     display: flex; /* Horizontal layout */
-    justify-content: space-between; /* Space between nav and buttons */
-    align-items: center; /* Align items vertically */
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 20px;
-    height: 70px; /* Set a fixed height for the header */
+    height: 70px;
     background-color: #fdf2e9;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -23,12 +23,14 @@
     overflow: hidden;
 }
 
+/* Styling of logo */
 .header-logo {
     max-height: 100%;
     width: auto;
     object-fit: contain;
 }
 
+/* Styling of text */
 .header-text {
     max-height: 250%;
     width: auto;
@@ -46,6 +48,7 @@
     margin-right: auto;
 }
 
+/* Style of navigation links */
 .nav-links a {
     text-decoration: none;
     font-size: 16px;
@@ -54,16 +57,18 @@
     cursor: pointer;
 }
 
+/* Hover effect for navigation links */
 .nav-links a:hover {
     color: #e48b3d;
 }
 
-/* Buttons on the Right */
+/* Navigation Buttons */
 .header-buttons {
     display: flex;
     gap: 10px;
 }
 
+/* Style of navigation buttons */
 .search-button,
 .upload-button,
 .sign-out-button {
@@ -76,24 +81,9 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
-.search-button {
+.search-button,
+.upload-button{
     background-color: #e48b3d;
-    color: #fff;
-}
-
-.search-button:hover {
-    background-color: #d9792c;
-    color: #fff;
-}
-
-.upload-button {
-    background-color: #e48b3d;
-    color: #fff;
-}
-
-.upload-button:hover {
-    background-color: #d9792c;
     color: #fff;
 }
 
@@ -102,6 +92,9 @@
     color: #e48b3d;
 }
 
+/* Hover effect for navigation buttons */
+.search-button:hover,
+.upload-button:hover,
 .sign-out-button:hover {
     background-color: #d9792c;
     color: #fff;

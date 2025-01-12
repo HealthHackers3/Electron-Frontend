@@ -1,15 +1,18 @@
 /* Container for Image and Placeholder */
+/* This container ensures a consistent layout for images and placeholders,
+   handling scenarios where images are loading, missing, or have an error. */
 .results-grid__image-container {
     position: relative;
     width: 100%;
-    height: 150px; /* Fixed height for consistency */
-    background-color: #ccc; /* Gray background as fallback */
+    height: 150px;
+    background-color: #ccc;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 10px;
 }
 
 /* Image Styling */
+/* Styles for the main image displayed in the container */
 .results-grid__image {
     width: 100%;
     height: 100%;
@@ -19,6 +22,7 @@
 }
 
 /* Image Visibility */
+/* Classes to toggle image visibility for loading or error states */
 .results-grid__image.visible {
     opacity: 1;
 }
@@ -28,6 +32,7 @@
 }
 
 /* Placeholder Styling */
+/* Placeholder displayed while the image is loading or unavailable */
 .image-placeholder {
     position: absolute;
     top: 0;
@@ -37,9 +42,9 @@
     box-sizing: border-box;
     padding: 10px;
     background-color: #e0e0e0;
-    display: flex;              /* Flex layout */
-    justify-content: center;    /* Horizontal centering */
-    align-items: center;        /* Vertical centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 8px;
     z-index: 1;
     text-align: center;
@@ -47,6 +52,7 @@
 }
 
 /* Shimmer Effect */
+/* Animation for a loading effect while the image is being fetched */
 @keyframes shimmer {
     0% {
         background-position: -1000px 0;
@@ -56,6 +62,7 @@
     }
 }
 
+/* Styling for shimmer animation applied to placeholders */
 .shimmer {
     background: linear-gradient(
             to right,
@@ -68,6 +75,7 @@
 }
 
 /* Error State */
+/* Styling for a placeholder that indicates an error (e.g., failed image load) */
 .image-placeholder.error {
     position: absolute;  /* ensure it’s absolute like the normal placeholder */
     top: 0;
@@ -90,20 +98,22 @@
 }
 
 /* Ensuring No Layout Shifts */
+/* These styles prevent layout shifts when the image is loading or missing */
 .results-grid__card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Other styles... */
 }
 
 /* Optional: Adjust text styles for better visibility */
+/* Styling for item names within the results grid */
 .results-grid__name {
     margin: 5px 0;
     font-size: 16px;
     color: #333;
 }
 
+/* Styling for item categories within the results grid */
 .results-grid__category {
     margin: 5px 0;
     font-size: 14px;

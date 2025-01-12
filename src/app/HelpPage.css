@@ -1,39 +1,47 @@
+/* Styles for the HelpPage component */
 .help-page {
     padding: 20px;
     font-family: 'Roboto', sans-serif;
     overflow-y: auto;
 }
 
+/* Custom scrollbar styling*/
 .help-page::-webkit-scrollbar {
     width: 10px;
 }
 
+/* Scrollbar thumb */
 .help-page::-webkit-scrollbar-thumb {
     background-color: #bbb;
     border-radius: 8px;
 }
 
+/* Hover effect on scrollbar thumb */
 .help-page::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
 }
 
+/* Scrollbar track */
 .help-page::-webkit-scrollbar-track {
     background-color: #fff;
 }
 
+/* Header styling */
 h1 {
     font-size: 28px;
     color: #e48b3d;
     margin-bottom: 20px;
 }
 
+/* Container for Help Page content */
 .help-container {
     display: flex;
-    flex-direction: column;  /* Ensures items are arranged vertically */
+    flex-direction: column;
     justify-content: flex-end;
     gap: 40px;
 }
 
+/* Accordion container (expands on click) */
 .accordion {
     flex: 1;
     display: flex;
@@ -41,6 +49,7 @@ h1 {
     gap: 20px;
 }
 
+/* Accordion item (each question) */
 .accordion-item {
     background-color: #fff;
     padding: 20px;
@@ -50,6 +59,7 @@ h1 {
     cursor: pointer;
 }
 
+/* Accordion item heading */
 .accordion-item h3 {
     font-size: 20px;
     margin: 0;
@@ -60,14 +70,16 @@ h1 {
     padding-right: 20px; /* Ensure space for the icon */
 }
 
+/* Accordion item content (hidden by default) */
 .accordion-content {
     margin-top: 10px;
     font-size: 16px;
     color: #666;
-    display: none; /* Start hidden */
+    display: none;
     transition: all 0.3s ease-in-out;
 }
 
+/* Active state for accordion item */
 .accordion-item.active .accordion-content {
     display: block; /* Show content when active */
 }
@@ -76,17 +88,20 @@ h1 {
     background-color: #fafafa;
 }
 
+/* Plus and minus icons for accordion items */
 .accordion-item h3:after {
-    content: '\02795'; /* Unicode character for "plus" sign (+) */
-    font-size: 20px; /* Increase font size for better visibility */
+    content: '\02795'; /*  "plus" sign (+) */
+    font-size: 20px;
     color: #777;
 }
 
+/* Change icon to minus when active */
 .accordion-item.active h3:after {
-    content: "\2796"; /* Unicode character for "minus" sign (-) */
-    color: #e48b3d; /* Change color when active */
+    content: "\2796"; /* "minus" sign (-) */
+    color: #e48b3d;
 }
 
+/* Contact information container */
 .contact-info {
     flex: 1;
     background-color: #f9f9f9;
@@ -95,25 +110,30 @@ h1 {
     border: 1px solid #ddd;
 }
 
+/* Contact information heading */
 .contact-info h2 {
     font-size: 24px;
     color: #e48b3d;
 }
 
+/* Contact information details */
 .contact-info p {
     font-size: 16px;
     color: #555;
 }
 
+/* Contact information link*/
 .contact-info a {
     color: #e48b3d;
     text-decoration: none;
 }
 
+/* Hover effect on contact information link */
 .contact-info a:hover {
     text-decoration: underline;
 }
 
+/* FAQ section */
 .faq {
     margin-top: 40px;
 }
@@ -123,6 +143,7 @@ h1 {
     color: #333;
 }
 
+/* FAQ list */
 .faq ul {
     list-style-type: none;
     padding: 0;

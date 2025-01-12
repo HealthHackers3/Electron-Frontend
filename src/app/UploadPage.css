@@ -1,3 +1,4 @@
+/* Upload Page main container */
 .upload-page {
     padding: 20px;
     font-family: 'Roboto', sans-serif;
@@ -19,12 +20,14 @@
     background-color: #fff;
 }
 
+/* Header styling */
 h1 {
     font-size: 28px;
     color: #e48b3d;
     margin-bottom: 20px;
 }
 
+/* Wrapper for form fields */
 .form-fields-wrapper {
     display: flex;
     flex-direction: column;
@@ -33,6 +36,7 @@ h1 {
     width: 100%;
 }
 
+/* Upload form styling */
 .upload-form {
     display: flex;
     flex-direction: column;
@@ -44,6 +48,7 @@ h1 {
     gap: 20px;
 }
 
+/* Form fields container */
 .form-fields {
     flex: 2;
     display: flex;
@@ -51,17 +56,20 @@ h1 {
     gap: 10px;
 }
 
+/* Grouping for field labels and inputs */
 .field-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
+/* Field Label styling */
 .field-group label {
     font-size: 14px;
     color: #333;
 }
 
+/* Inputs and selected elements styling */
 .field-group input,
 .field-group select {
     padding: 10px;
@@ -71,6 +79,7 @@ h1 {
     width: 100%;
 }
 
+/* Field Input text area styling */
 .field-group textarea {
     height: 100px;
     padding: 15px;
@@ -102,16 +111,19 @@ h1 {
     padding: 10px;
 }
 
+/* Fieldset legend styling */
 .fieldset-group legend {
     padding: 0 8px;
     font-weight: bold;
     color: #666;
 }
 
+/* Subgrouping for individual fields inside fieldset */
 .field-subgroup {
     margin-bottom: 10px;
 }
 
+/* Submit button styling */
 .submit-button {
     padding: 10px 20px;
     width: 50%;
@@ -126,10 +138,12 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
+/* Hover effect for submit button */
 .submit-button:hover {
     background-color: #d9792c;
 }
 
+/* Styling for the add new option link*/
 .add-new-option {
     font-style: italic;
     color: #007bff;
@@ -148,11 +162,13 @@ h1 {
     width: calc(100% - 22px);
 }
 
+/* Individual suggestion item */
 .suggestion-item {
     padding: 5px 10px;
     cursor: pointer;
 }
 
+/* Hover effect for suggestion items */
 .suggestion-item:hover {
     background: #eee;
 }
@@ -171,7 +187,7 @@ h1 {
     z-index: 9999;
 }
 
-/* The white modal box */
+/* White modal box */
 .add-new-modal {
     background: #fff;
     padding: 20px;
@@ -190,7 +206,7 @@ h1 {
     color: #333;
 }
 
-/* The text input in the modal */
+/* Text input fields in the modal */
 .add-new-modal input {
     width: 100%;
     padding: 8px 10px;
@@ -200,7 +216,7 @@ h1 {
     font-size: 14px;
 }
 
-/* Container that holds the buttons at the bottom of the modal */
+/* Button container in Modal */
 .modal-buttons {
     display: flex;
     gap: 10px;
@@ -208,7 +224,7 @@ h1 {
     justify-content: center;
 }
 
-/* Buttons inside modal */
+/* Modal Buttons styling */
 .modal-buttons button {
     flex: 1;
     border: none;
@@ -219,27 +235,29 @@ h1 {
     font-size: 14px;
 }
 
-/* Save button - orange */
+/* Save button styling */
 .save-button {
     background-color: #e48b3d; /* or #38c172, etc. */
     color: #fff;
 }
 
+/* Hover effect for save button */
 .save-button:hover {
     background-color: #d9792c;
 }
 
-/* Cancel button - gray */
+/* Cancel button styling */
 .cancel-button {
     background-color: #adb5bd; /* or #6c757d, etc. */
     color: #fff;
 }
 
+/* Hover effect for cancel button */
 .cancel-button:hover {
     background-color: #999;
 }
 
-/* Optional: Style for small text */
+/* Style for small text */
 .field-group small {
     color: #666;
 }

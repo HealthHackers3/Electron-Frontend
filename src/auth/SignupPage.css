@@ -1,3 +1,4 @@
+/* Signup page container */
 .signup-container {
     display: flex;
     justify-content: center;
@@ -6,6 +7,7 @@
     background-color: #f0f2f5;
 }
 
+/* Signup box styling */
 .signup-box {
     width: 400px;
     padding: 40px;
@@ -15,18 +17,21 @@
     text-align: center;
 }
 
+/* Signup box heading */
 .signup-box h2 {
     margin-bottom: 24px;
     font-size: 24px;
     color: #333;
 }
 
+/* Signup form styling */
 .signup-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
+/* Signup form label */
 .signup-form label {
     font-weight: 600;
     margin-bottom: 8px;
@@ -34,6 +39,7 @@
     text-align: left;
 }
 
+/* Signup form input */
 .signup-form input {
     width: 100%;
     padding: 12px;
@@ -42,6 +48,7 @@
     font-size: 16px;
 }
 
+/* Signup button */
 .signup-form button {
     padding: 14px;
     background-color: #e48b3d;
@@ -57,11 +64,13 @@
     background-color: #d9792c;
 }
 
+/* Signup box paragraph */
 .signup-box p {
     margin-top: 16px;
     font-size: 14px;
 }
 
+/* Signup box link */
 .signup-box a {
     color: #e48b3d;
     text-decoration: none;
@@ -71,15 +80,15 @@
     text-decoration: underline;
 }
 
+/* Error message styling */
 .form-group.error input {
     border: 2px solid red;
     background-color: #ffe6e6;
 }
 
+/* Error text styling */
 .error-text {
     color: red;
     margin-top: 5px;
     font-size: 14px;
 }
-
-

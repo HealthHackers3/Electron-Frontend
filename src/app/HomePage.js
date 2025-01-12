@@ -5,12 +5,13 @@ import "./HomePage.css";
 import CellCard from "./CellCard"; // Import the CellCards component
 
 const HomePage = () => {
-    const [randomCell, setRandomCell] = useState({});
-    const [viewMode, setViewMode] = useState("grid");
-    const [sortOrder, setSortOrder] = useState("newest");
-    const [cellsData, setCellsData] = useState([]);
+    // State variables for managing the random cell of the week, view mode, sort order, and cells data
+    const [randomCell, setRandomCell] = useState({}); // Stores the random cell of the week
+    const [viewMode, setViewMode] = useState("grid"); // Tracks the current view mode (grid or list)
+    const [sortOrder, setSortOrder] = useState("newest"); //Tracks sort order
+    const [cellsData, setCellsData] = useState([]); // Stores the cell data
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Initialize navigation
 
     // Display a random cell of the week
     useEffect(() => {
@@ -39,6 +40,7 @@ const HomePage = () => {
 
             const currentWeekString = currentWeek.toISOString();
 
+            // If stored cell is valid, use it; otherwise, select a new random cell
             if (storedRandomCell && storedRandomCellWeek === currentWeekString) {
                 setRandomCell(JSON.parse(storedRandomCell)); // Use stored cell if valid
             } else {
@@ -56,6 +58,7 @@ const HomePage = () => {
         fetchCells();
     }, []);
 
+    // Function to handle card click event (navigate to details page)
     const handleCardClick = (id) => {
         const properties = {
             category: "Sample Category",
@@ -73,19 +76,23 @@ const HomePage = () => {
 
         //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMjqWdhO8X78fCEIa7-NHqYPz2E7s-8QXwQg&s
 
+        // Navigate to the details page with the selected cell's data
         navigate(`/details/${id}`, {
             state: { imageUrl, properties, parent: location.pathname },
         });
     };
 
+    // Function to handle view mode change
     const handleViewChange = (mode) => {
         setViewMode(mode);
     };
 
+    // Function to handle sort order change
     const handleSortChange = (order) => {
         setSortOrder(order);
     };
 
+    // Function to get sorted cells based on the current sort order
     const getSortedCells = () => {
         const sorted = [...cellsData];
         switch (sortOrder) {
@@ -97,14 +104,14 @@ const HomePage = () => {
                 return sorted.sort((a, b) => b.name.localeCompare(a.name));
             case "newest":
             default:
-                return sorted; // Default order
+                return sorted; // Default order (from newest)
         }
     };
 
     return (
         <div className="home-page">
             <div className="home-page__content">
-                {/* Randomly Recommended Section */}
+                {/* Randomly Recommended Cell Section */}
                 <section
                     className="home-page__featured-cell"
                     onClick={() => handleCardClick(randomCell.id)}
@@ -122,6 +129,7 @@ const HomePage = () => {
                 {/* Sorting and View Mode Section */}
                 <div className="home-page__controls">
                     <div className="controls__view-options">
+                        {/* Buttons to toggle between grid and list view modes */}
                         <button
                             onClick={() => handleViewChange("grid")}
                             className={`controls__button ${viewMode === "grid" ? "controls__button--active" : ""}`}
@@ -136,6 +144,7 @@ const HomePage = () => {
                         </button>
                     </div>
                     <div className="controls__sort-options">
+                        {/* Buttons to change the sorting order */}
                         <button
                             onClick={() => handleSortChange("newest")}
                             className={`controls__button ${sortOrder === "newest" ? "controls__button--active" : ""}`}
@@ -163,9 +172,10 @@ const HomePage = () => {
                     </div>
                 </div>
 
-                {/* Results Section */}
+                {/* Display Results based on View Mode */}
                 {viewMode === "grid" && (
                     <div className="home-page__results-grid">
+                        {/* Display cell cards in a grid layout */}
                         {getSortedCells().map((cell) => (
                             <CellCard key={cell.id} cell={cell} onCardClick={handleCardClick} />
                         ))}
@@ -174,6 +184,7 @@ const HomePage = () => {
 
                 {viewMode === "list" && (
                     <div className="home-page__results-list">
+                        {/* Display cell cards in a list layout */}
                         {getSortedCells().map((cell) => (
                             <div
                                 className="results-list__item"

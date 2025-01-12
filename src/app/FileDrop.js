@@ -1,24 +1,27 @@
 import React, { useState, useRef } from "react";
 import "./FileDrop.css";
 
+// FileDrop component for handling file uploads
 const FileDrop = ({ onFilesAdded, uploadedImages, handleImageRemove }) => {
-    const [isDragging, setIsDragging] = useState(false);
-    const [failedImages, setFailedImages] = useState([]);
-    const fileInputRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false); // State to track drag-drop events
+    const [failedImages, setFailedImages] = useState([]); // State to track failed image loads
+    const fileInputRef = useRef(null); // Reference to the hidden file input element
 
-    // Drag events
+    // Handling files drag over the drop area
     const handleDragOver = (e) => {
         e.preventDefault();
         e.stopPropagation();
         setIsDragging(true);
     };
 
+    // Handling files drag leave the drop area
     const handleDragLeave = (e) => {
         e.preventDefault();
         e.stopPropagation();
         setIsDragging(false);
     };
 
+    // Handling files drop
     const handleDrop = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -30,7 +33,7 @@ const FileDrop = ({ onFilesAdded, uploadedImages, handleImageRemove }) => {
         }
     };
 
-    // Click to open file dialog
+    // Handle click of the drop area to open file picker
     const handleClick = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click();
@@ -69,22 +72,24 @@ const FileDrop = ({ onFilesAdded, uploadedImages, handleImageRemove }) => {
                 accept="image/*"
             />
 
-            {/* Icon + text in the center */}
+            {/* Content displayed inside the file drop area */}
             <div className="file-drop-content">
                 {isDragging ? (
                     <>
+                        {/* Displayed when dragging over the drop area */}
                         <div className="file-drop-icon">&#128230;</div>
                         <p>Drop files here, or click to browse</p>
                     </>
                 ) : (
                     <>
+                        {/* Displayed when no drag event */}
                         <div className="file-drop-icon">&#128230;</div>
                         <p>Drop files here, or click to browse</p>
                     </>
                 )}
             </div>
 
-            {/* Thumbnails INSIDE the same dashed container */}
+            {/* Display uploaded image thumbnails */}
             {uploadedImages.length > 0 && (
                 <div className="uploaded-images">
                     {uploadedImages.map((image, index) => (
@@ -100,6 +105,7 @@ const FileDrop = ({ onFilesAdded, uploadedImages, handleImageRemove }) => {
                                     <span>Format not supported<br />to preview</span>
                                 </div>
                             )}
+                            {/* Button to remove the image */}
                             <button
                                 type="button"
                                 className="remove-button"

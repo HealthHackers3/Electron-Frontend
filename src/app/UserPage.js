@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "./UserPage.css";
 import CellCard from "./CellCard";
 
+// UserPage component definition
 const UserPage = () => {
-    const [profile, setProfile] = useState({
+    const [profile, setProfile] = useState({ // State variable for storing the user profile information, default values
         username: "Username", // 默认用户名
         memberSince: "2023-01-01", // 默认日期
         email: "username@imperial.ac.uk",
@@ -13,39 +14,46 @@ const UserPage = () => {
         uploadedImages: Array(56)
             .fill()
             .map((_, idx) => ({
-                id: idx,
-                name: `Cell ${idx + 1}`,
-                category: `Category ${idx % 5 + 1}`,
+                id: idx, // Unique image ID
+                name: `Cell ${idx + 1}`, // Cell name
+                category: `Category ${idx % 5 + 1}`, // Cell category assigned based on index
                 author: `Author ${idx % 10 + 1}`,
                 likes: Math.floor(Math.random() * 100),
                 imageUrl: `https://www.visiblebody.com/hubfs/learn/bio/assets/cells/cell-overview`
             }))
     });
 
+    // State variables for managing the editing state and edited profile
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState({ ...profile });
 
+    // Initialize the navigation hook for navigation
     const navigate = useNavigate();
 
+    // Function to handle input changes in the profile fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEditedProfile({ ...editedProfile, [name]: value });
     };
 
+    // Function to handle the edit button click
     const handleEdit = () => {
         setIsEditing(true);
     };
 
+    // Function to save the edited profile
     const handleSave = () => {
         setProfile(editedProfile);
         setIsEditing(false);
     };
 
+    // Function to cancel the editing process
     const handleCancel = () => {
         setEditedProfile(profile);
         setIsEditing(false);
     };
 
+    // Function to handle card click event
     const handleCardClick = (id) => {
         const properties = {
             category: "Sample Category",
@@ -61,6 +69,7 @@ const UserPage = () => {
 
         const imageUrl = `https://th.bing.com/th/id/R.479f9d7475e53ead9717a83c03f9da2f?rik=TX%2fqy%2fF%2fu5WdXg&pid=ImgRaw&r=0`;
 
+        // Navigate to the details page with the selected cell's information
         navigate(`/details/${id}`, {
             state: { imageUrl, properties, parent: location.pathname },
         });
@@ -68,13 +77,14 @@ const UserPage = () => {
 
     return (
         <div className="user-page">
-            {/* 顶部显示用户名 */}
+            {/* Display greeting with username */}
             <h1>Hi, {profile.username} !</h1>
             <div className="profile-container">
                 {/* Profile Section */}
                 <div className="profile-info">
                     <div className="profile-header">
                         <h2>Profile</h2>
+                        {/* Edit button (only shown when not in editing mode) */}
                         {!isEditing && (
                             <button onClick={handleEdit} className="edit-button">
                                 ✏️ Edit
@@ -82,6 +92,7 @@ const UserPage = () => {
                         )}
                     </div>
                     <div className="profile-fields">
+                        {/* Display profile fields, with input elements for editing */}
                         <div>
                             <label>Username:</label>
                             {isEditing ? (
@@ -154,6 +165,7 @@ const UserPage = () => {
                             </span>
                         </div>
                     </div>
+                    {/* Save and Cancel buttons appear only when in editing mode */}
                     {isEditing && (
                         <div className="action-buttons">
                             <button onClick={handleSave} className="save-button">
@@ -170,6 +182,7 @@ const UserPage = () => {
                 <div className="favourites">
                     <h2>Favourites</h2>
                     <div className="favourites-grid">
+                        {/* Map over uploaded images to create a CellCard for each image */}
                         {profile.uploadedImages.map((cell) => (
                             <CellCard key={cell.id} cell={cell} onCardClick={handleCardClick} />
                         ))}

@@ -1,9 +1,11 @@
+/* Container for the entire details page */
 .details-page {
     position: relative; /* Ensure proper positioning of child elements */
     padding: 60px 20px 20px;
     overflow-y: auto;
 }
 
+/* Custom scrollbar styling */
 .details-page::-webkit-scrollbar {
     width: 10px;
 }
@@ -21,26 +23,29 @@
     background-color: #fff;
 }
 
+/* Layout container for details */
 .details-container {
-    display: grid; /* Use grid layout */
+    display: grid;
     grid-template-columns: 1fr 1fr; /* Two equal columns */
     gap: 20px; /* Spacing between columns */
     margin-top: 20px;
     align-items: flex-start;
 }
 
+/* Styling for the image container */
 .image-container {
     display: flex; /* Use flexbox to center the image and button */
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f9; /* Light background for the image */
+    background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Image styling */
 .image-container img {
-    max-width: 100%; /* Scale image to fit container */
+    max-width: 100%;
     max-height: 400px;
     height: auto;
     border: 1px solid #ccc;
@@ -48,6 +53,7 @@
     margin-bottom: 15px;
 }
 
+/* Styling for the download button */
 .download-image-button {
     background-color: #e48b3d;
     color: white;
@@ -61,18 +67,21 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Hover effect for the download button */
 .download-image-button:hover {
     transform: translateY(2px);
 }
 
+/* Styling for the properties section */
 .properties {
-    background-color: #f9f9f9; /* Light gray background */
+    background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
 }
 
+/* Properties section header */
 .properties h2 {
     font-size: 24px;
     margin-bottom: 15px;
@@ -80,21 +89,25 @@
     color: #333;
 }
 
+/* Properties list styling */
 .properties ul {
     list-style: none;
     padding: 0;
 }
 
+/* Individual property item */
 .properties li {
     margin: 10px 0;
     font-size: 16px;
     line-height: 1.6;
 }
 
+/* Highlight for property labels */
 .properties li strong {
     color: #e48b3d;
 }
 
+/* Responsive layout for smaller screens */
 @media (max-width: 768px) {
     .details-container {
         grid-template-columns: 1fr;
@@ -105,11 +118,12 @@
     }
 }
 
+/* Back icon styling */
 .back-icon {
-    display: inline-flex; /* Flexbox for proper alignment of icon and text */
-    align-items: center; /* Vertically align icon and text */
-    gap: 8px; /* Add spacing between the icon and text */
-    position: absolute; /* Position at the top left */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
     top: 20px;
     left: 20px;
     padding: 10px 12px;
@@ -124,20 +138,20 @@
     transition: all 0.3s ease;
 }
 
+/* Hover effect for back icon */
 .back-icon:hover {
     background-color: #e48b3d;
     color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Back icon SVG styling */
 .back-icon svg {
     font-size: 20px;
     transition: transform 0.3s ease; /* Animate icon on hover */
 }
 
+/* Hover effect for back icon SVG */
 .back-icon:hover svg {
     transform: translateX(-3px);
 }
-
-
-

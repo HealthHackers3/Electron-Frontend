@@ -1,9 +1,11 @@
+/* User Page main container */
 .user-page {
     padding: 20px;
     font-family: 'Roboto', sans-serif;
     overflow-y: auto;
 }
 
+/* Custom scrollbar styling */
 .user-page::-webkit-scrollbar {
     width: 10px;
 }
@@ -21,13 +23,15 @@
     background-color: #fff;
 }
 
+/* Header styling */
 h1 {
     font-size: 28px;
     color: #e48b3d;
     margin-bottom: 20px;
-    text-align: center; /* 居中显示用户名 */
+    text-align: center;
 }
 
+/* Profile Container */
 .profile-container {
     display: flex;
     gap: 40px;
@@ -43,18 +47,21 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Profile heading inside profile info section */
 .profile-info h2 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
 }
 
+/* Header styling for edit button */
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Edit button styling */
 .edit-button {
     background-color: #e48b3d;
     color: white;
@@ -75,6 +82,7 @@ h1 {
     gap: 10px;
 }
 
+/* Profile fields styling */
 .profile-fields div {
     display: flex;
     justify-content: space-between;
@@ -87,6 +95,7 @@ h1 {
     color: #333;
 }
 
+/* Input field styling */
 .profile-fields input {
     padding: 5px 10px;
     font-size: 14px;
@@ -95,10 +104,12 @@ h1 {
     width: 70%;
 }
 
+/* Date input field styling */
 .profile-fields input[type="date"] {
     width: 50%;
 }
 
+/* Link styling */
 .profile-fields a {
     color: #e48b3d;
     text-decoration: none;
@@ -108,12 +119,14 @@ h1 {
     text-decoration: underline;
 }
 
+/* Button for saving/cancelling edits */
 .action-buttons {
     margin-top: 20px;
     display: flex;
     gap: 10px;
 }
 
+/* Save button styling */
 .save-button {
     background-color: #4CAF50;
     color: white;
@@ -123,6 +136,7 @@ h1 {
     cursor: pointer;
 }
 
+/* Cancel button styling */
 .cancel-button {
     background-color: #f44336;
     color: white;
@@ -142,18 +156,21 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Favourites section heading */
 .favourites h2 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
 }
 
+/* Favourites grid container */
 .favourites-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;
 }
 
+/* Favourite card styling */
 .favourite-card {
     display: flex;
     flex-direction: column;
@@ -171,6 +188,7 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Placeholder for favourite card images styling */
 .image-placeholder {
     background-color: #e0e0e0;
     width: 100px;

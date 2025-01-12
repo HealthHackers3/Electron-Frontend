@@ -1,10 +1,11 @@
 import React, { createContext, useState, useContext } from 'react';
 import {loginUser} from "../api/authAPI";
 
+// Create a context for authorization
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // State to track authentication status
 
     const login = () => setIsAuthenticated(true);
     const logout = () => setIsAuthenticated(false);

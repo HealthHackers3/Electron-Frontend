@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import "./HelpPage.css";
 
+// Define the HelpPage component
 const HelpPage = () => {
-    const [activeIndex, setActiveIndex] = useState(null);
+    const [activeIndex, setActiveIndex] = useState(null); // State to manage the active accordion index
 
-    const toggleAccordion = (index) => {
+    const toggleAccordion = (index) => { // Function to toggle the visibility of the accordion content
         setActiveIndex(activeIndex === index ? null : index);
     };
 
     return (
         <div className="help-page">
+            {/* Help Page Heading */}
             <h1>FAQ</h1>
             <div className="help-container">
+                {/* Accordion component for displaying FAQ items */}
                 <div className="accordion">
                     {[
                         {
@@ -37,13 +40,15 @@ const HelpPage = () => {
                             title: "How does the app analyse the images?",
                             content: "An algorithm analyses the images you upload, counts cells and extracts their dimensions."
                         },
-                    ].map((item, index) => (
+                    ].map((item, index) => ( // Mapping through the FAQ items to create the accordion items
                         <div
                             className={`accordion-item ${activeIndex === index ? 'active' : ''}`}
-                            key={index}
-                            onClick={() => toggleAccordion(index)}
+                            key={index} // Unique key for each accordion item
+                            onClick={() => toggleAccordion(index)} // Toggle the accordion item on click
                         >
+                            {/* Accordion item title */}
                             <h3>{item.title}</h3>
+                            {/* Accordion item content */}
                             <div className="accordion-content">
                                 <p>{item.content}</p>
                             </div>
@@ -51,8 +56,10 @@ const HelpPage = () => {
                     ))}
                 </div>
 
+                {/* Additional message */}
                 <p> Your question was not answered above? Reach out! We will be happy to help. </p>
 
+                {/* Contact information */}
                 <div className="contact-info">
                     <h2>CellVerse</h2>
                     <p>Application of HealthHackers</p>
