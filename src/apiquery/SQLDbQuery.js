@@ -282,15 +282,15 @@ const updateUserField = async (uuid, field, new_data) => {
 const postQueryInstance = new postQuery();
 const postData = {
     poster_id: '3',
-     post_name: 'More cells',
+     post_name: 'Another cell post',
      category_id: '3',
     cell_type_id: '4',
     image_modality_id: '1',
      image_modality_user_picked: 'microscope',
      description: 'Microscope images'
  };
-//
-// postQueryInstance.newPost(postData).then((response) => {console.log(response)});
+
+postQueryInstance.newPost(postData).then((response) => {console.log(response)});
 //
 // module.exports = { RequestManager };
 //

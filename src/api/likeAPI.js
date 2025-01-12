@@ -44,7 +44,6 @@ const removeLike = async (postId) => {
         throw error; // Re-throw the error for further handling if necessary
     }
 };
-
 const getLikeStatus = async (postId) => {
     const url = `https://bioeng-hhack-app.impaas.uk/api`; // Update with your server's endpoint
 
