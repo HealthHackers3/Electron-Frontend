@@ -48,7 +48,7 @@ async function launchExecutableWithPort() {
         serverPort = port;
         console.log(`Available port found: ${port}`);
 
-        const exePath = "C:\\Users\\qianp\\PycharmProjects\\client-backend\\dist\\server.exe";
+        const exePath = path.join(__dirname, '/lib/cellpose.exe');
         childProcess = spawn(exePath, [port]);
 
         childProcess.stdout.on('data', (data) => {
