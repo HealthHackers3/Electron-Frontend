@@ -11,7 +11,7 @@ export async function fetchCategories() {
         const data = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
-            return data[0]; // Return the username
+            return data; // Return the username
         } else {
             throw new Error("Unexpected response format or empty array");
         }
@@ -33,7 +33,7 @@ export async function fetchCellTypes() {
         const data = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
-            return data[0]; // Return the username
+            return data; // Return the username
         } else {
             throw new Error("Unexpected response format or empty array");
         }
@@ -55,7 +55,7 @@ export async function fetchImageModalities() {
         const data = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
-            return data[0]; // Return the username
+            return data; // Return the username
         } else {
             throw new Error("Unexpected response format or empty array");
         }
@@ -64,4 +64,3 @@ export async function fetchImageModalities() {
         return null; // Return null in case of an error
     }
 }
-//fetchImageModalities().then(response => console.log(response.toString()));
