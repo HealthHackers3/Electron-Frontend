@@ -279,39 +279,39 @@ const updateUserField = async (uuid, field, new_data) => {
 // addUser(userData).then(r => console.log(r));
 
 
-// const postQueryInstance = new postQuery();
-// const postData = {
-//     poster_id: '1',
-//      post_name: 'More cells',
-//      category_id: '3',
-//     cell_type_id: '4',
-//     image_modality_id: '1',
-//      image_modality_user_picked: 'microscope',
-//      description: 'Microscope images'
-//  };
+const postQueryInstance = new postQuery();
+const postData = {
+    poster_id: '3',
+     post_name: 'More cells',
+     category_id: '3',
+    cell_type_id: '4',
+    image_modality_id: '1',
+     image_modality_user_picked: 'microscope',
+     description: 'Microscope images'
+ };
 //
 // postQueryInstance.newPost(postData).then((response) => {console.log(response)});
 //
 // module.exports = { RequestManager };
 //
-const imageDataArray = [
-    {
-        filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\eletronmicr.jpeg',
-        orderIndex: '0',
-        cellCount: '45',
-        cellDimensionsX: '60',
-        cellDimensionsY: '15',
-        cellDensity: '2',
-    },
-    {
-        filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\ultrastructurealtake.jpeg',
-        orderIndex: '1',
-        cellCount: '45',
-        cellDimensionsX: '60',
-        cellDimensionsY: '15',
-        cellDensity: '2',
-    },
-];
-
-iq= new imgQuery();
-iq.uploadImages(imageDataArray, 1);
+// const imageDataArray = [
+//     {
+//         filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\eletronmicr.jpeg',
+//         orderIndex: '0',
+//         cellCount: '45',
+//         cellDimensionsX: '60',
+//         cellDimensionsY: '15',
+//         cellDensity: '2',
+//     },
+//     {
+//         filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\ultrastructurealtake.jpeg',
+//         orderIndex: '1',
+//         cellCount: '45',
+//         cellDimensionsX: '60',
+//         cellDimensionsY: '15',
+//         cellDensity: '2',
+//     },
+// ];
+//
+// iq= new imgQuery();
+// iq.uploadImages(imageDataArray, 1);

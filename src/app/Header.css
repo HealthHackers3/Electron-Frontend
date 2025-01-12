@@ -1,5 +1,6 @@
 /* Header Container */
 .header {
+    /*-webkit-app-region: drag;*/
     display: flex; /* Horizontal layout */
     justify-content: space-between; /* Space between nav and buttons */
     align-items: center; /* Align items vertically */

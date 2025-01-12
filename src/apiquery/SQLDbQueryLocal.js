@@ -258,14 +258,103 @@ const updateUserField = async (uuid, field, new_data) => {
         console.error("Error:", error);
     }
 }
+const addLike = async (postId) => {
+    console.log("adding like");
+    url = `http://localhost:8080/HHDatabase/api`; // Update with your server's endpoint
+    console.log(`${url}/post/like/${postId}/3`);
+    try {
+
+       // const response = await fetch(`${this.url}/post/newpost/${postId}/${window.electron.getUserId()}`, {
+        const response = await fetch(`${url}/post/like/${postId}/1`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Server error: ${errorData.message}`);
+        }
+
+        const result = await response.json();
+
+        console.log('Like added successfully:', result);
+        return result; // Return the server's response (if needed)
+    } catch (error) {
+        console.error('Error adding like:', error);
+        throw error; // Re-throw the error for further handling if necessary
+    }
+};
+const removeLike = async (postId) => {
+    console.log("removing like");
+    const url = `http://localhost:8080/HHDatabase/api`; // Update with your server's endpoint
+    console.log(`${url}/post/unlike/${postId}/1`);
+    try {
+        // Make a request to remove the like
+        const response = await fetch(`${url}/post/unlike/${postId}/1`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Server error: ${errorData.message}`);
+        }
+
+        const result = await response.json();
+
+        console.log('Like removed successfully:', result);
+        return result; // Return the server's response (if needed)
+    } catch (error) {
+        console.error('Error removing like:', error);
+        throw error; // Re-throw the error for further handling if necessary
+    }
+};
+
+const getLikeStatus = async (postId) => {
+    console.log("checking like status");
+    const url = `http://localhost:8080/HHDatabase/api`; // Update with your server's endpoint
+    console.log(`${url}/post/like/status/${postId}/1`); // Replace `1` with dynamic user ID if needed
+
+    try {
+        // Make a GET request to check the like status
+        const response = await fetch(`${url}/post/likestatus/${postId}/1`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Server error: ${errorData.error || "Unknown error"}`);
+        }
+
+        const result = await response.json();
+        console.log('Like status retrieved:', result);
+
+        // Return true if `has_liked` is true, otherwise false
+        return result.has_liked;
+    } catch (error) {
+        console.error('Error retrieving like status:', error);
+        throw error; // Re-throw the error for further handling if necessary
+    }
+};
 // Usage Example:
 //loginUser("johndoe", "securepassword123");
 // rm = new RequestManager();
 // rm.SQL("http://localhost:8080/HHDatabase/api/sqlraw", "SELECT * FROM Lusers")
 //updateUserField(1,"email","testemail@test.com")
 
-
-
+//removeLike(3).then(r => console.log(r));
+getLikeStatus(3).then(r => console.log(r));
+addLike(3)
 // const userData = {
 //     // username: "sctc",
 //     // password: "test123",
@@ -298,24 +387,24 @@ const updateUserField = async (uuid, field, new_data) => {
 //
 // module.exports = { RequestManager };
 //
-const imageDataArray = [
-    {
-        filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\eletronmicr.jpeg',
-        orderIndex: '0',
-        cellCount: '45',
-        cellDimensionsX: '60',
-        cellDimensionsY: '15',
-        cellDensity: '2',
-    },
-    {
-        filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\ultrastructurealtake.jpeg',
-        orderIndex: '1',
-        cellCount: '45',
-        cellDimensionsX: '60',
-        cellDimensionsY: '15',
-        cellDensity: '2',
-    },
-];
-
-iq= new imgQuery();
-iq.uploadImages(imageDataArray,3);
+// const imageDataArray = [
+//     {
+//         filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\eletronmicr.jpeg',
+//         orderIndex: '0',
+//         cellCount: '45',
+//         cellDimensionsX: '60',
+//         cellDimensionsY: '15',
+//         cellDensity: '2',
+//     },
+//     {
+//         filePath: 'C:\\Users\\sctcl\\Electron-Frontend-updated\\src\\testvars\\ultrastructurealtake.jpeg',
+//         orderIndex: '1',
+//         cellCount: '45',
+//         cellDimensionsX: '60',
+//         cellDimensionsY: '15',
+//         cellDensity: '2',
+//     },
+// ];
+//
+// iq= new imgQuery();
+// iq.uploadImages(imageDataArray,3);
