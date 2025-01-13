@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer} = require('electron');
 let userId = null;
 let port = null; // Add a variable to store the port
 

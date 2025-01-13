@@ -23,13 +23,13 @@ const UploadPage = () => {
         comments: "",
     });
 
-    const [uploadedImages, setUploadedImages] = useState([]);
     const [customOptions, setCustomOptions] = useState({
         domains: [],
         cellTypes: [],
         imageModalities: [],
     });
 
+    const [uploadedFiles, setUploadedFiles] = useState([]);
     const [cellTypeQuery, setCellTypeQuery] = useState("");
     const [imageModalityQuery, setImageModalityQuery] = useState("");
     const [filteredCellTypes, setFilteredCellTypes] = useState([]);
@@ -130,13 +130,21 @@ const UploadPage = () => {
         };
     }, [cellTypeDropdownVisible, imageModalityDropdownVisible]);
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form submitted:", formData);
-        console.log("Uploaded Images:", uploadedImages);
-        // navigate("/search", { state: { newEntry: formData } });
-        const response = fetchCellCount( "C:\\Users\\qianp\\PycharmProjects\\client-backend\\cell_00001.bmp")
-        console.log(response)
+        if (uploadedFiles.length > 0) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const fileContent = e.target.result;
+                console.log("File Content:", fileContent);
+
+                // Send fileContent to the server or process as needed
+                // Example: navigate("/next", { state: { ...formData, fileContent } });
+            };
+
+            reader.readAsText(uploadedFiles[0]); // Read the first uploaded file
+        }
     };
 
     return (
@@ -145,21 +153,11 @@ const UploadPage = () => {
             <form className="upload-form" onSubmit={handleSubmit}>
                 <div className="form-section">
                     <FileDrop
-                        onFilesAdded={(newFiles) => {
-                            const validImages = newFiles.filter((file) =>
-                                file.type.startsWith("image/")
-                            );
-                            const newImageURLs = validImages.map((file) =>
-                                URL.createObjectURL(file)
-                            );
-                            setUploadedImages((prev) => [...prev, ...newImageURLs]);
-                        }}
-                        uploadedImages={uploadedImages}
-                        handleImageRemove={(index) => {
-                            const updatedImages = [...uploadedImages];
-                            updatedImages.splice(index, 1);
-                            setUploadedImages(updatedImages);
-                        }}
+                        onFilesAdded={(newFiles) => setUploadedFiles((prev) => [...prev, ...newFiles])}
+                        uploadedFiles={uploadedFiles}
+                        handleFileRemove={(index) =>
+                            setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
+                        }
                     />
 
                     <div className="form-fields-wrapper">

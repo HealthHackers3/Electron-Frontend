@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
 import "./FileDrop.css";
 
-const FileDrop = ({ onFilesAdded, uploadedImages, handleImageRemove }) => {
+const FileDrop = ({ onFilesAdded, uploadedFiles, handleFileRemove }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [failedImages, setFailedImages] = useState([]);
     const fileInputRef = useRef(null);
 
-    // Drag events
     const handleDragOver = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -30,24 +29,21 @@ const FileDrop = ({ onFilesAdded, uploadedImages, handleImageRemove }) => {
         }
     };
 
-    // Click to open file dialog
     const handleClick = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
     };
 
-    // Handle file picker
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
             onFilesAdded(Array.from(e.target.files));
         }
     };
 
-    // Handle image load error
-    const handleImageError = (imageUrl) => {
-        if (!failedImages.includes(imageUrl)) {
-            setFailedImages(prev => [...prev, imageUrl]);
+    const handleImageError = (index) => {
+        if (!failedImages.includes(index)) {
+            setFailedImages((prev) => [...prev, index]);
         }
     };
 
@@ -84,35 +80,38 @@ const FileDrop = ({ onFilesAdded, uploadedImages, handleImageRemove }) => {
                 )}
             </div>
 
-            {/* Thumbnails INSIDE the same dashed container */}
-            {uploadedImages.length > 0 && (
+            {/* Thumbnails inside the dashed container */}
+            {uploadedFiles.length > 0 && (
                 <div className="uploaded-images">
-                    {uploadedImages.map((image, index) => (
-                        <div className="uploaded-image" key={index}>
-                            {!failedImages.includes(image) ? (
-                                <img
-                                    src={image}
-                                    alt={`Uploaded ${index + 1}`}
-                                    onError={() => handleImageError(image)}
-                                />
-                            ) : (
-                                <div className="unsupported-image-placeholder">
-                                    <span>Format not supported<br />to preview</span>
-                                </div>
-                            )}
-                            <button
-                                type="button"
-                                className="remove-button"
-                                onClick={(e) => {
-                                    e.stopPropagation(); // Prevent triggering the file dialog
-                                    handleImageRemove(index);
-                                    setFailedImages(prev => prev.filter(url => url !== image));
-                                }}
-                            >
-                                &times;
-                            </button>
-                        </div>
-                    ))}
+                    {uploadedFiles.map((file, index) => {
+                        const objectURL = URL.createObjectURL(file);
+                        return (
+                            <div className="uploaded-image" key={index}>
+                                {!failedImages.includes(index) ? (
+                                    <img
+                                        src={objectURL}
+                                        alt={`Uploaded ${index + 1}`}
+                                        onError={() => handleImageError(index)}
+                                    />
+                                ) : (
+                                    <div className="unsupported-image-placeholder">
+                                        <span>Format not supported<br />to preview</span>
+                                    </div>
+                                )}
+                                <button
+                                    type="button"
+                                    className="remove-button"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent triggering the file dialog
+                                        handleFileRemove(index);
+                                        URL.revokeObjectURL(objectURL); // Cleanup object URL
+                                    }}
+                                >
+                                    &times;
+                                </button>
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </div>
