@@ -1,10 +1,5 @@
-import path from "path";
-import fs from "fs";
-
 import FormData from "form-data";
 import axios from "axios";
-import * as error from "react-dom/test-utils";
-import * as url from "node:url";
 
 export const newPost = async (postData) => {
     const formData = new FormData();
@@ -76,6 +71,7 @@ export const uploadImages = async (imageDataArray) => {
         return null;
     }
 };
+
 export const createCompletePost = async (postData, imageDataArray) => {
     try {
         // Step 1: Upload images and extract image IDs

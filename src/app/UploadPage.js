@@ -8,6 +8,7 @@ import {
     fetchImageModalities,
 } from "../api/remote/postfieldsAPI";
 import {fetchCellCount} from "../api/local/cellcountAPI";
+import {uploadImages} from "../api/remote/testuploadAPI";
 
 const UploadPage = () => {
     const [formData, setFormData] = useState({
@@ -134,16 +135,17 @@ const UploadPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (uploadedFiles.length > 0) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const fileContent = e.target.result;
-                console.log("File Content:", fileContent);
-
-                // Send fileContent to the server or process as needed
-                // Example: navigate("/next", { state: { ...formData, fileContent } });
-            };
-
-            reader.readAsText(uploadedFiles[0]); // Read the first uploaded file
+            const imageDataArray = [{
+                fileBuffer: uploadedFiles[0], // The image data as a Buffer
+                fileName: "abcdefg", // The image's original file name
+                orderIndex: "1", // Index of the image
+                cellCount: "45", // Example metadata
+                cellDimensionsX: "60", // Example metadata
+                cellDimensionsY: "15", // Example metadata
+                cellDensity: "2", // Example metadata
+            }];
+            const r = uploadImages(imageDataArray);
+            console.log(r);
         }
     };
 
