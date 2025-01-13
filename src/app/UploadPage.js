@@ -8,7 +8,7 @@ import {
     fetchImageModalities,
 } from "../api/remote/postfieldsAPI";
 import {fetchCellCount} from "../api/local/cellcountAPI";
-import {uploadImages} from "../api/remote/testuploadAPI";
+import {uploadImages} from "../api/remote/postAPI";
 
 const UploadPage = () => {
     const [formData, setFormData] = useState({
