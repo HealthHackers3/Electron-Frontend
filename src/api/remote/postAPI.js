@@ -82,13 +82,42 @@ export const createCompletePost = async (postData, imageDataArray) => {
             throw new Error('Failed to upload images');
         }
 
-        const responseParts = uploadResponse.split('}{').map((part, index, arr) => {
-            if (index === 0) return part + '}';
-            if (index === arr.length - 1) return '{' + part;
-            return '{' + part + '}';
-        });
+        let responseParts;
 
-        imageIds = responseParts.map(part => JSON.parse(part).image_id);
+        if (typeof uploadResponse === 'string') {
+            // Case 1: uploadResponse is a string containing multiple JSON objects concatenated as "{}{}"
+
+            // Split the concatenated JSON objects
+            responseParts = uploadResponse.split('}{').map((part, index, arr) => {
+                if (index === 0) return part + '}';
+                if (index === arr.length - 1) return '{' + part;
+                return '{' + part + '}';
+            });
+
+            // Parse each JSON string to an object
+            imageIds = responseParts.map(part => {
+                try {
+                    const parsed = JSON.parse(part);
+                    if (!parsed.image_id) {
+                        throw new Error('image_id not found in parsed object.');
+                    }
+                    return parsed.image_id;
+                } catch (parseError) {
+                    throw new Error(`Failed to parse JSON part: ${part}. Error: ${parseError.message}`);
+                }
+            });
+        } else if (typeof uploadResponse === 'object' && uploadResponse !== null) {
+            // Case 2: uploadResponse is a single object
+
+            // Directly extract image_id from the object
+            if (!uploadResponse.image_id) {
+                throw new Error('image_id not found in uploadResponse object.');
+            }
+            imageIds = [uploadResponse.image_id];
+        } else {
+            // Unsupported type
+            throw new Error(`Unsupported type for uploadResponse: ${typeof uploadResponse}`);
+        }
 
         if (imageIds.length === 0) {
             throw new Error('No image IDs returned from upload');
@@ -103,18 +132,21 @@ export const createCompletePost = async (postData, imageDataArray) => {
 
         const postId = postResponse.post_id;
 
+        if (!postId) {
+            throw new Error('post_id not found in postResponse.');
+        }
+
         // Step 3: Attach each image to the post
         for (const imageId of imageIds) {
             await attachImgToPost(imageId, postId);
         }
-
-        console.log('Post and images successfully created and attached:', { postId, imageIds });
         return { postId, imageIds }; // Return the created post ID and attached image IDs
     } catch (error) {
         console.error('Error creating complete post:', error.message);
         throw error; // Re-throw the error for further handling if needed
     }
 };
+
 export const attachImgToPost = async (imgId, postId) =>{
     const url = `https://bioeng-hhack-app.impaas.uk/api`;
 

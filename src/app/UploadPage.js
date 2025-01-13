@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import "./UploadPage.css";
 import FileDrop from "./FileDrop";
 import { useNavigate } from "react-router-dom";
@@ -8,26 +9,22 @@ import {
     fetchImageModalities,
 } from "../api/remote/postfieldsAPI";
 import {fetchCellCount} from "../api/local/cellcountAPI";
-import {uploadImages} from "../api/remote/postAPI";
+import {createCompletePost} from "../api/remote/postAPI";
 
 const UploadPage = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        domain: "",
-        cellType: "",
-        keywords: "",
-        imageModality: "",
-        shape: "",
-        cellCount: "",
-        cellDimensions: "",
-        cellDensity: "",
-        comments: "",
-    });
+    const [postName, setPostName] = useState("");
+    const [postComment, setPostComment] = useState("");
 
     const [customOptions, setCustomOptions] = useState({
         domains: [],
         cellTypes: [],
         imageModalities: [],
+    });
+
+    const [lookupTables, setLookupTables] = useState({
+        domainMap: {}, // Map of domain names to IDs
+        cellTypeMap: {}, // Map of cell type names to IDs
+        imageModalityMap: {}, // Map of image modality names to IDs
     });
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -52,12 +49,40 @@ const UploadPage = () => {
                     fetchImageModalities(),
                 ]);
 
+                console.log(cellCategories);
+                console.log(cellTypes);
+                console.log(imageModalities);
+
+                // Create the lookup maps for IDs
+                const domainMap = cellCategories.reduce((map, category) => {
+                    map[category.category_name] = category.category_id;
+                    return map;
+                }, {});
+
+                const cellTypeMap = cellTypes.reduce((map, cell) => {
+                    map[cell.cell_type_name] = cell.cell_type_id;
+                    return map;
+                }, {});
+
+                const imageModalityMap = imageModalities.reduce((map, image) => {
+                    map[image.image_modality_name] = image.image_modality_id;
+                    return map;
+                }, {});
+
                 setCustomOptions((prevOptions) => ({
                     ...prevOptions,
                     domains: cellCategories.map((category) => category.category_name),
                     cellTypes: cellTypes.map((cell) => cell.cell_type_name),
                     imageModalities: imageModalities.map((image) => image.image_modality_name),
                 }));
+
+                setLookupTables({
+                    domainMap,
+                    cellTypeMap,
+                    imageModalityMap,
+                });
+
+                console.log(lookupTables)
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
@@ -66,9 +91,28 @@ const UploadPage = () => {
         fetchOptionData();
     }, []);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    // Function to look up ID by string
+    const lookupId = (type, name) => {
+        switch (type) {
+            case 'domain':
+                return lookupTables.domainMap[name];
+            case 'cellType':
+                return lookupTables.cellTypeMap[name];
+            case 'imageModality':
+                return lookupTables.imageModalityMap[name];
+            default:
+                return null;
+        }
+    };
+
+    const handleNameChange = (e) => {
+        const value = e.target.value;
+        setPostName(value);
+    };
+
+    const handleCommentChange = (e) => {
+        const value = e.target.value;
+        setPostComment(value);
     };
 
     const handleSearchChange = (e, type) => {
@@ -94,11 +138,9 @@ const UploadPage = () => {
 
     const handleDropdownSelect = (option, type) => {
         if (type === "cellType") {
-            setFormData({ ...formData, cellType: option });
             setCellTypeQuery(option);
             setCellTypeDropdownVisible(false);
         } else if (type === "imageModality") {
-            setFormData({ ...formData, imageModality: option });
             setImageModalityQuery(option);
             setImageModalityDropdownVisible(false);
         }
@@ -132,20 +174,63 @@ const UploadPage = () => {
     }, [cellTypeDropdownVisible, imageModalityDropdownVisible]);
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (uploadedFiles.length > 0) {
-            const imageDataArray = [{
-                fileBuffer: uploadedFiles[0], // The image data as a Buffer
-                fileName: "abcdefg", // The image's original file name
-                orderIndex: "1", // Index of the image
-                cellCount: "45", // Example metadata
-                cellDimensionsX: "60", // Example metadata
-                cellDimensionsY: "15", // Example metadata
-                cellDensity: "2", // Example metadata
-            }];
-            const r = uploadImages(imageDataArray);
-            console.log(r);
+
+        if (uploadedFiles.length === 0) {
+            console.error("No files uploaded.");
+            return;
+        }
+
+        try {
+            // Map cellTypeQuery and imageModalityQuery to their respective IDs or default to 1
+            console.log(cellTypeQuery);
+            console.log(imageModalityQuery);
+            const cellTypeId = lookupId("cellType", cellTypeQuery) || 1;
+            const imageModalityId = lookupId("imageModality", imageModalityQuery) || 1;
+            console.log(cellTypeId);
+            console.log(imageModalityId);
+
+            // Create the postData object
+            const postData = {
+                poster_id: window.electron.getUserId(),
+                post_name: postName || "Default Post Name", // Use placeholder if postName is empty
+                category_id: 2, // Example placeholder value, adjust as needed
+                cell_type_id: cellTypeId,
+                image_modality_id: imageModalityId,
+                description: postComment || "", // Optional description
+            };
+
+            // Only include user-picked fields if IDs are 1
+            if (cellTypeId === 1) {
+                postData.cell_type_user_picked = cellTypeQuery;
+            }
+            if (imageModalityId === 1) {
+                postData.image_modality_user_picked = imageModalityQuery;
+            }
+
+            console.log(postData);
+
+            // Prepare the imageDataArray for the API
+            const imageDataArray = await Promise.all(uploadedFiles.map(async (file, index) => ({
+                fileBuffer: file, // Replace with the actual file data
+                fileName: `${uuidv4()}`, // Generate a random UUID
+                orderIndex: index + 1, // Maintain order index for each file
+                cellCount: await fetchCellCount(file), // Fetch cell count dynamically
+                cellDimensionsX: 100, // Placeholder values
+                cellDimensionsY: 100, // Placeholder values
+                cellDensity: 1,      // Placeholder values
+            })));
+
+            // Call the createCompletePost API
+            const response = await createCompletePost(postData, imageDataArray);
+
+            console.log("Post successfully created with response:", response);
+            // Optionally, navigate to another page or reset the form after success
+            navigate("/search");
+        } catch (error) {
+            console.error("Error creating post:", error);
+            alert("Failed to create post. Please try again.");
         }
     };
 
@@ -169,8 +254,8 @@ const UploadPage = () => {
                                 <input
                                     type="text"
                                     name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
+                                    value={postName}
+                                    onChange={handleNameChange}
                                     placeholder="Enter cell name"
                                 />
                             </div>
@@ -240,8 +325,8 @@ const UploadPage = () => {
                                 <label>Comments</label>
                                 <textarea
                                     name="comments"
-                                    value={formData.comments}
-                                    onChange={handleChange}
+                                    value={postComment}
+                                    onChange={handleCommentChange}
                                     placeholder="Add comments"
                                 ></textarea>
                             </div>
