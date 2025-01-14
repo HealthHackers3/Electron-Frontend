@@ -67,11 +67,13 @@
 }
 
 .properties {
+    position: relative;
     background-color: #f9f9f9; /* Light gray background */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
+    overflow: hidden;
 }
 
 .properties h2 {
@@ -142,16 +144,24 @@
 
 /* Love Button Styles */
 .btn-love {
-    margin: 20% auto;
-    cursor: pointer;
+    position: absolute; /* Position independently of the flow */
+    top: 20px; /* 10px from the top of the parent container */
+    right: 10px; /* 10px from the right of the parent container */
+    font-size: 30px;
     background: transparent;
     border: none;
-    font-size: 50px;
-    outline: none;
     color: #c0c1c3;
-    position: relative;
+    cursor: pointer;
+    padding: 0; /* Remove unnecessary padding */
+    margin: 0; /* Remove unnecessary margins */
+    box-sizing: border-box; /* Ensures consistent sizing */
 }
-
+.like-count {
+    position: absolute;
+    top: 20px; /* 10px from the top of the parent container */
+    right: 50px; /* 10px from the right of the parent container */
+    font-size: 24px;
+}
 .btn-love .fa {
     position: relative;
     z-index: 1;

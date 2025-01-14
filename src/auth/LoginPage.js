@@ -39,7 +39,7 @@ const LoginPage = () => {
                 }
             } else {
                 console.error('Response is empty', response);
-                newErrors.general = 'An unexpected error occurred. Please try again.';
+                newErrors.general = 'Incorrect username or password';
             }
         } catch (error) {
             console.error('Login error:', error);

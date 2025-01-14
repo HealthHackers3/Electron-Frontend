@@ -91,3 +91,4 @@ export async function fetchPostInfo(postId) {
         return null; // Return null in case of an error
     }
 }
+fetchPostImages(100).then(r => console.log(r));

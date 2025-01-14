@@ -1,43 +1,24 @@
+import React, { useRef, useState } from "react";
 import "./DetailsPage.css";
-import React from "react";
-import '@fortawesome/fontawesome-free/css/all.css';
+import "@fortawesome/fontawesome-free/css/all.css";
+import { gsap } from "gsap";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 const DetailsPage = () => {
-    const HeartIcon = () => (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="heart-icon"
-        >
-            <path
-                d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                ></path>
-        </svg>
-    );
-    const {id} = useParams();
+    const [likeCount, setLikeCount] = useState(100); // Dummy like count
+    const btnLoveRef = useRef(null);
+    const { id } = useParams();
     const location = useLocation();
-    const {imageUrl, properties, parent} = location.state || {};
+    const { imageUrl, properties, parent } = location.state || {};
 
     const handleDownload = async () => {
         try {
-            // Fetch the image as a blob
             const response = await fetch(imageUrl);
             const blob = await response.blob();
-
-            // Create an object URL for the blob
             const blobUrl = URL.createObjectURL(blob);
 
-            // Create a link and trigger the download
             const link = document.createElement("a");
             link.href = blobUrl;
-
-            // Generate a dynamic file name
             const fileName = `image_${properties?.category || "default"}_${id}.jpg`;
             link.download = fileName;
 
@@ -45,7 +26,6 @@ const DetailsPage = () => {
             link.click();
             document.body.removeChild(link);
 
-            // Revoke the object URL after download
             URL.revokeObjectURL(blobUrl);
         } catch (error) {
             console.error("Error downloading image:", error);
@@ -55,7 +35,30 @@ const DetailsPage = () => {
     const navigate = useNavigate();
 
     const handleBackToHome = () => {
-        navigate(parent || "/"); // Navigate to the home page
+        navigate(parent || "/");
+    };
+
+    const handleLikeButton = () => {
+        const btnLove = btnLoveRef.current;
+
+        if (!btnLove.classList.contains("act")) {
+            btnLove.classList.add("act");
+            setLikeCount((prev) => prev + 1); // Increment like count
+
+            // Reset animations
+            gsap.set(".circle, .small-ornament", { rotation: 0, scale: 0 });
+            gsap.set(".ornament", { opacity: 0, scale: 1 });
+
+            const tl = gsap.timeline();
+            tl.to(".fa", { scale: 0, duration: 0.1, ease: "none" })
+                .to(".circle", { scale: 1.2, opacity: 1, duration: 0.2, ease: "none" })
+                .to(".fa", { scale: 1.3, color: "#e3274d", duration: 0.2, ease: "power1.out" })
+                .to(".fa", { scale: 1, duration: 0.2, ease: "power1.out" });
+        } else {
+            btnLove.classList.remove("act");
+            setLikeCount((prev) => (prev > 0 ? prev - 1 : 0)); // Decrement like count
+            gsap.set(".fa", { color: "#c0c1c3" });
+        }
     };
 
     return (
@@ -65,8 +68,6 @@ const DetailsPage = () => {
                     {imageUrl ? (
                         <>
                             <img src={imageUrl} alt={`High-Resolution View of Item ${id}`} />
-
-                            {/* Download Image Button */}
                             <button onClick={handleDownload} className="download-image-button">
                                 Download Image
                             </button>
@@ -77,19 +78,7 @@ const DetailsPage = () => {
                 </div>
 
                 <div className="properties">
-                    <h2>Properties</h2>
-                    <ul>
-                        <li><strong>Category:</strong> {properties?.category || "N/A"}</li>
-                        <li><strong>Cell Type:</strong> {properties?.cellType || "N/A"}</li>
-                        <li><strong>Cell Density:</strong> {properties?.cellDensity || "N/A"}</li>
-                        <li><strong>Cell Width:</strong> {properties?.cellWidth || "N/A"} µm</li>
-                        <li><strong>Cell Height:</strong> {properties?.cellHeight || "N/A"} µm</li>
-                        <li><strong>Cell Area:</strong> {properties?.cellArea || "N/A"} µm²</li>
-                        <li><strong>Cell Count:</strong> {properties?.cellCount || "N/A"}</li>
-                        <li><strong>Image Modality:</strong> {properties?.imageModality || "N/A"}</li>
-                        <li><strong>Author:</strong> {properties?.author || "Unknown"}</li>
-                    </ul>
-                    <button className="btn-love">
+                    <button className="btn-love" ref={btnLoveRef} onClick={handleLikeButton}>
                         <span className="fa fa-heart"></span>
                         <div className="small-ornament">
                             <div className="ornament o-1"></div>
@@ -119,6 +108,20 @@ const DetailsPage = () => {
                             </svg>
                         </div>
                     </button>
+                    <div className="like-count">{likeCount}</div>
+                    <h2>Properties</h2>
+                    <ul>
+                        <li><strong>Category:</strong> {properties?.category || "N/A"}</li>
+                        <li><strong>Cell Type:</strong> {properties?.cellType || "N/A"}</li>
+                        <li><strong>Cell Density:</strong> {properties?.cellDensity || "N/A"}</li>
+                        <li><strong>Cell Width:</strong> {properties?.cellWidth || "N/A"} µm</li>
+                        <li><strong>Cell Height:</strong> {properties?.cellHeight || "N/A"} µm</li>
+                        <li><strong>Cell Area:</strong> {properties?.cellArea || "N/A"} µm²</li>
+                        <li><strong>Cell Count:</strong> {properties?.cellCount || "N/A"}</li>
+                        <li><strong>Image Modality:</strong> {properties?.imageModality || "N/A"}</li>
+                        <li><strong>Author:</strong> {properties?.author || "Unknown"}</li>
+                    </ul>
+
 
                 </div>
             </div>
