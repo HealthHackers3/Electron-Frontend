@@ -10,5 +10,8 @@ contextBridge.exposeInMainWorld('electron', {
     setUserId: (id) => { userId = id; }, // Function to set the userId
     getPort: () => port, // Function to retrieve the port
     setPort: (newPort) => { port = newPort; }, // Function to set the port
+    minimizeWindow: () => ipcRenderer.send('window-control', 'minimize'),
+    maximizeWindow: () => ipcRenderer.send('window-control', 'maximize'),
+    closeWindow: () => ipcRenderer.send('window-control', 'close'),
 });
 

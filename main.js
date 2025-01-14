@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 const treeKill = require('tree-kill');
@@ -21,13 +21,35 @@ function createWindow() {
         height: 730,
         minWidth: 640,
         minHeight: 576,
+        frame: false,
         webPreferences: {
+            nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             webSecurity: false,
         },
     });
+    ipcMain.on('window-control', (event, action) => {
+        if (!mainWindow) return;
 
+        switch (action) {
+            case 'minimize':
+                mainWindow.minimize();
+                break;
+            case 'maximize':
+                if (mainWindow.isMaximized()) {
+                    mainWindow.unmaximize();
+                } else {
+                    mainWindow.maximize();
+                }
+                break;
+            case 'close':
+                mainWindow.close();
+                break;
+            default:
+                break;
+        }
+    });
     const reactDevUrl = 'http://localhost:3000';
     mainWindow.loadURL(reactDevUrl).catch(() => {
         console.error('Failed to load React dev server.');
