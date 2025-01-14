@@ -28,3 +28,4 @@ export async function searchPosts(searchQuery) {
         return [];
     }
 }
+searchPosts("te").then(r => console.log(r));
