@@ -208,7 +208,9 @@ const SearchPage = () => {
     }, [location.state, lookupId]);
 
     const handleCardClick = (id) => {
-        navigate(`/details/${id}`);
+        navigate(`/details/${id}`, {
+            state: { post_id: id, parent: location.pathname },
+        });
     };
 
     const handleTypeChange = (typeId) => {

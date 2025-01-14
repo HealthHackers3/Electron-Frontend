@@ -1,42 +1,38 @@
-import React, {useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./UserPage.css";
 import CellCard from "./CellCard";
 import { fetchUserUsername, fetchUserDate, fetchUserEmail } from '../api/remote/userAPI';
+import { fetchLikedPosts, fetchPostCoverImgID, fetchPostInfo } from '../api/remote/fetchpostAPI';
 
 const UserPage = () => {
     const [profile, setProfile] = useState({
-        username: "", // 默认用户名
-        memberSince: "", // 默认日期
+        username: "",
+        memberSince: "",
         email: "",
-        uploadedImages: Array(56)
-            .fill()
-            .map((_, idx) => ({
-                id: idx,
-                name: `Cell ${idx + 1}`,
-                category: `Category ${idx % 5 + 1}`,
-                author: `Author ${idx % 10 + 1}`,
-                likes: Math.floor(Math.random() * 100),
-                imageUrl: `https://www.visiblebody.com/hubfs/learn/bio/assets/cells/cell-overview`
-            }))
     });
 
+    const [likedPosts, setLikedPosts] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState({ ...profile });
 
     const navigate = useNavigate();
+    const location = useLocation(); // Import useLocation to get current path
 
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                // Fetch all data in parallel
-                const [username, memberSince, email] = await Promise.all([
+                // Fetch all profile data in parallel
+                const [username, memberSince, email, likedPostIds] = await Promise.all([
                     fetchUserUsername(),
                     fetchUserDate(),
                     fetchUserEmail(),
+                    fetchLikedPosts(window.electron.getUserId()), // Assuming it returns an array of post IDs
                 ]);
 
-                // Update profile states
+                console.log(likedPostIds);
+
+                // Update profile state
                 setProfile((prevProfile) => ({
                     ...prevProfile,
                     username,
@@ -50,14 +46,32 @@ const UserPage = () => {
                     memberSince,
                     email,
                 }));
+
+                // Fetch details for each liked post ID
+                const fetchPostDetails = async (postId) => {
+                    const postInfo = await fetchPostInfo(postId);
+                    const coverImgId = await fetchPostCoverImgID(postId);
+                    return {
+                        post_id: postId,
+                        name: postInfo[0]?.post_name || "Unknown",
+                        imageUrl: `https://bioeng-hhack-app.impaas.uk/api/img/thumbnail/${coverImgId}`,
+                    };
+                };
+
+                const likedPostsData = await Promise.all(
+                    likedPostIds.map((data) => fetchPostDetails(data.post_id))
+                );
+
+                console.log(likedPostsData);
+
+                setLikedPosts(likedPostsData);
             } catch (error) {
-                console.error("Error fetching profile data:", error);
+                console.error("Error fetching profile or liked posts data:", error);
             }
         };
 
         fetchProfileData();
     }, []);
-
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -69,6 +83,7 @@ const UserPage = () => {
     };
 
     const handleSave = () => {
+        // Implement save logic, e.g., API call to update profile
         setProfile(editedProfile);
         setIsEditing(false);
     };
@@ -79,29 +94,15 @@ const UserPage = () => {
     };
 
     const handleCardClick = (id) => {
-        const properties = {
-            category: "Sample Category",
-            cellType: "Neuron",
-            cellDensity: "Medium",
-            cellWidth: 50,
-            cellHeight: 70,
-            cellArea: 3500,
-            cellCount: 100,
-            imageModality: "Brightfield",
-            author: "Dr. Paul Wong",
-        };
-
-        const imageUrl = `https://th.bing.com/th/id/R.479f9d7475e53ead9717a83c03f9da2f?rik=TX%2fqy%2fF%2fu5WdXg&pid=ImgRaw&r=0`;
-
         navigate(`/details/${id}`, {
-            state: { imageUrl, properties, parent: location.pathname },
+            state: { post_id: id, parent: location.pathname },
         });
     };
 
     return (
         <div className="user-page">
-            {/* 顶部显示用户名 */}
-            <h1>Hi, {profile.username} !</h1>
+            {/* Top display of username */}
+            <h1>Hi, {profile.username}!</h1>
             <div className="profile-container">
                 {/* Profile Section */}
                 <div className="profile-info">
@@ -153,12 +154,6 @@ const UserPage = () => {
                                 <span>{profile.email}</span>
                             )}
                         </div>
-                        <div>
-                            <label>No. images uploaded:</label>
-                            <span>
-                                {profile.uploadedImages.length} (<a href="#">see here</a>)
-                            </span>
-                        </div>
                     </div>
                     {isEditing && (
                         <div className="action-buttons">
@@ -175,11 +170,19 @@ const UserPage = () => {
                 {/* Favourites Section */}
                 <div className="favourites">
                     <h2>Favourites</h2>
-                    <div className="favourites-grid">
-                        {profile.uploadedImages.map((cell) => (
-                            <CellCard key={cell.id} cell={cell} onCardClick={handleCardClick} />
-                        ))}
-                    </div>
+                    {likedPosts.length > 0 ? (
+                        <div className="favourites-grid">
+                            {likedPosts.map((post) => (
+                                <CellCard
+                                    key={post.post_id}
+                                    cell={post}
+                                    onCardClick={handleCardClick}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <p>You have no favorite posts.</p>
+                    )}
                 </div>
             </div>
         </div>

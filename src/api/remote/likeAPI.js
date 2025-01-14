@@ -1,4 +1,4 @@
-const addLike = async (postId) => {
+export const addLike = async (postId) => {
     const url = `https://bioeng-hhack-app.impaas.uk/api`;
     try {
 
@@ -22,7 +22,7 @@ const addLike = async (postId) => {
         throw error; // Re-throw the error for further handling if necessary
     }
 };
-const removeLike = async (postId) => {
+export const removeLike = async (postId) => {
     const url = `https://bioeng-hhack-app.impaas.uk/api`;
     try {
         // Make a request to remove the like
@@ -44,7 +44,7 @@ const removeLike = async (postId) => {
         throw error; // Re-throw the error for further handling if necessary
     }
 };
-const getLikeStatus = async (postId) => {
+export const getLikeStatus = async (postId) => {
     const url = `https://bioeng-hhack-app.impaas.uk/api`; // Update with your server's endpoint
 
     try {

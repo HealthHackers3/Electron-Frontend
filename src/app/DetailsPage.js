@@ -1,107 +1,169 @@
-import React, { useRef, useState } from "react";
+// DetailsPage.jsx
+import React, { useRef, useState, useEffect } from "react";
 import "./DetailsPage.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { gsap } from "gsap";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { fetchPostImages, fetchPostInfo, fetchLikedPosts } from "../api/remote/fetchpostAPI"; // Adjust the import path as necessary
 import {addLike, removeLike, getLikeStatus} from "../api/remote/likeAPI";
-import {fetchImgInfo, fetchPostInfo, fetchPostImages} from "../api/remote/fetchpostAPI";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+
 const DetailsPage = () => {
-    const [likeCount, setLikeCount] = useState(100); // Dummy like count
-     // Initially liked
+    const [likeCount, setLikeCount] = useState(null); // Dummy like count
+    const [isLiked, setIsLiked] = useState(null); // Initially liked
+    const [imageIds, setImageIds] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const btnLoveRef = useRef(null);
-    const { id } = useParams();
-    const [isLiked, setIsLiked] = useState(false);
     const location = useLocation();
-    const { imageUrl, properties, parent } = location.state || {};
-    const info = faAward
-    console.log("id: " + id);
-    console.log("info", fetchPostInfo(id));
-    const handleDownload = async () => {
+    const { post_id, parent } = location.state || {};
+    const navigate = useNavigate();
+
+    // Fetch image IDs when component mounts
+    useEffect(() => {
+        const getImageIds = async () => {
+            try {
+                const ids = await fetchPostImages(post_id);
+                setImageIds(ids);
+                setIsLiked((await getLikeStatus(post_id)))
+                setLikeCount((await fetchPostInfo(post_id))[0].likes)
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching image IDs:", err);
+                setError("Failed to load images.");
+                setLoading(false);
+            }
+        };
+
+        getImageIds();
+    }, [post_id]);
+
+    const handleDownloadAll = async () => {
+        if (imageIds.length === 0) {
+            alert("No images to download.");
+            return;
+        }
+
+        const zip = new JSZip();
+        const folder = zip.folder("images");
+
         try {
-            const response = await fetch(imageUrl);
-            const blob = await response.blob();
-            const blobUrl = URL.createObjectURL(blob);
+            const fetchPromises = imageIds.map(async (id) => {
+                const response = await fetch(`https://bioeng-hhack-app.impaas.uk/api/img/fullres/${id}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch image with ID: ${id}`);
+                }
+                const blob = await response.blob();
+                folder.file(`image_${id}.jpg`, blob);
+            });
 
-            const link = document.createElement("a");
-            link.href = blobUrl;
-            const fileName = `image_${properties?.category || "default"}_${id}.jpg`;
-            link.download = fileName;
+            await Promise.all(fetchPromises);
 
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const content = await zip.generateAsync({ type: "blob" });
 
-            URL.revokeObjectURL(blobUrl);
-        } catch (error) {
-            console.error("Error downloading image:", error);
+            saveAs(content, `images_post_${post_id}.zip`);
+        } catch (err) {
+            console.error("Error downloading images:", err);
         }
     };
-
-    const navigate = useNavigate();
 
     const handleBackToHome = () => {
         navigate(parent || "/");
     };
 
-    const handleLikeButton = () => {
+    const handleLikeButton = async () => {
         const btnLove = btnLoveRef.current;
 
-        if (!isLiked) {
-            // Like
-            btnLove.classList.add("act");
-            setLikeCount((prev) => prev + 1); // Increment like count
-            setIsLiked(true); // Update state
+        if (!btnLove) {
+            console.warn("Button reference is null");
+            return;
+        }
 
-            // Reset animations
-            gsap.set(".circle, .small-ornament", { rotation: 0, scale: 0 });
-            gsap.set(".ornament", { opacity: 0, scale: 1 });
+        if (!isLiked) {
+            btnLove.classList.add("act");
+            setLikeCount((prev) => prev + 1);
+            setIsLiked(true);
+            await addLike(post_id);
+
+            gsap.set(".circle, .small-ornament", {rotation: 0, scale: 0});
+            gsap.set(".ornament", {opacity: 0, scale: 1});
 
             const tl = gsap.timeline();
-            tl.to(".fa", { scale: 0, duration: 0.1, ease: "none" })
-                .to(".circle", { scale: 1.2, opacity: 1, duration: 0.2, ease: "none" })
-                .to(".fa", { scale: 1.3, color: "#e3274d", duration: 0.2, ease: "power1.out" })
-                .to(".fa", { scale: 1, duration: 0.2, ease: "power1.out" });
+            tl.to(".fa", {scale: 0, duration: 0.1, ease: "none"})
+                .to(".circle", {scale: 1.2, opacity: 1, duration: 0.2, ease: "none"})
+                .to(".fa", {scale: 1.3, color: "#e3274d", duration: 0.2, ease: "power1.out"})
+                .to(".fa", {scale: 1, duration: 0.2, ease: "power1.out"});
         } else {
-            // Unlike
             btnLove.classList.remove("act");
-            setLikeCount((prev) => (prev > 0 ? prev - 1 : 0)); // Decrement like count
-            setIsLiked(false); // Update state
-            gsap.set(".fa", { color: "#c0c1c3" });
+            setLikeCount((prev) => (prev > 0 ? prev - 1 : 0));
+            setIsLiked(false);
+            removeLike(post_id)
+            gsap.set(".fa", {color: "#c0c1c3"});
         }
     };
 
-    // Set initial "liked" state in useEffect
-    React.useEffect(async () => {
-        const fetchPostData = async () => {
-            setIsLiked(await getLikeStatus(id));
-            const info = (await fetchPostInfo(id))[0];
-            const images = (await fetchPostImages(id))[0];
-        };
-
+    useEffect(() => {
         const btnLove = btnLoveRef.current;
-        if (isLiked) {
+        if (btnLove && isLiked) {
             btnLove.classList.add("act");
         }
     }, [isLiked]);
+
+    if (loading) {
+        return (
+            <div className="details-page">
+                <p>Loading images...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="details-page">
+                <p>{error}</p>
+                <div className="back-icon" onClick={handleBackToHome}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M10 19l-7-7 7-7v4h8v6h-8v4z" />
+                    </svg>
+                    <span>Back</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="details-page">
             <div className="details-container">
                 <div className="image-container">
-                    {imageUrl ? (
-                        <>
-                            <img src={imageUrl} alt={`High-Resolution View of Item ${id}`} />
-                            <button onClick={handleDownload} className="download-image-button">
-                                Download Image
-                            </button>
-                        </>
+                    {imageIds.length > 0 ? (
+                        <div className="thumbnails-grid">
+                            {imageIds.map((id) => (
+                                <div key={id} className="thumbnail-wrapper">
+                                    <img
+                                        src={`https://bioeng-hhack-app.impaas.uk/api/img/thumbnail/${id}`}
+                                        alt={`Thumbnail of Image ${id}`}
+                                        className="thumbnail-image"
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     ) : (
-                        <p>No image available</p>
+                        <p>No images available</p>
+                    )}
+                    {imageIds.length > 0 && (
+                        <button onClick={handleDownloadAll} className="download-all-button">
+                            Download All Images
+                        </button>
                     )}
                 </div>
 
                 <div className="properties">
-                    <button className={`btn-love ${isLiked ? "act" : ""}`} ref={btnLoveRef} onClick={handleLikeButton}>
+                    <button
+                        className={`btn-love ${isLiked ? "act" : ""}`}
+                        ref={btnLoveRef}
+                        onClick={handleLikeButton}
+                    >
                         <span className="fa fa-heart"></span>
                         <div className="small-ornament">
                             <div className="ornament o-1"></div>
@@ -134,28 +196,22 @@ const DetailsPage = () => {
                     <div className="like-count">{likeCount}</div>
                     <h2>Properties</h2>
                     <ul>
-                        <li><strong>Category:</strong> {properties?.category || "N/A"}</li>
-                        <li><strong>Cell Type:</strong> {properties?.cellType || "N/A"}</li>
-                        <li><strong>Cell Density:</strong> {properties?.cellDensity || "N/A"}</li>
-                        <li><strong>Cell Width:</strong> {properties?.cellWidth || "N/A"} µm</li>
-                        <li><strong>Cell Height:</strong> {properties?.cellHeight || "N/A"} µm</li>
-                        <li><strong>Cell Area:</strong> {properties?.cellArea || "N/A"} µm²</li>
-                        <li><strong>Cell Count:</strong> {properties?.cellCount || "N/A"}</li>
-                        <li><strong>Image Modality:</strong> {properties?.imageModality || "N/A"}</li>
-                        <li><strong>Author:</strong> {properties?.author || "Unknown"}</li>
+                        <li><strong>Category:</strong> N/A</li>
+                        <li><strong>Cell Type:</strong> N/A</li>
+                        <li><strong>Cell Density:</strong> N/A</li>
+                        <li><strong>Cell Width:</strong> N/A µm</li>
+                        <li><strong>Cell Height:</strong> N/A µm</li>
+                        <li><strong>Cell Area:</strong> N/A µm²</li>
+                        <li><strong>Cell Count:</strong> N/A</li>
+                        <li><strong>Image Modality:</strong> N/A</li>
+                        <li><strong>Author:</strong> Unknown</li>
                     </ul>
                 </div>
             </div>
 
             <div className="back-icon" onClick={handleBackToHome}>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                >
-                    <path d="M10 19l-7-7 7-7v4h8v6h-8v4z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M10 19l-7-7 7-7v4h8v6h-8v4z" />
                 </svg>
                 <span>Back</span>
             </div>
