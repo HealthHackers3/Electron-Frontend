@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./app/HomePage";
 import SearchPage from "./app/SearchPage";
 import DetailsPage from "./app/DetailsPage";
 import HelpPage from "./app/HelpPage"; // future implementation req
@@ -23,18 +22,18 @@ const App = () => {
             <Router>
                 <Header /> {/* Navigation bar included in all pages */}
                 <Routes>
-                    <Route path="/home" element={<ProtectedRoute>
-                        <HomePage />
-                    </ProtectedRoute>} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/" element={<ProtectedRoute>
-                        <SearchPage />
+                        <UserPage />
                     </ProtectedRoute>} />
                     <Route path="/details/:id" element={<DetailsPage />} />
                     <Route path="/help" element={<HelpPage />} />
                     <Route path="/user" element={<ProtectedRoute>
                         <UserPage />
+                    </ProtectedRoute>} />
+                    <Route path="/search" element={<ProtectedRoute>
+                        <SearchPage />
                     </ProtectedRoute>} />
                     <Route path="/upload" element={<ProtectedRoute>
                         <UploadPage />

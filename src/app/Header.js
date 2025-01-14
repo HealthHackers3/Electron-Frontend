@@ -39,7 +39,7 @@ const Header = () => {
                 <a onClick={() => navigate("/help")}>Help</a>
             </nav>
             <div className="header-buttons">
-                <button onClick={() => navigate("/")} className="search-button">
+                <button onClick={() => navigate("/search")} className="search-button">
                     Search
                 </button>
                 <button onClick={() => navigate("/upload")} className="upload-button">

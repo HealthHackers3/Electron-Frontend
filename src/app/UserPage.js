@@ -108,11 +108,6 @@ const UserPage = () => {
                 <div className="profile-info">
                     <div className="profile-header">
                         <h2>Profile</h2>
-                        {!isEditing && (
-                            <button onClick={handleEdit} className="edit-button">
-                                ✏️ Edit
-                            </button>
-                        )}
                     </div>
                     <div className="profile-fields">
                         <div>

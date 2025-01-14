@@ -2,8 +2,8 @@
 
 /* Card Container */
 .results-grid__card {
-    width: 100%; /* Make width responsive */
-    height: 220px; /* Adjust as needed */
+    width: 100%; /* Responsive width */
+    height: 180px; /* Reduced height */
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -15,6 +15,7 @@
     overflow: hidden;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
+
 
 .results-grid__card:hover {
     transform: translateY(-5px);
