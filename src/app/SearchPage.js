@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./SearchPage.css";
+import {searchPosts} from "../api/remote/searchAPI";
 
 const SearchPage = () => {
     const location = useLocation();
@@ -49,23 +50,6 @@ const SearchPage = () => {
     };
 
     useEffect(() => {
-        fetchResults(); // Replace with actual API call
-    }, []);
-
-    const fetchResults = async () => {
-        try {
-            // Replace with API call
-            const response = await fetch('/api/results');
-            const data = await response.json();
-            setResults(data || []);
-        } catch (error) {
-            console.error('Error fetching results:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
         if (location.state?.newEntry) {
             const newEntry = { ...location.state.newEntry, id: data.length }; // Add a unique ID
 
@@ -91,11 +75,6 @@ const SearchPage = () => {
             });
         }
     }, [location.state, data]);
-
-    // Handle navigation to "New Entry Page" for uploading images
-    const handleUploadClick = () => {
-        navigate("/new-entry");
-    };
 
     // Navigate to the details page
     const handleCardClick = (id) => {
@@ -140,10 +119,6 @@ const SearchPage = () => {
 
     const handleViewChange = (mode) => {
         setViewMode(mode);
-    };
-
-    const handleSortChange = (order) => {
-        setSortOrder(order);
     };
 
     const filteredResults = () => {
@@ -307,20 +282,6 @@ const SearchPage = () => {
                                 className={viewMode === 'list' ? 'active' : ''}
                             >
                                 List
-                            </button>
-                        </div>
-                        <div className="sort-options">
-                            <button
-                                onClick={() => handleSortChange('a-z')}
-                                className={sortOrder === 'a-z' ? 'active' : ''}
-                            >
-                                A-Z
-                            </button>
-                            <button
-                                onClick={() => handleSortChange('z-a')}
-                                className={sortOrder === 'z-a' ? 'active' : ''}
-                            >
-                                Z-A
                             </button>
                         </div>
                     </div>

@@ -12,6 +12,7 @@ import {fetchCellCount} from "../api/local/cellcountAPI";
 import {createCompletePost} from "../api/remote/postAPI";
 
 const UploadPage = () => {
+    const [isUpLoading, setIsUpLoading] = useState(false);
     const [postName, setPostName] = useState("");
     const [postComment, setPostComment] = useState("");
 
@@ -182,14 +183,12 @@ const UploadPage = () => {
             return;
         }
 
+        setIsUpLoading(true);
+
         try {
             // Map cellTypeQuery and imageModalityQuery to their respective IDs or default to 1
-            console.log(cellTypeQuery);
-            console.log(imageModalityQuery);
             const cellTypeId = lookupId("cellType", cellTypeQuery) || 1;
             const imageModalityId = lookupId("imageModality", imageModalityQuery) || 1;
-            console.log(cellTypeId);
-            console.log(imageModalityId);
 
             // Create the postData object
             const postData = {
@@ -208,8 +207,6 @@ const UploadPage = () => {
             if (imageModalityId === 1) {
                 postData.image_modality_user_picked = imageModalityQuery;
             }
-
-            console.log(postData);
 
             // Prepare the imageDataArray for the API
             const imageDataArray = await Promise.all(uploadedFiles.map(async (file, index) => ({
@@ -230,12 +227,20 @@ const UploadPage = () => {
             navigate("/search");
         } catch (error) {
             console.error("Error creating post:", error);
-            alert("Failed to create post. Please try again.");
+        } finally {
+            setIsUpLoading(false);
         }
     };
 
     return (
         <div className="upload-page">
+            {/* Loading Popup */}
+            {isUpLoading && (
+                <div className="loading-overlay">
+                    <div className="spinner"></div>
+                    <div className="loading-text">Uploading...</div>
+                </div>
+            )}
 
             <form className="upload-form" onSubmit={handleSubmit}>
                 <div className="form-section">

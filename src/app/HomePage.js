@@ -91,10 +91,6 @@ const HomePage = () => {
         switch (sortOrder) {
             case "oldest":
                 return sorted.reverse();
-            case "a-z":
-                return sorted.sort((a, b) => a.name.localeCompare(b.name));
-            case "z-a":
-                return sorted.sort((a, b) => b.name.localeCompare(a.name));
             case "newest":
             default:
                 return sorted; // Default order
@@ -147,18 +143,6 @@ const HomePage = () => {
                             className={`controls__button ${sortOrder === "oldest" ? "controls__button--active" : ""}`}
                         >
                             Oldest
-                        </button>
-                        <button
-                            onClick={() => handleSortChange("a-z")}
-                            className={`controls__button ${sortOrder === "a-z" ? "controls__button--active" : ""}`}
-                        >
-                            A-Z
-                        </button>
-                        <button
-                            onClick={() => handleSortChange("z-a")}
-                            className={`controls__button ${sortOrder === "z-a" ? "controls__button--active" : ""}`}
-                        >
-                            Z-A
                         </button>
                     </div>
                 </div>
