@@ -55,7 +55,7 @@ function createWindow() {
         console.error('Failed to load React dev server.');
     });
 
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     mainWindow.setMenuBarVisibility(false);
 }
 
