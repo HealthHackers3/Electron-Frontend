@@ -6,6 +6,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 const DetailsPage = () => {
     const [likeCount, setLikeCount] = useState(100); // Dummy like count
+    const [isLiked, setIsLiked] = useState(true); // Initially liked
     const btnLoveRef = useRef(null);
     const { id } = useParams();
     const location = useLocation();
@@ -41,9 +42,11 @@ const DetailsPage = () => {
     const handleLikeButton = () => {
         const btnLove = btnLoveRef.current;
 
-        if (!btnLove.classList.contains("act")) {
+        if (!isLiked) {
+            // Like
             btnLove.classList.add("act");
             setLikeCount((prev) => prev + 1); // Increment like count
+            setIsLiked(true); // Update state
 
             // Reset animations
             gsap.set(".circle, .small-ornament", { rotation: 0, scale: 0 });
@@ -55,11 +58,21 @@ const DetailsPage = () => {
                 .to(".fa", { scale: 1.3, color: "#e3274d", duration: 0.2, ease: "power1.out" })
                 .to(".fa", { scale: 1, duration: 0.2, ease: "power1.out" });
         } else {
+            // Unlike
             btnLove.classList.remove("act");
             setLikeCount((prev) => (prev > 0 ? prev - 1 : 0)); // Decrement like count
+            setIsLiked(false); // Update state
             gsap.set(".fa", { color: "#c0c1c3" });
         }
     };
+
+    // Set initial "liked" state in useEffect
+    React.useEffect(() => {
+        const btnLove = btnLoveRef.current;
+        if (isLiked) {
+            btnLove.classList.add("act");
+        }
+    }, [isLiked]);
 
     return (
         <div className="details-page">
@@ -78,7 +91,7 @@ const DetailsPage = () => {
                 </div>
 
                 <div className="properties">
-                    <button className="btn-love" ref={btnLoveRef} onClick={handleLikeButton}>
+                    <button className={`btn-love ${isLiked ? "act" : ""}`} ref={btnLoveRef} onClick={handleLikeButton}>
                         <span className="fa fa-heart"></span>
                         <div className="small-ornament">
                             <div className="ornament o-1"></div>
@@ -121,8 +134,6 @@ const DetailsPage = () => {
                         <li><strong>Image Modality:</strong> {properties?.imageModality || "N/A"}</li>
                         <li><strong>Author:</strong> {properties?.author || "Unknown"}</li>
                     </ul>
-
-
                 </div>
             </div>
 

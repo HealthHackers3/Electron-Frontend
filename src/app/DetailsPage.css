@@ -156,6 +156,21 @@
     margin: 0; /* Remove unnecessary margins */
     box-sizing: border-box; /* Ensures consistent sizing */
 }
+.btn-love.act {
+    position: absolute; /* Position independently of the flow */
+    top: 20px; /* 10px from the top of the parent container */
+    right: 10px; /* 10px from the right of the parent container */
+    font-size: 30px;
+    background: transparent;
+    border: none;
+    color: #e3274d; /* Red for liked state */
+    cursor: pointer;
+    padding: 0; /* Remove unnecessary padding */
+    margin: 0; /* Remove unnecessary margins */
+    box-sizing: border-box; /* Ensures consistent sizing */
+
+}
+
 .like-count {
     position: absolute;
     top: 20px; /* 10px from the top of the parent container */
