@@ -1,6 +1,6 @@
 // CellCard.jsx
 import React, { useState } from "react";
-import "./CellCard.css"
+import "./CellCard.css";
 
 const CellCard = ({ cell, onCardClick }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -18,26 +18,28 @@ const CellCard = ({ cell, onCardClick }) => {
     return (
         <div
             className="results-grid__card"
-            onClick={() => onCardClick(cell.id)}
+            onClick={() => onCardClick(cell.post_id)} // Use post_id instead of id
         >
             <div className="results-grid__image-container">
-                <img
-                    src={cell.imageUrl}
-                    alt={cell.name}
-                    className={`results-grid__image ${!isLoading && !hasError ? "visible" : "hidden"}`}
-                    onLoad={handleImageLoad}
-                    onError={handleImageError}
-                />
-                {(isLoading || hasError) && (
-                    <div className={`image-placeholder ${isLoading ? "shimmer" : "error"}`}>
-                        {hasError ? "Image Not Available" : ""}
+                {hasError || !cell.imageUrl ? (
+                    <div className="image-placeholder">
+                        Image Not Available
                     </div>
+                ) : (
+                    <img
+                        src={cell.imageUrl}
+                        alt={cell.name}
+                        className="results-grid__image"
+                        onLoad={handleImageLoad}
+                        onError={handleImageError}
+                        style={{ display: isLoading ? "none" : "block" }}
+                    />
                 )}
             </div>
-            <p className="results-grid__name">{cell.name}</p>
-            <p className="results-grid__category">{cell.category}</p>
+            <p className="results-grid__name">{cell.name || "No Name"}</p>
         </div>
     );
 };
 
 export default CellCard;
+
