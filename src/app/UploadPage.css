@@ -212,3 +212,18 @@
     color: #333;
 }
 
+/* Highlight input fields with errors */
+input.error,
+textarea.error {
+    border: 2px solid #e74c3c;
+    background-color: #fdecea;
+}
+
+/* Style for error messages */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    display: block;
+}
+

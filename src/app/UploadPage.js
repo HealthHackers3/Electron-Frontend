@@ -16,6 +16,12 @@ const UploadPage = () => {
     const [postName, setPostName] = useState("");
     const [postComment, setPostComment] = useState("");
 
+    const [errors, setErrors] = useState({
+        postName: false,
+        cellTypeQuery: false,
+        imageModalityQuery: false,
+    });
+
     const [customOptions, setCustomOptions] = useState({
         domains: [],
         cellTypes: [],
@@ -50,10 +56,6 @@ const UploadPage = () => {
                     fetchImageModalities(),
                 ]);
 
-                console.log(cellCategories);
-                console.log(cellTypes);
-                console.log(imageModalities);
-
                 // Create the lookup maps for IDs
                 const domainMap = cellCategories.reduce((map, category) => {
                     map[category.category_name] = category.category_id;
@@ -83,7 +85,6 @@ const UploadPage = () => {
                     imageModalityMap,
                 });
 
-                console.log(lookupTables)
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
@@ -178,6 +179,34 @@ const UploadPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Initialize an errors object
+        let validationErrors = {
+            postName: false,
+            cellTypeQuery: false,
+            imageModalityQuery: false,
+        };
+
+        // Check each required field
+        if (!postName.trim()) {
+            validationErrors.postName = true;
+        }
+        if (!cellTypeQuery.trim()) {
+            validationErrors.cellTypeQuery = true;
+        }
+        if (!imageModalityQuery.trim()) {
+            validationErrors.imageModalityQuery = true;
+        }
+
+        // Update the errors state
+        setErrors(validationErrors);
+
+        // If any errors exist, do not proceed
+        const hasErrors = Object.values(validationErrors).some((error) => error);
+        if (hasErrors) {
+            // Optionally, you can focus the first invalid field
+            return;
+        }
+
         if (uploadedFiles.length === 0) {
             console.error("No files uploaded.");
             return;
@@ -255,28 +284,41 @@ const UploadPage = () => {
                     <div className="form-fields-wrapper">
                         <div className="form-fields">
                             <div className="field-group">
-                                <label>Name</label>
+                                <label>Cell Name</label>
                                 <input
                                     type="text"
                                     name="name"
                                     value={postName}
-                                    onChange={handleNameChange}
-                                    placeholder="Enter cell name"
+                                    onChange={(e) => {
+                                        handleNameChange(e);
+                                        if (errors.postName) {
+                                            setErrors((prev) => ({...prev, postName: false}));
+                                        }
+                                    }}
+                                    placeholder="Enter Cell Name"
+                                    className={errors.postName ? "error" : ""}
                                 />
+                                {errors.postName && <span className="error-message">Cell Name is required.</span>}
                             </div>
 
-                            {/* Inside UploadPage component */}
                             <div className="field-group">
                                 <label>Cell Type</label>
                                 <input
                                     ref={cellTypeRef}
                                     type="text"
                                     value={cellTypeQuery}
-                                    onChange={(e) => handleSearchChange(e, "cellType")}
+                                    onChange={(e) => {
+                                        handleSearchChange(e, "cellType");
+                                        if (errors.cellTypeQuery) {
+                                            setErrors((prev) => ({ ...prev, cellTypeQuery: false }));
+                                        }
+                                    }}
                                     onFocus={() => setCellTypeDropdownVisible(cellTypeQuery.length > 0)}
                                     onBlur={() => setTimeout(() => setCellTypeDropdownVisible(false), 200)}
-                                    placeholder="Select or type cell type"
+                                    placeholder="Enter Cell Type"
+                                    className={errors.cellTypeQuery ? "error" : ""}
                                 />
+                                {errors.cellTypeQuery && <span className="error-message">Cell Type is required.</span>}
                                 {cellTypeDropdownVisible && (
                                     <div className="dropdown-container">
                                         {filteredCellTypes.length > 0 ? (
@@ -302,11 +344,18 @@ const UploadPage = () => {
                                     ref={imageModalityRef}
                                     type="text"
                                     value={imageModalityQuery}
-                                    onChange={(e) => handleSearchChange(e, "imageModality")}
+                                    onChange={(e) => {
+                                        handleSearchChange(e, "imageModality");
+                                        if (errors.imageModalityQuery) {
+                                            setErrors((prev) => ({ ...prev, imageModalityQuery: false }));
+                                        }
+                                    }}
                                     onFocus={() => setImageModalityDropdownVisible(imageModalityQuery.length > 0)}
                                     onBlur={() => setTimeout(() => setImageModalityDropdownVisible(false), 200)}
-                                    placeholder="Select or type image modality"
+                                    placeholder="Enter Image Modality"
+                                    className={errors.imageModalityQuery ? "error" : ""}
                                 />
+                                {errors.imageModalityQuery && <span className="error-message">Image Modality is required.</span>}
                                 {imageModalityDropdownVisible && (
                                     <div className="dropdown-container">
                                         {filteredImageModalities.length > 0 ? (
