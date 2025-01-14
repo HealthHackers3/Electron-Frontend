@@ -35,12 +35,11 @@ const Header = () => {
                 />
             </div>
             <nav className="nav-links">
-                <a onClick={() => navigate("/")}>Home</a>
                 <a onClick={() => navigate("/user")}>My Profile</a>
                 <a onClick={() => navigate("/help")}>Help</a>
             </nav>
             <div className="header-buttons">
-                <button onClick={() => navigate("/search")} className="search-button">
+                <button onClick={() => navigate("/")} className="search-button">
                     Search
                 </button>
                 <button onClick={() => navigate("/upload")} className="upload-button">

@@ -23,12 +23,12 @@ const App = () => {
             <Router>
                 <Header /> {/* Navigation bar included in all pages */}
                 <Routes>
-                    <Route path="/" element={<ProtectedRoute>
+                    <Route path="/home" element={<ProtectedRoute>
                         <HomePage />
                     </ProtectedRoute>} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/search" element={<ProtectedRoute>
+                    <Route path="/" element={<ProtectedRoute>
                         <SearchPage />
                     </ProtectedRoute>} />
                     <Route path="/details/:id" element={<DetailsPage />} />
