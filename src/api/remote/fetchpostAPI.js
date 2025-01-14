@@ -153,5 +153,32 @@ export async function fetchImgInfo(imageId) {
         return null; // Return null in case of an error
     }
 }
-fetchImgInfo(1).then(r => console.log(r));
+export async function fetchPostsAZ() {
+    const url = `https://bioeng-hhack-app.impaas.uk/api/post/postslistAZ`;
+
+    try {
+        // Make a GET request to the servlet endpoint
+        const response = await fetch(url);
+
+        // Check if the response is OK (status 200)
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Parse the JSON response
+        const data = await response.json();
+
+        // Return the post information
+        if (data && typeof data === 'object') {
+            return data; // Return the JSON object with post details
+        } else {
+            throw new Error("Unexpected response format or missing data");
+        }
+    } catch (error) {
+        console.error("Error fetching posts");
+        return null; // Return null in case of an error
+    }
+}
+//fetchImgInfo(1).then(r => console.log(r));
 //fetchLikedPosts(1).then(r => console.log(r));
+fetchPostsAZ().then(r => console.log(r));
