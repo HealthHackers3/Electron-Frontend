@@ -2,7 +2,7 @@
 
 ### Install dependency
 ```
-npm install electron react react-dom react-router-dom tree-kill get-port @fortawesome/fontawesome-free
+npm install electron react react-dom react-router-dom tree-kill get-port jszip file-saver @fortawesome/fontawesome-free
 ```
 
 ### Run the APP
