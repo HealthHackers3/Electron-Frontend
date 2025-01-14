@@ -3,15 +3,19 @@ import "./DetailsPage.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { gsap } from "gsap";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-
+import {addLike, removeLike, getLikeStatus} from "../api/remote/likeAPI";
+import {fetchImgInfo, fetchPostInfo, fetchPostImages} from "../api/remote/fetchpostAPI";
 const DetailsPage = () => {
     const [likeCount, setLikeCount] = useState(100); // Dummy like count
-    const [isLiked, setIsLiked] = useState(true); // Initially liked
+     // Initially liked
     const btnLoveRef = useRef(null);
     const { id } = useParams();
+    const [isLiked, setIsLiked] = useState(false);
     const location = useLocation();
     const { imageUrl, properties, parent } = location.state || {};
-
+    const info = faAward
+    console.log("id: " + id);
+    console.log("info", fetchPostInfo(id));
     const handleDownload = async () => {
         try {
             const response = await fetch(imageUrl);
@@ -67,7 +71,13 @@ const DetailsPage = () => {
     };
 
     // Set initial "liked" state in useEffect
-    React.useEffect(() => {
+    React.useEffect(async () => {
+        const fetchPostData = async () => {
+            setIsLiked(await getLikeStatus(id));
+            const info = (await fetchPostInfo(id))[0];
+            const images = (await fetchPostImages(id))[0];
+        };
+
         const btnLove = btnLoveRef.current;
         if (isLiked) {
             btnLove.classList.add("act");
